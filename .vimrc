@@ -355,7 +355,7 @@ cnoremap <Leader>l =line('.')<CR>
 execute 'set <M-l>=¬'
 nnoremap <M-l><M-l> :set list!<CR>
 if substitute(system('uname'), '\n', '', '') == 'Darwin'
-    set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+    set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣,nbsp:·
 endif
 
 " filetpye specifc settings
