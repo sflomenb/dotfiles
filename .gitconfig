@@ -1,0 +1,36 @@
+[user]
+	name = Sam Flomenberg
+	email = sam.flomenberg@gmail.com
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
+	lgd = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cD) %C(blue)<%an>%Creset' --abbrev-commit
+	lgg = !git lg -1
+	lggd = !git lgd -1
+	br = branch
+	st = status
+	ch = checkout
+	fe = fetch
+	sm = "!f() { local LONGBRANCH=${1:-$(git rev-parse --abbrev-ref HEAD)}; local BRANCH=${LONGBRANCH##*/}; git lg $LONGBRANCH $(git log $LONGBRANCH --pretty=format:'%h' --merges --grep=\"$BRANCH\" --invert-grep -1)..; } f"
+	co = commit
+	diffc = diff --cached
+	cnt = rev-list --count --left-right origin/master...
+	cntr = !git branch -r | wc -l
+	coan = commit --amend --no-edit
+	revert-whitespace = "!f() { git checkout master -- $(git diff -b --numstat master... | awk '{ if ($1 == $2 && $1 == 0) print $3 }') }; f"
+	get-whitespace-errors = !git diff-index --check --cached HEAD | grep : | cut -d : -f 1 | sort -u
+[core]
+	editor = vim
+	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less
+	hooksDir = /Users/sflomenb/Desktop/templates/hooks/
+[color "diff-highlight"]
+	oldNormal = red
+	oldHighlight = 15 red
+	newNormal = green 
+	newHighlight = 15 green
+[color "diff"]
+	commit = green
+	meta = yellow
+	frag = cyan
+	old = red
+	new = green
+	whitespace = red reverse
