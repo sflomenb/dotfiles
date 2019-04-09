@@ -29,7 +29,7 @@ fu! SetTab()
     let l:resize_amount = input('Enter the number of spaces tabs should be for this file: ')
     call inputrestore()
     call inputsave()
-    let l:tab = input('Enter t or n for tabs: ')
+    let l:tab = input('Enter s/t for spaces or tabs: ')
     call inputrestore()
     call inputsave()
     let l:should_retab = input('Enter anything to retab: ')
@@ -38,7 +38,7 @@ fu! SetTab()
         if exists("l:tab") && strlen(l:tab) > 0
             if strlen(matchstr(l:tab, '^t')) > 0
                 setlocal noexpandtab
-            elseif strlen(matchstr(l:tab, '^n')) > 0
+            elseif strlen(matchstr(l:tab, '^s')) > 0
                 setlocal expandtab
             endif
         endif
