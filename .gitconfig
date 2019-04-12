@@ -21,7 +21,7 @@
 [core]
 	editor = vim
 	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less
-	hooksDir = /Users/sflomenb/Desktop/templates/hooks/
+	hooksPath = ~/.git_config/hooks/
 [color "diff-highlight"]
 	oldNormal = red
 	oldHighlight = 15 red

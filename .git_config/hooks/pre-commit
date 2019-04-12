@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    against=HEAD
+else
+    against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+fi
+if ! git diff-index --check --cached ${against}; then
+    echo "Aborting commit due to whitespace errors" >&2
+    exit 1
+fi
+
+# validate json
+for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "\.json$")"; do
+    if [[ -n "${file}" ]]; then
+        python -m json.tool $file &> /dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "Invalid JSON found" >&2
+            echo "in file ${file}" >&2
+            python -m json.tool ${file}
+            exit 1
+        fi
+    fi
+done
+
+# validate python
+for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "\.py$")"; do
+    if [[ -n "${file}" ]]; then
+        python -m py_compile $file &> /dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "Invalid Python found" >&2
+            echo "in file ${file}" >&2
+            python -m py_compile $file
+            exit 1
+        fi
+        rm ${file}c
+    fi
+done
