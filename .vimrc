@@ -124,7 +124,9 @@ else
     "Plug 'artur-shaik/vim-javacomplete2'
     "let g:ale_completion_enabled = 1
     "Plug 'w0rp/ale'
-    Plug 'rizzatti/dash.vim'
+    if substitute(system('uname'), '\n', '', '') == 'Darwin'
+        Plug 'rizzatti/dash.vim'
+    endif
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
     "Plug 'nlknguyen/cloudformation-syntax.vim'
