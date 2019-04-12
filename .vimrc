@@ -540,6 +540,41 @@ endfunction
 
 command! -range -nargs=* S <line1>,<line2>call SubstituteKeepCase(<f-args>)
 
+function! ReplaceAllCamelCaseToSnakeCase()
+    " save search
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+
+    let l:matches = []
+    execute ':keeppatterns %s/' . '\<[a-z]\+\([A-Z][a-z]*\)\+\>' . '/\=add(l:matches,submatch(0))/gn'
+    call uniq(sort(l:matches))
+    for str in l:matches
+        call CamelCaseToSnakeCase(str)
+    endfor
+
+    " restore current position and search
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+function! CamelCaseToSnakeCase(match)
+    let l:words = split(a:match, '[A-Z]\zs')
+    let l:new_string = ''
+    for word in l:words
+        let l:beginning = word[:-2]
+        let l:last_letter = word[-1:]
+        let l:last_letter_uppercase = toupper(l:last_letter)
+        if l:last_letter is l:last_letter_uppercase
+            let l:new_string = l:new_string . l:beginning . '_' . tolower(l:last_letter)
+        else
+            let l:new_string = l:new_string . l:word
+        endif
+    endfor
+    execute ':keeppatterns %s/' . a:match . '/' . l:new_string . '/gc'
+endfunction
+
+command! CamelCaseToSnakeCase call ReplaceAllCamelCaseToSnakeCase()
 
 " set colorcolumn=80
 highlight ColorColumn ctermbg=magenta
