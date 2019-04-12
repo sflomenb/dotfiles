@@ -356,9 +356,7 @@ cnoremap <Leader>l =line('.')<CR>
 
 execute 'set <M-l>=¬'
 nnoremap <M-l><M-l> :set list!<CR>
-if substitute(system('uname'), '\n', '', '') == 'Darwin'
-    set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣,nbsp:·
-endif
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣,nbsp:·
 
 " filetpye specifc settings
 augroup configgroup
