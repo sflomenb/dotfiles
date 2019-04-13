@@ -97,6 +97,9 @@ set showmode
 
 set undofile " Maintain history between sessions
 set undodir=~/.vim/undodir
+if empty(glob('~/.vim/undodir'))
+    mkdir(expand('~/.vim/undodir'))
+endif
 
 "set laststatus=2
 
