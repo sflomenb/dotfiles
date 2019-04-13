@@ -356,7 +356,7 @@ cnoremap <Leader>l =line('.')<CR>
 
 execute 'set <M-l>=¬'
 nnoremap <M-l><M-l> :set list!<CR>
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣,nbsp:·
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:_,nbsp:·
 
 " filetpye specifc settings
 augroup configgroup
