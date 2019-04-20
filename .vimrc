@@ -598,3 +598,6 @@ set hidden
 ""inoremap <expr> ' strpart(getline('.'), col('.')-1, 1) == "\'" ? "\<Right>" : "\'\'\<Left>"
 "inoremap " ""<C-G>U<Left>
 
+" native fuzzy find
+set path+=**
+set wildmenu
