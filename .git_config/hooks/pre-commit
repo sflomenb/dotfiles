@@ -11,7 +11,7 @@ if ! git diff-index --check --cached ${against}; then
 fi
 
 # validate json
-for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "\.json$")"; do
+for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.json$')"; do
     if [[ -n "${file}" ]]; then
         python -m json.tool $file &> /dev/null
         if [[ $? -ne 0 ]]; then
@@ -24,7 +24,7 @@ for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "\.json
 done
 
 # validate python
-for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "\.py$")"; do
+for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.py$')"; do
     if [[ -n "${file}" ]]; then
         python -m py_compile $file &> /dev/null
         if [[ $? -ne 0 ]]; then
@@ -34,5 +34,18 @@ for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "\.py$"
             exit 1
         fi
         rm ${file}c
+    fi
+done
+
+# validate bash
+for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.*sh$')"; do
+    if [[ -n "${file}" ]]; then
+        bash -n $file &> /dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "Invalid Bash found" >&2
+            echo "in file ${file}" >&2
+            bash -n $file
+            exit 1
+        fi
     fi
 done
