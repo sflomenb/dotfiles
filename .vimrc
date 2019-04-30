@@ -191,7 +191,7 @@ else
     endfunction
 
     set cmdheight=2
-    nnoremap <leader>rn <Plug>(coc-rename)
+    nmap <leader>rn <Plug>(coc-rename)
 
 
 
