@@ -25,7 +25,7 @@
 [color "diff-highlight"]
 	oldNormal = red
 	oldHighlight = 15 red
-	newNormal = green 
+	newNormal = green
 	newHighlight = 15 green
 [color "diff"]
 	commit = green
@@ -34,3 +34,5 @@
 	old = red
 	new = green
 	whitespace = red reverse
+[commit]
+	verbose = true
