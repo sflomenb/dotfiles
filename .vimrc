@@ -134,7 +134,6 @@ else
     Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
     "Plug 'nlknguyen/cloudformation-syntax.vim'
     "Plug 'thaerkh/vim-indentguides'
-    Plug 'ctrlpvim/ctrlp.vim'
 
     "Plug 'prabirshrestha/async.vim'
     "Plug 'prabirshrestha/vim-lsp'
@@ -152,18 +151,23 @@ else
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
 
-    " use <tab> for trigger completion and navigate to next complete item
+    " always show signcolumns
+    set signcolumn=yes
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+    inoremap <silent><expr> <TAB>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<TAB>" :
+                \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
     function! s:check_back_space() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~ '\s'
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
-    inoremap <silent><expr> <TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ <SID>check_back_space() ? "\<TAB>" :
-          \ coc#refresh()
-
-    " use <c-space>for trigger completion
+    " Use <c-space> to trigger completion.
     inoremap <silent><expr> <c-space> coc#refresh()
     imap <C-@> <C-Space>
 
