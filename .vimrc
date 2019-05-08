@@ -197,6 +197,13 @@ else
     set cmdheight=2
     nmap <leader>rn <Plug>(coc-rename)
 
+    " Use `[c` and `]c` to navigate diagnostics
+    nmap <silent> [c <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+    " vim-gitgutter bindings
+    nmap ]h <Plug>GitGutterNextHunk
+    nmap [h <Plug>GitGutterPrevHunk
 
 
     "let g:ale_linters = {
