@@ -384,6 +384,7 @@ augroup configgroup
     autocmd VimEnter * highlight clear SignColumn
     autocmd BufWritePost .vimrc source $MYVIMRC
     autocmd BufReadPost * call TabsOrSpaces()
+    autocmd InsertLeave * set nopaste
 "    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.json
 "                \ :call <SID>StripTrailingWhitespaces()
 
