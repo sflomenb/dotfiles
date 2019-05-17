@@ -613,5 +613,5 @@ set hidden
 
 " native fuzzy find
 set path+=**
-set wildignore+=**/target/**
+set wildignore+=**/target/**,**/*.class,**/*.pyc
 set wildmenu
