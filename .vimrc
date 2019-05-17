@@ -613,4 +613,5 @@ set hidden
 
 " native fuzzy find
 set path+=**
+set wildignore+=**/target/**
 set wildmenu
