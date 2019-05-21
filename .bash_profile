@@ -52,4 +52,5 @@ PROMPT_COMMAND="my_prompt; $PROMPT_COMMAND"
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/bin"
+export JAVA_HOME=$(/usr/libexec/java_home))
+export PATH="${JAVA_HOME}:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/bin"
