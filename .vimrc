@@ -372,7 +372,7 @@ cnoremap <Leader>l =line('.')<CR>
 execute 'set <M-l>=¬'
 nnoremap <M-l><M-l> :set list!<CR>
 try
-    set listchars=tab:>·,trail:~,extends:>,precedes:<,nbsp:·
+    set listchars=tab:>·,extends:>,precedes:<
 catch /E474/
 endtry
 
