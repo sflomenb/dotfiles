@@ -46,5 +46,9 @@ function git_find_merge() {
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+if uname -a | grep Darwin; then
+    export JAVA_HOME=$(/usr/libexec/java_home)
+else
+    export JAVA_HOME=/usr/lib/jvm/default-java
+fi
 export PATH="${JAVA_HOME}:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/bin"
