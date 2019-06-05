@@ -1,3 +1,10 @@
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/sflomenb/.oh-my-zsh"
+
+plugins=(git zsh-vim-mode)
+
+source $ZSH/oh-my-zsh.sh
+
 function get_pwd() {
     echo "${PWD/$HOME/~}"
 }
@@ -16,7 +23,7 @@ setopt PROMPT_SUBST
 autoload -U colors && colors
 
 PROMPT='
-%(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: $(get_pwd) %W %t $fg[green]$(git_branch) %{$reset_color%}
+${MODE_INDICATOR_PROMPT} %(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: $(get_pwd) %W %t $fg[green]$(git_branch) %{$reset_color%}
 %# '
 
 bindkey -v
