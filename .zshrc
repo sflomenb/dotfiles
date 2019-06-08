@@ -46,7 +46,7 @@ function git_find_merge() {
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
-if uname -a | grep Darwin; then
+if uname -a | grep -q Darwin; then
     export JAVA_HOME=$(/usr/libexec/java_home)
 else
     export JAVA_HOME=/usr/lib/jvm/default-java
