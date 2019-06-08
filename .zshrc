@@ -17,6 +17,7 @@ function git_branch() {
     echo "${BRANCH}${STATUS}"
 }
 
+setopt INTERACTIVECOMMENTS
 setopt PROMPT_PERCENT
 setopt PROMPT_SUBST
 
