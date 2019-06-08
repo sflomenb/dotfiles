@@ -129,12 +129,11 @@ else
     "Plug 'w0rp/ale'
     if substitute(system('uname'), '\n', '', '') == 'Darwin'
         Plug 'rizzatti/dash.vim'
+        Plug 'thaerkh/vim-indentguides'
     endif
-    Plug 'thaerkh/vim-indentguides'
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
     "Plug 'nlknguyen/cloudformation-syntax.vim'
-    "Plug 'thaerkh/vim-indentguides'
 
     "Plug 'prabirshrestha/async.vim'
     "Plug 'prabirshrestha/vim-lsp'
