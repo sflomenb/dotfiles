@@ -10,11 +10,12 @@ function get_pwd() {
 }
 
 function git_branch() {
-    local BRANCH="($(git rev-parse --abbrev-ref HEAD 2> /dev/null))"
-    [[ "${BRANCH}" == '()' ]] && BRANCH=''
-    local STATUS="$(git status --porcelain 2> /dev/null)"
-    [[ -n "${STATUS}" ]] && STATUS=' x'
-    echo "${BRANCH}${STATUS}"
+    local BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+    local STATUS="$(git status -sb 2> /dev/null)"
+    [[ "$(wc -l <<< ${STATUS})" -gt 1 ]] && local DIRTY=' x'
+    local AHEAD="$(echo ${STATUS}n| grep ahead | sed 's/^.*ahead \([[:digit:]]*\).*$/ ↑\1/')"
+    local BEHIND="$(echo ${STATUS}n| grep behind | sed 's/^.*behind \([[:digit:]]*\).*$/ ↑\1/')"
+    echo "${BRANCH:+(${BRANCH})}${DIRTY}${AHEAD}${BEHIND}"
 }
 
 setopt INTERACTIVECOMMENTS
