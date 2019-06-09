@@ -129,7 +129,6 @@ else
     "Plug 'w0rp/ale'
     if substitute(system('uname'), '\n', '', '') == 'Darwin'
         Plug 'rizzatti/dash.vim'
-        Plug 'thaerkh/vim-indentguides'
     endif
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
@@ -371,7 +370,7 @@ cnoremap <Leader>l =line('.')<CR>
 execute 'set <M-l>=¬'
 nnoremap <M-l><M-l> :set list!<CR>
 try
-    set listchars=tab:>·,extends:>,precedes:<
+    set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:_,nbsp:·
 catch /E474/
 endtry
 
