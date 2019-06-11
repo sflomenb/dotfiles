@@ -203,6 +203,7 @@ else
     " vim-gitgutter bindings
     nmap ]h <Plug>GitGutterNextHunk
     nmap [h <Plug>GitGutterPrevHunk
+    let g:gitgutter_diff_args = '-b'
 
 
     "let g:ale_linters = {
