@@ -38,8 +38,6 @@ alias brewup='brew update; brew upgrade; brew cleanup; brew doctor'
 alias ll="ls -l"
 alias la="ls -A"
 alias grep="grep --color=auto"
-alias copy_last_command='fc -ln -1 | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
-alias copy_git_branch='git rev-parse --abbrev-ref HEAD | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
 function git_find_merge() {
     if [ -z "${1}" ]; then
         echo "Please enter a commit hash to find the merge of"
@@ -52,6 +50,8 @@ export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
 if uname -a | grep -q Darwin; then
+    alias copy_last_command='fc -ln -1 | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
+    alias copy_git_branch='git rev-parse --abbrev-ref HEAD | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
     export JAVA_HOME=$(/usr/libexec/java_home)
 else
     export JAVA_HOME=/usr/lib/jvm/default-java
