@@ -1,9 +1,9 @@
-# Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
-
-plugins=(git zsh-vim-mode)
-
-source $ZSH/oh-my-zsh.sh
+if [[ -d "${HOME}/.oh-my-zsh" ]]; then
+    # Path to your oh-my-zsh installation.
+    export ZSH="${HOME}/.oh-my-zsh"
+    plugins=(git zsh-vim-mode)
+    source $ZSH/oh-my-zsh.sh
+fi
 
 function get_pwd() {
     echo "${PWD/$HOME/~}"
