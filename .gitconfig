@@ -20,7 +20,7 @@
 	get-whitespace-errors = !git diff-index --check --cached HEAD | grep : | cut -d : -f 1 | sort -u
 [core]
 	editor = vim
-	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less
+	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
 	hooksPath = ~/.git_config/hooks/
 [color "diff-highlight"]
 	oldNormal = red
