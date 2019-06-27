@@ -362,9 +362,6 @@ nnoremap <Leader>f : call system('pbcopy', @%)<CR>
 nnoremap <Leader>ft : call system('pbcopy', expand('%:t'))<CR>
 nnoremap <Leader>ftr : call system('pbcopy', expand('%:t:r'))<CR>
 
-" duplicate visual selection
-vnoremap <C-d> y'>p
-
 " get current line number
 cnoremap <Leader>l =line('.')<CR>
 
