@@ -57,6 +57,7 @@ else
     export JAVA_HOME=/usr/lib/jvm/default-java
 fi
 export PATH="${JAVA_HOME}:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/bin"
+export PATH="/usr/local/sbin:$PATH"
 
 bindkey "^R" history-incremental-search-backward
 export TERM=xterm-256color
