@@ -49,3 +49,16 @@ for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.*sh$
         fi
     fi
 done
+
+# validate ruby
+for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '.rb$')"; do
+    if [[ -n "${file}" ]]; then
+        ruby -c ${file} &> /dev/null
+        if [[ $? -ne 0 ]]; then
+            echo "Invalid Ruby found" >&2
+            echo "in file ${file}" >&2
+            ruby -c ${file}
+            exit 1
+        fi
+    fi
+done
