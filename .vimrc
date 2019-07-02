@@ -611,3 +611,6 @@ set hidden
 set path+=**
 set wildignore+=**/target/**,**/*.class,**/*.pyc
 set wildmenu
+
+au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+
