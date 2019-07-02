@@ -22,6 +22,7 @@
 	editor = vim
 	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
 	hooksPath = ~/.git_config/hooks/
+	whitespace = -blank-at-eof
 [color "diff-highlight"]
 	oldNormal = red
 	oldHighlight = 15 red
