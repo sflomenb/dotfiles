@@ -63,3 +63,7 @@ export PATH="/usr/local/sbin:$PATH"
 bindkey "^R" history-incremental-search-backward
 export TERM=xterm-256color
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+autoloadz -z edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
