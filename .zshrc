@@ -24,6 +24,7 @@ function git_branch() {
 setopt INTERACTIVECOMMENTS
 setopt PROMPT_PERCENT
 setopt PROMPT_SUBST
+setopt AUTO_CD
 
 autoload -U colors && colors
 
