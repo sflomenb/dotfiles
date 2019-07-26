@@ -174,7 +174,10 @@ else
     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
     " close preview window when completion is done
-    autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+    augroup coc
+        autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+        autocmd FileType java nnoremap <Leader>o :CocCommand java.action.organizeImports<CR>
+    augroup END
 
     " Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
