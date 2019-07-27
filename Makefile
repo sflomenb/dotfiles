@@ -5,7 +5,7 @@ all: bin dotfiles
 bin:
 	for file in $(shell find $(CURDIR)/bin -type f); do \
 		f=$$(basename $$file); \
-		ln -sfn $$file $(HOME)/bin/$$f; \
+		ln -sfn $$file $(HOME)/.bin/$$f; \
 	done;
 
 .PHONY: dotfiles
