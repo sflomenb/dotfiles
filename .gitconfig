@@ -23,6 +23,7 @@
 	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
 	hooksPath = ~/.git_config/hooks/
 	whitespace = -blank-at-eof
+	excludesfile = ~/.gitignore
 [color "diff-highlight"]
 	oldNormal = red
 	oldHighlight = 15 red
