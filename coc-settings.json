@@ -1,0 +1,18 @@
+{
+	"java.import.maven.enabled": true,
+	"languageserver": {
+		"bash": {
+			"command": "bash-language-server",
+			"args": ["start"],
+			"filetypes": ["sh"],
+			"ignoredRootPaths": ["~"]
+		},
+		"terraform": {
+			"command": "terraform-lsp",
+			"filetypes": ["terraform"],
+			"ignoredRootPaths": ["~"]
+		}
+	},
+	"pyls.enable": false,
+	"python.jediEnabled": false
+}

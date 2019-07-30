@@ -1,5 +1,5 @@
 .PHONY: all
-all: bin dotfiles
+all: bin dotfiles coc
 
 .PHONY: bin
 bin:
@@ -14,3 +14,7 @@ dotfiles:
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/$$f; \
 	done;
+
+.PHONY: coc
+coc:
+	ln -fn coc-settings.json $(HOME)/.vim/coc-settings.json
