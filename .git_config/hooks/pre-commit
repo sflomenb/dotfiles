@@ -51,12 +51,14 @@ done
 for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.*sh$')"; do
     for SHL in {bash,zsh}; do
         if [[ -n "${file}" ]]; then
-            ${SHL} -n ${file} &> /dev/null
-            if [[ $? -ne 0 ]]; then
-                echo "Invalid ${SHL} found" >&2
-                echo "in file ${file}" >&2
-                ${SHL} -n ${file}
-                finish 1
+            if head -n 1 | grep "${SHL}"; then
+                ${SHL} -n ${file} &> /dev/null
+                if [[ $? -ne 0 ]]; then
+                    echo "Invalid ${SHL} found" >&2
+                    echo "in file ${file}" >&2
+                    ${SHL} -n ${file}
+                    finish 1
+                fi
             fi
         fi
     done
