@@ -55,7 +55,7 @@ for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.*sh$
             if [[ $? -ne 0 ]]; then
                 echo "Invalid ${SHL} found" >&2
                 echo "in file ${file}" >&2
-                $SHLSHL -n ${file}
+                ${SHL} -n ${file}
                 finish 1
             fi
         fi
