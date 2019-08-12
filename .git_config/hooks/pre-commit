@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+function finish {
+    RC="${1:-0}"
+    git reset -q --hard
+    git stash pop -q --index
+    exit ${RC}
+}
+
+# stash all changes but keep index
+git stash push -u --keep-index -q
+
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
     against=HEAD
 else
@@ -7,18 +17,18 @@ else
 fi
 if ! git diff-index --check --cached ${against}; then
     echo "Aborting commit due to whitespace errors" >&2
-    exit 1
+    finish 1
 fi
 
 # validate json
 for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.json$')"; do
     if [[ -n "${file}" ]]; then
-        python -m json.tool $file &> /dev/null
+        python -m json.tool ${file} &> /dev/null
         if [[ $? -ne 0 ]]; then
             echo "Invalid JSON found" >&2
             echo "in file ${file}" >&2
             python -m json.tool ${file}
-            exit 1
+            finish 1
         fi
     fi
 done
@@ -26,28 +36,30 @@ done
 # validate python
 for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.py$')"; do
     if [[ -n "${file}" ]]; then
-        python -m py_compile $file &> /dev/null
+        python -m py_compile ${file} &> /dev/null
         if [[ $? -ne 0 ]]; then
             echo "Invalid Python found" >&2
             echo "in file ${file}" >&2
-            python -m py_compile $file
-            exit 1
+            python -m py_compile ${file}
+            finish 1
         fi
         rm ${file}c
     fi
 done
 
-# validate bash
+# validate shell scripts
 for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.*sh$')"; do
-    if [[ -n "${file}" ]]; then
-        bash -n $file &> /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo "Invalid Bash found" >&2
-            echo "in file ${file}" >&2
-            bash -n $file
-            exit 1
+    for SHL in {bash,zsh}; do
+        if [[ -n "${file}" ]]; then
+            ${SHL} -n ${file} &> /dev/null
+            if [[ $? -ne 0 ]]; then
+                echo "Invalid ${SHL} found" >&2
+                echo "in file ${file}" >&2
+                $SHLSHL -n ${file}
+                finish 1
+            fi
         fi
-    fi
+    done
 done
 
 # validate ruby
@@ -58,7 +70,9 @@ for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '.rb$')
             echo "Invalid Ruby found" >&2
             echo "in file ${file}" >&2
             ruby -c ${file}
-            exit 1
+            finish 1
         fi
     fi
 done
+
+finish
