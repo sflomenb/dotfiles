@@ -7,8 +7,30 @@ function finish {
     exit ${RC}
 }
 
+function validate {
+    FILE_NAME="${1}"
+    SUFFIX="${2}"
+    COMMAND="${3}"
+    CLEANUP="${4}"
+    EXTRA_CHECK="${5}"
+    for FILE in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "${SUFFIX}")"; do
+        if [[ -z "${EXTRA_CHECK}" ]] || eval ${EXTRA_CHECK}; then
+            if [[ -n "${FILE}" ]]; then
+                ${COMMAND} ${FILE} &> /dev/null
+                if [[ $? -ne 0 ]]; then
+                    echo "Invalid ${FILE_NAME} found" >&2
+                    echo "in FILE ${FILE}" >&2
+                    ${COMMAND} ${FILE}
+                    finish 1
+                fi
+                [[ -n "${CLEANUP}" ]] && eval ${CLEANUP}
+            fi
+        fi
+    done
+}
+
 # stash all changes but keep index
-git stash push -u --keep-index -q
+git stash push -m "$(date +"%Y_%m_%d_%I_%M_%p")-pre-commit" -u --keep-index -q
 
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
     against=HEAD
@@ -20,61 +42,12 @@ if ! git diff-index --check --cached ${against}; then
     finish 1
 fi
 
-# validate json
-for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.json$')"; do
-    if [[ -n "${file}" ]]; then
-        python -m json.tool ${file} &> /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo "Invalid JSON found" >&2
-            echo "in file ${file}" >&2
-            python -m json.tool ${file}
-            finish 1
-        fi
-    fi
+validate 'JSON' '.json$' 'python -m json.tool'
+validate 'Python' '.py$' 'python -m py_compile' 'rm ${FILE}c'
+for SHL in {bash,zsh}; do
+    validate "${SHL}" '.sh$' "${SHL} -n" '' 'head -n 1 ${FILE} | grep -q '${SHL}''
 done
-
-# validate python
-for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.py$')"; do
-    if [[ -n "${file}" ]]; then
-        python -m py_compile ${file} &> /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo "Invalid Python found" >&2
-            echo "in file ${file}" >&2
-            python -m py_compile ${file}
-            finish 1
-        fi
-        rm ${file}c
-    fi
-done
-
-# validate shell scripts
-for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '\.*sh$')"; do
-    for SHL in {bash,zsh}; do
-        if [[ -n "${file}" ]]; then
-            if head -n 1 | grep "${SHL}"; then
-                ${SHL} -n ${file} &> /dev/null
-                if [[ $? -ne 0 ]]; then
-                    echo "Invalid ${SHL} found" >&2
-                    echo "in file ${file}" >&2
-                    ${SHL} -n ${file}
-                    finish 1
-                fi
-            fi
-        fi
-    done
-done
-
-# validate ruby
-for file in "$(git diff --name-only --diff-filter=ACM --cached -- | grep '.rb$')"; do
-    if [[ -n "${file}" ]]; then
-        ruby -c ${file} &> /dev/null
-        if [[ $? -ne 0 ]]; then
-            echo "Invalid Ruby found" >&2
-            echo "in file ${file}" >&2
-            ruby -c ${file}
-            finish 1
-        fi
-    fi
-done
+validate 'Ruby' '.rb$' 'ruby -c'
 
 finish
+
