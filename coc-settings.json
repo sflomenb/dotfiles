@@ -11,6 +11,11 @@
 			"command": "terraform-lsp",
 			"filetypes": ["terraform"],
 			"ignoredRootPaths": ["~"]
+		},
+		"dockerfile": {
+			"command": "docker-langserver",
+			"filetypes": ["dockerfile"],
+			"args": ["--stdio"]
 		}
 	},
 	"pyls.enable": false,
