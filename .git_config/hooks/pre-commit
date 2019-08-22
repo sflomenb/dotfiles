@@ -29,25 +29,29 @@ function validate {
     done
 }
 
-# stash all changes but keep index
-git stash push -m "$(date +"%Y_%m_%d_%I_%M_%p")-pre-commit" -u --keep-index -q
+if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]]; then
 
-if git rev-parse --verify HEAD >/dev/null 2>&1; then
-    against=HEAD
+    # stash all changes but keep index
+    git stash push -m "$(date +"%Y_%m_%d_%I_%M_%p")-pre-commit" -u --keep-index -q
+
+    if git rev-parse --verify HEAD >/dev/null 2>&1; then
+        against=HEAD
+    else
+        against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+    fi
+    if ! git diff-index --check --cached ${against}; then
+        echo "Aborting commit due to whitespace errors" >&2
+        finish 1
+    fi
+
+    validate 'JSON' '.json$' 'python -m json.tool'
+    validate 'Python' '.py$' 'python -m py_compile' 'rm ${FILE}c'
+    for SHL in {bash,zsh}; do
+        validate "${SHL}" '.sh$' "${SHL} -n" '' 'head -n 1 ${FILE} | grep -q '${SHL}''
+    done
+    validate 'Ruby' '.rb$' 'ruby -c'
+
+    finish
 else
-    against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+    echo "Skipping pre-commit hook during rebase"
 fi
-if ! git diff-index --check --cached ${against}; then
-    echo "Aborting commit due to whitespace errors" >&2
-    finish 1
-fi
-
-validate 'JSON' '.json$' 'python -m json.tool'
-validate 'Python' '.py$' 'python -m py_compile' 'rm ${FILE}c'
-for SHL in {bash,zsh}; do
-    validate "${SHL}" '.sh$' "${SHL} -n" '' 'head -n 1 ${FILE} | grep -q '${SHL}''
-done
-validate 'Ruby' '.rb$' 'ruby -c'
-
-finish
-
