@@ -399,7 +399,7 @@ augroup configgroup
     \   exe "normal! g'\"" |
     \ endif
 
-    autocmd FileType ruby setlocal ts=2 sw=2 sts=2
+    autocmd FileType ruby,javascript setlocal ts=2 sw=2 sts=2
     autocmd CmdwinEnter * nnoremap <CR> <CR>
     autocmd BufReadPost quickfix nnoremap <CR> <CR>
     autocmd FileType java setlocal omnifunc=javacomplete#Complete
