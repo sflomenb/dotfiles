@@ -408,20 +408,20 @@ augroup configgroup
     autocmd FileType python nnoremap <buffer> <Leader><Leader>m :exec '!python3' shellescape(@%, 1)<CR>
     autocmd FileType netrw noremap gn :Ntree <CR>
 
-	" python logging
-	autocmd FileType python inoremap <M-l> logging.debug()<Esc>F(a
-	autocmd FileType python nnoremap <M-l> yiwologging.debug()<Esc>F(a'<Esc>pa: %s', <Esc>p
-	autocmd FileType python vnoremap <M-l> yologging.debug()<Esc>F(a'<Esc>pa: %s', <Esc>p
+    " python logging
+    autocmd FileType python inoremap <M-l> logging.debug()<Esc>F(a
+    autocmd FileType python nnoremap <M-l> yiwologging.debug()<Esc>F(a'<Esc>pa: %s', <Esc>p
+    autocmd FileType python vnoremap <M-l> yologging.debug()<Esc>F(a'<Esc>pa: %s', <Esc>p
     " python debugging
-	autocmd FileType python nnoremap <M-d> oimport pdb; pdb.set_trace()<Esc>
-	autocmd FileType python inoremap <M-d> <Esc>oimport pdb; pdb.set_trace()A
+    autocmd FileType python nnoremap <M-d> oimport pdb; pdb.set_trace()<Esc>
+    autocmd FileType python inoremap <M-d> <Esc>oimport pdb; pdb.set_trace()A
     " java logging
-	autocmd FileType java inoremap <M-l> System.out.println()<Esc>F(a
-	autocmd FileType java nnoremap <M-l> yiwoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
-	autocmd FileType java vnoremap <M-l> yoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
-	" javascript debugging
-	autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
-	autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
+    autocmd FileType java inoremap <M-l> System.out.println()<Esc>F(a
+    autocmd FileType java nnoremap <M-l> yiwoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
+    autocmd FileType java vnoremap <M-l> yoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
+    " javascript debugging
+    autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
+    autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
 
     autocmd BufWinEnter * highlight ColorColumn ctermbg=magenta
     autocmd BufWinEnter * call matchadd('ColorColumn', '\%81v', 100)
