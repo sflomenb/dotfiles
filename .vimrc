@@ -422,6 +422,9 @@ augroup configgroup
 	" javascript debugging
 	autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
 	autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
+
+    autocmd BufWinEnter * highlight ColorColumn ctermbg=magenta
+    autocmd BufWinEnter * call matchadd('ColorColumn', '\%81v', 100)
 augroup END
 
 " toggle between number and relativenumber
@@ -597,10 +600,6 @@ function! CamelCaseToSnakeCase(match)
 endfunction
 
 command! CamelCaseToSnakeCase call ReplaceAllCamelCaseToSnakeCase()
-
-" set colorcolumn=80
-highlight ColorColumn ctermbg=magenta
-call matchadd('ColorColumn', '\%81v', 100)
 
 set breakindent
 set hidden
