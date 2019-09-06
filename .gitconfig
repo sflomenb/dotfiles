@@ -18,6 +18,7 @@
 	coan = commit --amend --no-edit
 	revert-whitespace = "!f() { git checkout master -- $(git diff -b --numstat master... | awk '{ if ($1 == $2 && $1 == 0) print $3 }') }; f"
 	get-whitespace-errors = !git diff-index --check --cached HEAD | grep : | cut -d : -f 1 | sort -u
+	sw = switch
 [core]
 	editor = vim
 	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
