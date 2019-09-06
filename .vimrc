@@ -71,6 +71,7 @@ nnoremap <Leader><Leader><Leader>t :setlocal expandtab!<CR>
 
 cnoremap vres vertical resize
 cnoremap bsp below sp
+cnoremap vsf vert sf
 
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
