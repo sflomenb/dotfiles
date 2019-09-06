@@ -134,6 +134,7 @@ else
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
     Plug 'hashivim/vim-terraform'
+    Plug 'rust-lang/rust.vim'
     "Plug 'nlknguyen/cloudformation-syntax.vim'
 
     "Plug 'prabirshrestha/async.vim'

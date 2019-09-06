@@ -54,3 +54,5 @@ export VISUAL=/usr/local/bin/vim
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="${JAVA_HOME}:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/bin"
+
+export PATH="$HOME/.cargo/bin:$PATH"

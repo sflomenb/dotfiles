@@ -67,3 +67,5 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
+
+export PATH="$HOME/.cargo/bin:$PATH"
