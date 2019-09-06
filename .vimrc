@@ -207,6 +207,8 @@ else
     " Use `[c` and `]c` to navigate diagnostics
     nmap <silent> [c <Plug>(coc-diagnostic-prev)
     nmap <silent> ]c <Plug>(coc-diagnostic-next)
+    nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+    nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
     " vim-gitgutter bindings
     nmap ]h <Plug>GitGutterNextHunk
