@@ -69,3 +69,13 @@ zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+setopt COMPLETE_ALIASES
+setopt AUTO_CD
+
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt APPENDHISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
