@@ -134,6 +134,7 @@ else
     "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
     Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
     Plug 'hashivim/vim-terraform'
+    Plug 'janko/vim-test'
     Plug 'rust-lang/rust.vim'
     "Plug 'nlknguyen/cloudformation-syntax.vim'
 
@@ -216,6 +217,13 @@ else
     nmap [h <Plug>GitGutterPrevHunk
     let g:gitgutter_diff_args = '-b'
 
+
+    " vim-test mappings
+    nmap <silent> t<C-n> :TestNearest<CR>
+    nmap <silent> t<C-f> :TestFile<CR>
+    nmap <silent> t<C-s> :TestSuite<CR>
+    nmap <silent> t<C-l> :TestLast<CR>
+    nmap <silent> t<C-g> :TestVisit<CR>
 
     "let g:ale_linters = {
     "\   'python': [],
