@@ -2,8 +2,10 @@
 
 function finish {
     RC="${1:-0}"
-    git reset -q --hard
-    git stash pop -q --index
+    if [[ "${NOT_FIRST_COMMIT}" -eq 0 ]]; then
+        git reset -q --hard
+        git stash pop -q --index
+    fi
     exit ${RC}
 }
 
@@ -30,16 +32,17 @@ function validate {
 }
 
 IS_AMEND="$(ps -ocommand= -p ${PPID} | grep -- 'git commit --amend')"
+NOT_FIRST_COMMIT="$(git rev-parse --verify HEAD >/dev/null 2>&1; echo $?)"
 if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]] && [[ -z "${IS_AMEND}" ]]; then
 
-    # stash all changes but keep index
-    git stash push -m "$(date +"%Y_%m_%d_%I_%M_%p")-pre-commit" -u --keep-index -q
-
-    if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    # stash all changes but keep index, unless there are no commits
+    if [[ "${NOT_FIRST_COMMIT}" -eq 0 ]]; then
+        git stash push -m "$(date +"%Y_%m_%d_%I_%M_%p")-pre-commit" -u --keep-index -q
         against=HEAD
     else
         against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
     fi
+
     if ! git diff-index --check --cached ${against}; then
         echo "Aborting commit due to whitespace errors" >&2
         finish 1
