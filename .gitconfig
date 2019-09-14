@@ -3,7 +3,7 @@
 	email = sam.flomenberg@gmail.com
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)<%an>%Creset' --abbrev-commit
-	lgd = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cD) %C(blue)<%an>%Creset' --abbrev-commit
+	lgd = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(blue)<%an>%Creset' --abbrev-commit
 	lgg = !git lg -1
 	lggd = !git lgd -1
 	lgbd = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad|%cd) %C(blue)<%an>%Creset' --abbrev-commit
