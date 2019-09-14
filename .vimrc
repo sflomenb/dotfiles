@@ -181,8 +181,8 @@ else
     augroup coc
         autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
         autocmd FileType java nnoremap <Leader>o :CocCommand java.action.organizeImports<CR>
-        " Highlight synbol under cursor on CursorHold
-        autocmd CursorHold * :silent call CocActionSync('highlight')
+        " Highlight symbol under cursor on CursorHold
+        autocmd CursorHold * :silent call CocActionAsync('highlight')
     augroup END
 
     " Remap keys for gotos
