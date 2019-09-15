@@ -69,6 +69,7 @@ zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
 export PATH="$HOME/.cargo/bin:$PATH"
+[[ -d /usr/local/go/bin ]] && export "PATH=$PATH:/usr/local/go/bin"
 
 setopt COMPLETE_ALIASES
 setopt AUTO_CD
