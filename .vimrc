@@ -215,8 +215,8 @@ else
     nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
     " vim-gitgutter bindings
-    nmap ]h <Plug>GitGutterNextHunk
-    nmap [h <Plug>GitGutterPrevHunk
+    nmap ]h <Plug>(GitGutterNextHunk)
+    nmap [h <Plug>(GitGutterPrevHunk)
     let g:gitgutter_diff_args = '-b'
 
 
