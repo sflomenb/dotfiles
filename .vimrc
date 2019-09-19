@@ -436,9 +436,6 @@ augroup configgroup
     " javascript debugging
     autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
     autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
-
-    autocmd BufWinEnter * highlight ColorColumn ctermbg=magenta
-    autocmd BufWinEnter * call matchadd('ColorColumn', '\%81v', 100)
 augroup END
 
 " toggle between number and relativenumber
@@ -644,3 +641,10 @@ if exists("loaded_matchit")
             \ '\<\%(else\|elsif\|ensure\|rescue\|when\)\>:\%(^\|[^.]\)\@<=\<end\>'
     endif
 endif
+
+set autoread
+augroup file
+    autocmd BufWinEnter * highlight ColorColumn ctermbg=magenta
+    autocmd BufWinEnter * call matchadd('ColorColumn', '\%81v', 100)
+    au CursorHold * checktime
+augroup END
