@@ -648,3 +648,33 @@ augroup file
     autocmd BufWinEnter * call matchadd('ColorColumn', '\%81v', 100)
     au CursorHold * checktime
 augroup END
+
+fu! s:rename(new_name)
+    let l:old_name = expand('%')
+    let l:old_name_abs_path = expand('%:p')
+    let l:old_undo_file = expand('~/.vim/undodir') . '/' . substitute(l:old_name_abs_path, '/', '%', 'g')
+    let l:choice = confirm('Rename ' . expand('%') . ' to: ' . a:new_name . '. Continue? ', "&Yes\n&No", 2)
+    echo(l:choice)
+    if l:choice == 1
+        echo "Renaming"
+        try
+            if a:new_name == l:old_name
+                throw 'File names are the same'
+            else
+                echo('Renaming')
+                " save copy with new name
+                exec 'saveas ' . a:new_name
+                " delete old file
+                call delete(fnameescape(l:old_name_abs_path))
+                " delete old undofile
+                call delete(fnameescape(l:old_undo_file))
+            endif
+        catch
+            echo v:exception
+        endtry
+    else
+        echo "Not renaming"
+    endif
+endfu
+command! -nargs=1 -complete=file Rename call <SID>rename(<f-args>)
+
