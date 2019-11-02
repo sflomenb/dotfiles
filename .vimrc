@@ -437,6 +437,14 @@ augroup configgroup
     " javascript debugging
     autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
     autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
+    " go logging
+    autocmd FileType go inoremap <M-l> fmt.Println()<Esc>F(a
+    autocmd FileType go nnoremap <M-l> yiwofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
+    autocmd FileType go vnoremap <M-l> yofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
+    " rust logging
+    autocmd FileType rust inoremap <M-l> println!()<Esc>F(a
+    autocmd FileType rust nnoremap <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
+    autocmd FileType rust vnoremap <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
 augroup END
 
 " toggle between number and relativenumber
