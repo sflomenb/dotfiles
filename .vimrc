@@ -8,6 +8,9 @@ set incsearch
 "set laststatus=2
 set backspace=indent,eol,start
 
+set smartcase
+set ignorecase
+
 filetype indent plugin on
 
 set hls
