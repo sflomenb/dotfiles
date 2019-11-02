@@ -656,8 +656,10 @@ endif
 
 set autoread
 augroup file
-    autocmd BufWinEnter * highlight ColorColumn ctermbg=magenta
-    autocmd BufWinEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinEnter * highlight ColorColumn ctermbg=magenta
+    autocmd WinEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinLeave * call clearmatches()
     au CursorHold * checktime
 augroup END
 
