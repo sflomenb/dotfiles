@@ -1,11 +1,11 @@
 syntax on
 set number
-"set ruler
+set ruler
 set autoindent
 set autoread
-"set bs=2
+set bs=2
 set incsearch
-"set laststatus=2
+set laststatus=2
 set backspace=indent,eol,start
 
 set smartcase
@@ -121,8 +121,6 @@ elseif &loadplugins
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     "Plug 'scrooloose/syntastic'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
     Plug 'tpope/vim-fugitive'
     Plug 'altercation/vim-colors-solarized'
     Plug 'mattn/emmet-vim'
@@ -403,7 +401,7 @@ augroup configgroup
     autocmd FileType * setlocal foldmethod=syntax | normal zR
     autocmd FileType python,yaml setlocal foldmethod=indent | normal zR
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePost .vimrc source $MYVIMRC
+    autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
     autocmd BufReadPost * call TabsOrSpaces()
     autocmd InsertLeave * set nopaste
 "    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.json
@@ -680,4 +678,73 @@ fu! s:rename(new_name)
     endif
 endfu
 command! -nargs=1 -complete=file Rename call <SID>rename(<f-args>)
+
+function! GitBranch()
+    if &ft !~ '^git' && empty(glob('.git/rebase'))
+        silent return system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
+    else
+        return ''
+    endif
+endfunction
+
+function! StatuslineGit()
+    let l:branchname = GitBranch()
+    let l:ratio = winwidth(0) / len(l:branchname)
+    if l:ratio <= 2
+        " shortern branch name
+        let l:list = matchlist(l:branchname, '^.*\/\([A-Z0-9]*-[0-9]*\)')
+        if len(l:list) >= 2 && !empty(l:list[1])
+            let l:branchname = l:list[1]
+        endif
+    endif
+    return !empty(l:branchname) ? '  ' . l:branchname . ' ' : ''
+endfunction
+
+function! StatusFilename()
+    let l:pre = ''
+    let l:pat = '://'
+    let l:name = expand('%:~:.')
+    if l:name =~# l:pat
+        let l:pre = l:name[:strindx(l:name, l:pat) + len(l:pat) - 1] . '...'
+        let l:name = l:name[strindx(l:name, l:pat) + len(l:pat):]
+    elseif empty(l:name) && &filetype ==# 'netrw'
+        let l:name = fnamemodify(b:netrw_curdir, ':~:. . '...'')
+    endif
+    let l:name = simplify(l:name)
+    let l:ratio = winwidth(0) / len(l:name)
+    if l:ratio <= 2 && l:ratio > 1
+        let l:name = pathshorten(l:name)
+    elseif l:ratio <= 1
+        let l:name = fnamemodify(l:name, ':t')
+    endif
+    return l:pre  . l:name
+endfunction
+
+" define statusbar highlights
+highlight Statusline   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
+highlight StatuslineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
+
+function SetStatusline()
+    setl statusline=
+    setl statusline+=%#PmenuSel#
+    setl statusline+=%(%{StatuslineGit()}%)
+    setl statusline+=%*
+    setl statusline+=\ %{StatusFilename()}
+    setl statusline+=%m
+    setl statusline+=%r
+    setl statusline+=%=
+    setl statusline+=\ %y
+    setl statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+    setl statusline+=\[%{&fileformat}\]
+    setl statusline+=\ %p%%
+    setl statusline+=\ %l:%c
+    setl statusline+=\ #%{winnr()}
+    setl statusline+=\ 
+endfunction
+
+augroup statusline
+    autocmd!
+    autocmd BufRead * call SetStatusline()
+augroup END
+
 
