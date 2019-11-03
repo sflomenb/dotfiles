@@ -651,12 +651,15 @@ if exists("loaded_matchit")
     endif
 endif
 
+augroup column
+    autocmd WinEnter,BufEnter * highlight ColorColumn ctermbg=magenta
+    autocmd WinEnter,BufEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinEnter,BufEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinLeave * call clearmatches()
+augroup END
+
 set autoread
 augroup file
-    autocmd WinEnter * highlight ColorColumn ctermbg=magenta
-    autocmd WinEnter * call matchadd('ColorColumn', '\%81v', 100)
-    autocmd WinEnter * call matchadd('ColorColumn', '\%81v', 100)
-    autocmd WinLeave * call clearmatches()
     au CursorHold * checktime
 augroup END
 
