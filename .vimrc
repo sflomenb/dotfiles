@@ -266,9 +266,6 @@ endtry
     " solarized settings
     "let g:solarized_termcolors=256
 
-" airline theme settings
-let g:airline_solarized_bg='dark'
-
 setlocal foldmethod=manual
 
 fu! CommentWord(str)
@@ -733,31 +730,55 @@ function! StatusFilename()
     return l:pre  . l:name
 endfunction
 
-" define statusbar highlights
-highlight Statusline   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
-highlight StatuslineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
-
-function SetStatusline()
-    setl statusline=
-    setl statusline+=%#PmenuSel#
-    setl statusline+=%(%{StatuslineGit()}%)
-    setl statusline+=%*
-    setl statusline+=\ %{StatusFilename()}
-    setl statusline+=%m
-    setl statusline+=%r
-    setl statusline+=%=
-    setl statusline+=\ %y
-    setl statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-    setl statusline+=\[%{&fileformat}\]
-    setl statusline+=\ %p%%
-    setl statusline+=\ %l:%c
-    setl statusline+=\ #%{winnr()}
-    setl statusline+=\ 
+function! ActiveStatus()
+    let statusline=""
+    let statusline.="%#PmenuSel#"
+    let statusline.="%(%{StatuslineGit()}%)"
+    let statusline.="%*"
+    let statusline.="\ %{StatusFilename()}"
+    let statusline.="%m"
+    let statusline.="%r"
+    let statusline.="%="
+    let statusline.="\ %y"
+    let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
+    let statusline.="\[%{&fileformat}\]"
+    let statusline.="\ %p%%"
+    let statusline.="\ %l:%c"
+    let statusline.="\ #%{winnr()}"
+    let statusline.="\ "
+    return statusline
 endfunction
+
+function! InactiveStatus()
+    let statusline=""
+    "let statusline.="%#PmenuSel#"
+    "let statusline.="%(%{StatuslineGit()}%)"
+    "let statusline.="%*"
+    let statusline.="\ %{StatusFilename()}"
+    let statusline.="%m"
+    let statusline.="%r"
+    let statusline.="%="
+    "let statusline.="\ %y"
+    "let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
+    "let statusline.="\[%{&fileformat}\]"
+    "let statusline.="\ %p%%"
+    "let statusline.="\ %l:%c"
+    let statusline.="\ #%{winnr()}"
+    let statusline.="\ "
+    return statusline
+endfunction
+
+setl statusline=%!ActiveStatus()
+" define highlight for opening file in vim
+highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
 
 augroup statusline
     autocmd!
-    autocmd BufRead * call SetStatusline()
+    "autocmd BufRead * call SetStatusline()
+    " define statusbar highlights for session
+    autocmd ColorScheme * highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
+    autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
+    autocmd WinEnter * setlocal statusline=%!ActiveStatus()
+    autocmd WinLeave * setlocal statusline=%!InactiveStatus()
 augroup END
-
 
