@@ -771,7 +771,7 @@ function! InactiveStatus()
     return statusline
 endfunction
 
-setl statusline=%!ActiveStatus()
+set statusline=%!InactiveStatus()
 " define highlight for opening file in vim
 highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
 
@@ -781,7 +781,7 @@ augroup statusline
     " define statusbar highlights for session
     autocmd ColorScheme * highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
     autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
-    autocmd WinEnter * setlocal statusline=%!ActiveStatus()
+    autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveStatus()
     autocmd WinLeave * setlocal statusline=%!InactiveStatus()
 augroup END
 
