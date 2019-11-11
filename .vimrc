@@ -718,8 +718,8 @@ function! StatusFilename()
     let l:pat = '://'
     let l:name = expand('%:~:.')
     if l:name =~# l:pat
-        let l:pre = l:name[:strindx(l:name, l:pat) + len(l:pat) - 1] . '...'
-        let l:name = l:name[strindx(l:name, l:pat) + len(l:pat):]
+        let l:pre = l:name[:stridx(l:name, l:pat) + len(l:pat) - 1] . '...'
+        let l:name = l:name[stridx(l:name, l:pat) + len(l:pat):]
     elseif empty(l:name) && &filetype ==# 'netrw'
         let l:name = fnamemodify(b:netrw_curdir, ':~:. . '...'')
     endif
