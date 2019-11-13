@@ -260,7 +260,7 @@ endif
 syntax enable
 try
     set background=dark
-    if ($TERM_PROGRAM !=# 'apple_terminal')
+    if ($TERM_PROGRAM !=? 'apple_terminal')
         let g:solarized_termtrans = 1
     endif
     colorscheme solarized
