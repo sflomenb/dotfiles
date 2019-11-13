@@ -259,12 +259,13 @@ endif
 
 syntax enable
 try
-    colorscheme solarized
     set background=dark
+    if ($TERM_PROGRAM !=# 'apple_terminal')
+        let g:solarized_termtrans = 1
+    endif
+    colorscheme solarized
 catch /E185/
 endtry
-    " solarized settings
-    "let g:solarized_termcolors=256
 
 setlocal foldmethod=manual
 
