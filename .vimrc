@@ -498,6 +498,19 @@ function! TabsOrSpaces()
     endif
 endfunction
 
+fu! ConvertNumSpaces()
+    call inputsave()
+    let l:current_amount = input('Enter current number of spaces: ')
+    call inputrestore()
+    call inputsave()
+    let l:desired_amount = input('Enter desired number of spaces: ')
+    call inputrestore()
+    exec 'set ts=' . l:current_amount . ' sts=' . l:current_amount . ' noet'
+    retab!
+    exec 'set ts=' . l:desired_amount . ' sts=' . l:desired_amount . ' et'
+    retab
+endfu
+
 fu! VisualSearch()
     try
         let l:a_save = @a
