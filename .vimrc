@@ -384,6 +384,8 @@ nnoremap <Leader>ftr : call system('pbcopy', expand('%:t:r'))<CR>
 " get current line number
 cnoremap <Leader>l =line('.')<CR>
 
+set encoding=utf-8
+scriptencoding utf-8
 execute 'set <M-l>=¬'
 nnoremap <M-l><M-l> :set list!<CR>
 try
