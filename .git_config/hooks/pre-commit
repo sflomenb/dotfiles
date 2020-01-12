@@ -55,6 +55,7 @@ if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]] \
         validate "${SHL}" '.sh$' "${SHL} -n" '' 'head -n 1 ${FILE} | grep -q '${SHL}''
     done
     validate 'Ruby' '.rb$' 'ruby -c'
+    validate 'YAML' '.*ya?ml' 'ruby -ryaml -e "YAML.load(STDIN.read)" < '
 
     finish
 else
