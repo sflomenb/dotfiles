@@ -801,3 +801,29 @@ augroup statusline
     autocmd WinLeave * setlocal statusline=%!InactiveStatus()
 augroup END
 
+fu! BlockCommentFolds()
+    let l:thisline  = getline(v:lnum)
+    if match(l:thisline, '/\*') >= 0
+        return ">1"
+    elseif match(l:thisline, '\*/') >= 0
+        return "<1"
+    else
+        return "="
+    endif
+endfu
+
+fu FoldBlockComments()
+    if &foldmethod != 'expr'
+        setl foldmethod=expr
+        setl foldexpr=BlockCommentFolds()
+        norm zM
+    else
+        set foldmethod<
+        set foldexpr<
+        norm zR
+    endif
+    set foldmethod?
+    set foldexpr?
+endfu
+
+command! FoldBlockComments :call FoldBlockComments()
