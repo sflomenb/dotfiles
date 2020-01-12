@@ -8,7 +8,7 @@
 	lggd = !git lgd -1
 	lgbd = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad|%cd) %C(blue)<%an>%Creset' --abbrev-commit
 	br = branch
-	st = status
+	st = status -sb
 	ch = checkout
 	fe = fetch
 	sm = "!f() { local LONGBRANCH=${1:-$(git rev-parse --abbrev-ref HEAD)}; local BRANCH=${LONGBRANCH##*/}; git lg $LONGBRANCH $(git log $LONGBRANCH --pretty=format:'%h' --merges --grep=\"$BRANCH\" --invert-grep -1)..; } f"
