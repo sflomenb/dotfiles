@@ -415,6 +415,7 @@ augroup configgroup
     \ endif
 
     autocmd FileType ruby,javascript,css,stylus setlocal ts=2 sw=2 sts=2
+    autocmd FileType yaml setlocal ts=2 sw=2 sts=2 expandtab indentexpr=GetYamlIndent()
     autocmd CmdwinEnter * nnoremap <CR> <CR>
     autocmd BufReadPost quickfix nnoremap <CR> <CR>
     autocmd FileType java setlocal omnifunc=javacomplete#Complete
