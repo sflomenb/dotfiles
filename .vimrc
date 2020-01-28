@@ -709,8 +709,21 @@ fu! s:rename(new_name)
 endfu
 command! -nargs=1 -complete=file Rename call <SID>rename(<f-args>)
 
+function! GetSelectedText()
+    normal gv"xy
+    let l:result = getreg("x")
+    normal gv
+    return l:result
+endfunction
+
+function! EscapeText(str)
+    let l:escaped = escape(a:str, '/\.*$^~[]()|')
+    let @x = l:escaped
+    norm "xp
+endfunction
+
 function! GitBranch()
-    if &ft !~ '^git' && empty(glob('.git/rebase'))
+    if &ft !~ '^\(git\|diff\)' && empty(glob('.git/rebase'))
         silent return system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'")
     else
         return ''
