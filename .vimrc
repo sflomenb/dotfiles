@@ -99,11 +99,16 @@ nnoremap <C-p> :set invpaste paste?<CR>
 set pastetoggle=<C-p>
 set showmode
 
-set undofile " Maintain history between sessions
-set undodir=~/.vim/undodir
-if empty(glob('~/.vim/undodir'))
-    call mkdir(expand('~/.vim/undodir'))
-endif
+" Maintain history between sessions
+set undofile
+for dir in ['.undo', '.backup', '.swp']
+    if empty(glob('~/.vim/' . dir)) && exists("*mkdir")
+        call mkdir($HOME . '/.vim/' . dir)
+    endif
+endfor
+set undodir=~/.vim/.undo//
+set backupdir=~/.vim/.backup//
+set directory=~/.vim/.swp//
 
 "set laststatus=2
 
