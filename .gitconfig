@@ -22,7 +22,7 @@
 	sw = switch
 [core]
 	editor = vim
-	pager = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -XF
+	pager = diff-highlight | less -XF
 	hooksPath = ~/.git_config/hooks/
 	whitespace = -blank-at-eof
 	excludesfile = ~/.gitignore
@@ -41,10 +41,10 @@
 [commit]
 	verbose = true
 [pager]
-	log = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -XF
-	show = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -XF
-	diff = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight | less -XF
+	log = diff-highlight | less -XF
+	show = diff-highlight | less -XF
+	diff = diff-highlight | less -XF
 [interactive]
-	difffilter = /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
+	difffilter = diff-highlight
 [fetch]
 	prune = true

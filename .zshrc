@@ -80,3 +80,7 @@ SAVEHIST=1000
 setopt APPENDHISTORY
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+
+[[ -d "/usr/local/share/git-core/contrib/diff-highlight" ]] && export PATH="${PATH}:/usr/local/share/git-core/contrib/diff-highlight"
+[[ -x "/usr/local/share/diff-highlight" ]] && export PATH="${PATH}:/usr/local/share/diff-highlight"
+return 0
