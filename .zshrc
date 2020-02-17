@@ -1,7 +1,7 @@
 if [[ -d "${HOME}/.oh-my-zsh" ]]; then
     # Path to your oh-my-zsh installation.
     export ZSH="${HOME}/.oh-my-zsh"
-    plugins=(git zsh-vim-mode)
+    plugins=(git zsh-vim-mode docker docker-compose zsh-syntax-highlighting zsh-autosuggestions)
     source $ZSH/oh-my-zsh.sh
 fi
 
