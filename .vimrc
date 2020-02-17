@@ -125,37 +125,21 @@ elseif &loadplugins
 
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
-    "Plug 'scrooloose/syntastic'
     Plug 'tpope/vim-fugitive'
     Plug 'altercation/vim-colors-solarized'
     Plug 'mattn/emmet-vim'
     Plug 'chrisbra/colorizer'
     Plug 'wavded/vim-stylus'
-    "Plug 'artur-shaik/vim-javacomplete2'
-    "let g:ale_completion_enabled = 1
-    "Plug 'w0rp/ale'
+    " install Dash only on Mac
     if substitute(system('uname'), '\n', '', '') == 'Darwin'
         Plug 'rizzatti/dash.vim'
     endif
-    "Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-    Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'hashivim/vim-terraform'
     Plug 'janko/vim-test'
     Plug 'rust-lang/rust.vim'
-    "Plug 'nlknguyen/cloudformation-syntax.vim'
-
-    "Plug 'prabirshrestha/async.vim'
-    "Plug 'prabirshrestha/vim-lsp'
-    "Plug 'prabirshrestha/asyncomplete.vim'
-    "if executable('pyls')
-    "    au User l_setup call l#register_server({
-    "        \ 'name': 'pyls',
-    "        \ 'cmd': {server_info->['pyls']},
-    "        \ 'whitelist': ['python'],
-    "        \ })
-    "endif
-
-    "CTRL-X CTRL-O
+    Plug 'posva/vim-vue'
+    Plug 'fatih/vim-go'
 
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
