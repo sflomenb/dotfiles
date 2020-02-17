@@ -3,6 +3,9 @@ all: bin dotfiles coc
 
 .PHONY: bin
 bin:
+	if ! [ -d "$(HOME)/.bin" ]; then \
+		mkdir "$(HOME)/.bin" ; \
+	fi;
 	for file in $(shell find $(CURDIR)/bin -type f); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/.bin/$$f; \
