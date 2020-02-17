@@ -204,6 +204,16 @@ elseif &loadplugins
     nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
     nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
+    " command for disabling coc term transparency
+    fu! ToggleTransparencyFun()
+        if (!exists("g:solarized_termtrans")) || g:solarized_termtrans == 0
+            let g:solarized_termtrans = 1
+        else
+            let g:solarized_termtrans = 0
+        endif
+    endfu
+    command! ToggleTransparency :call ToggleTransparencyFun() | source $MYVIMRC
+
     " vim-gitgutter bindings
     nmap ]h <Plug>(GitGutterNextHunk)
     nmap [h <Plug>(GitGutterPrevHunk)
