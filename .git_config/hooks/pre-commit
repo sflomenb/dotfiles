@@ -50,7 +50,7 @@ if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]] \
     fi
 
     validate 'JSON' '.json$' 'python -m json.tool'
-    validate 'Python' '.py$' 'python -m py_compile' 'rm ${FILE}c'
+    validate 'Python' '.py$' 'python3 -m py_compile' '[[ -e ${FILE}c ]] && rm ${FILE}c'
     for SHL in {bash,zsh}; do
         validate "${SHL}" '.sh$' "${SHL} -n" '' 'head -n 1 ${FILE} | grep -q '${SHL}''
     done
