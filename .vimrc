@@ -672,7 +672,7 @@ augroup END
 fu! s:rename(new_name)
     let l:old_name = expand('%')
     let l:old_name_abs_path = expand('%:p')
-    let l:old_undo_file = expand('~/.vim/undodir') . '/' . substitute(l:old_name_abs_path, '/', '%', 'g')
+    let l:old_undo_file = substitute(expand(&undodir), '//', '/', '') . substitute(l:old_name_abs_path, '/', '%', 'g')
     let l:choice = confirm('Rename ' . expand('%') . ' to: ' . a:new_name . '. Continue? ', "&Yes\n&No", 2)
     echo(l:choice)
     if l:choice == 1
