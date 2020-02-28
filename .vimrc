@@ -140,6 +140,7 @@ elseif &loadplugins
     Plug 'rust-lang/rust.vim'
     Plug 'posva/vim-vue'
     Plug 'fatih/vim-go'
+    Plug 'tpope/vim-surround'
 
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
