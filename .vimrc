@@ -1,7 +1,6 @@
 syntax on
 set number
 set ruler
-set autoindent
 set autoread
 set bs=2
 set incsearch
@@ -17,13 +16,6 @@ set hls
 execute "set <M-h>=˙"
 nnoremap <M-h> :noh<CR>
 
-" show existing tab with 4 spaces width
-set tabstop=4
-" when indenting with '>', ude 4 spaces width
-set shiftwidth=4
-set softtabstop=4
-" On pressing tab, insert 4 spaces
-set expandtab
 " insert literal tab
 inoremap <S-Tab> <C-V><Tab>
 
@@ -413,6 +405,7 @@ augroup configgroup
     \   exe "normal! g'\"" |
     \ endif
 
+    autocmd FileType * setl ts=4 sw=4 sts=4 et ai si
     autocmd FileType ruby,javascript,css,stylus setlocal ts=2 sw=2 sts=2
     autocmd FileType yaml setlocal ts=2 sw=2 sts=2 expandtab indentexpr=GetYamlIndent()
     autocmd CmdwinEnter * nnoremap <CR> <CR>
