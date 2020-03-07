@@ -407,7 +407,10 @@ augroup configgroup
 
     autocmd FileType * setl ts=4 sw=4 sts=4 et ai si
     autocmd FileType ruby,javascript,css,stylus setlocal ts=2 sw=2 sts=2
-    autocmd FileType yaml setlocal ts=2 sw=2 sts=2 expandtab indentexpr=GetYamlIndent()
+    autocmd FileType yaml setlocal ts=2 sw=2 sts=2
+        \ indentexpr=GetYamlIndent()
+        \ indentkeys-=0#
+        \ indentkeys-=<:>
     autocmd FileType java setlocal omnifunc=javacomplete#Complete
     autocmd FileType python nnoremap <buffer> <Leader>m :exec '!python' shellescape(@%, 1)<CR>
     autocmd FileType cpp nnoremap <buffer> <Leader>m :exec '!make'<CR>
