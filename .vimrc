@@ -414,7 +414,6 @@ augroup configgroup
     autocmd FileType python nnoremap <buffer> <Leader>m :exec '!python' shellescape(@%, 1)<CR>
     autocmd FileType cpp nnoremap <buffer> <Leader>m :exec '!make'<CR>
     autocmd FileType python nnoremap <buffer> <Leader><Leader>m :exec '!python3' shellescape(@%, 1)<CR>
-    autocmd FileType netrw noremap gn :Ntree <CR>
 
     " python logging
     autocmd FileType python inoremap <M-l> logging.debug()<Esc>F(a
