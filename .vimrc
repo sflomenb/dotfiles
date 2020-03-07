@@ -399,8 +399,6 @@ endtry
 augroup configgroup
     autocmd!
     autocmd BufNewFile,BufRead *.css,*.html,*.htm,*.styl  :ColorHighlight!
-    autocmd FileType * setlocal foldmethod=syntax | normal zR
-    autocmd FileType python,yaml setlocal foldmethod=indent | normal zR
     autocmd VimEnter * highlight clear SignColumn
     autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
     autocmd BufReadPost * call TabsOrSpaces()
@@ -447,6 +445,10 @@ augroup configgroup
     autocmd FileType rust inoremap <M-l> println!()<Esc>F(a
     autocmd FileType rust nnoremap <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
     autocmd FileType rust vnoremap <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
+
+    " fold settings by language
+    autocmd FileType * setlocal foldmethod=syntax | normal zR
+    autocmd FileType python,yaml setlocal foldmethod=indent | normal zR
 augroup END
 
 " toggle between number and relativenumber
