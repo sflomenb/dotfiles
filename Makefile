@@ -13,10 +13,20 @@ bin:
 
 .PHONY: dotfiles
 dotfiles:
-	for file in $(shell find $(CURDIR) -maxdepth 1 -name ".*" -not -name '.git'); do \
-		f=$$(basename $$file); \
-		ln -sfn $$file $(HOME)/$$f; \
-	done;
+	stow -t $(HOME) bash
+	stow -t $(HOME) git
+	stow -t $(HOME) tmux
+	stow -t $(HOME) vim
+	stow -t $(HOME) zsh
+
+
+.PHONY: uninstall
+uninstall:
+	stow -t $(HOME) -D bash
+	stow -t $(HOME) -D git
+	stow -t $(HOME) -D tmux
+	stow -t $(HOME) -D vim
+	stow -t $(HOME) -D zsh
 
 .PHONY: coc
 coc:
