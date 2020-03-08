@@ -25,7 +25,7 @@
 	pager = diff-highlight | less -XF
 	hooksPath = ~/.git_config/hooks/
 	whitespace = -blank-at-eof
-	excludesfile = ~/.gitignore
+	excludesfile = ~/.git_config/.gitignore
 [color "diff-highlight"]
 	oldNormal = red
 	oldHighlight = 15 red
