@@ -51,7 +51,7 @@ export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
 if uname -a | grep -q Darwin; then
-    alias copy_last_command='fc -ln -1 | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
+    alias copy_last_command='fc -ln -1 | tr -d '"'"'\n'"'"' | pbcopy'
     alias copy_git_branch='git rev-parse --abbrev-ref HEAD | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
     export JAVA_HOME=$(/usr/libexec/java_home)
 else
