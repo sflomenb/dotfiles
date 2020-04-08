@@ -387,6 +387,19 @@ try
 catch /E474/
 endtry
 
+function! PythonLogging(first_part, second_part)
+    echom('wow')
+    let l:to_insert = ''
+    let l:second_part = a:second_part
+    if search('import logging', 'nw')
+        let l:to_insert = 'logging.debug()'
+    else
+        let l:to_insert = 'print()'
+        let l:second_part = substitute(l:second_part, "%s',", "' + ", '')
+    endif
+    return a:first_part . l:to_insert . l:second_part
+endfunction
+
 " filetpye specifc settings
 augroup configgroup
     autocmd!
@@ -417,9 +430,9 @@ augroup configgroup
     autocmd FileType python nnoremap <buffer> <Leader><Leader>m :exec '!python3' shellescape(@%, 1)<CR>
 
     " python logging
-    autocmd FileType python inoremap <M-l> logging.debug()<Esc>F(a
-    autocmd FileType python nnoremap <M-l> yiwologging.debug()<Esc>F(a'<Esc>pa: %s', <Esc>p
-    autocmd FileType python vnoremap <M-l> yologging.debug()<Esc>F(a'<Esc>pa: %s', <Esc>p
+    autocmd FileType python inoremap <expr> <M-l> PythonLogging('', '<Esc>F(a')
+    autocmd FileType python nnoremap <expr> <M-l> PythonLogging('yiwo', "<Esc>F(a'<Esc>pa: %s', <Esc>p")
+    autocmd FileType python vnoremap <expr> <M-l> PythonLogging('yo', "<Esc>F(a'<Esc>pa: %s', <Esc>p")
     " python debugging
     autocmd FileType python nnoremap <M-d> oimport pdb; pdb.set_trace()<Esc>
     autocmd FileType python inoremap <M-d> <Esc>oimport pdb; pdb.set_trace()A
