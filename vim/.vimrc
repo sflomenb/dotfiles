@@ -144,6 +144,7 @@ elseif &loadplugins
     Plug 'posva/vim-vue'
     Plug 'fatih/vim-go'
     Plug 'tpope/vim-surround'
+    Plug 'dense-analysis/ale'
 
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
@@ -235,6 +236,14 @@ elseif &loadplugins
     if FileMatchesRegex('package.json', '^\s*"\zstest:unit\ze')
         let test#javascript#jest#executable = 'yarn test:unit'
     endif
+
+    " ale mappings
+    nmap <silent> [a <Plug>(ale_previous_wrap)
+    nmap <silent> ]a <Plug>(ale_next_wrap)
+    let g:ale_echo_msg_error_str = 'E'
+    let g:ale_echo_msg_warning_str = 'W'
+    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+    let g:ale_python_pylint_options = '--load-plugins=pylint_django --disable=C0114,C0115,C0116'
 
     "let g:ale_linters = {
     "\   'python': [],
