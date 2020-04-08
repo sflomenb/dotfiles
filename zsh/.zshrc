@@ -29,7 +29,7 @@ setopt AUTO_CD
 autoload -U colors && colors
 
 PROMPT='
-${MODE_INDICATOR_PROMPT} %(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: $(get_pwd) %W %t $fg[green]$(git_branch) %{$reset_color%}
+${MODE_INDICATOR_PROMPT}%(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: $(get_pwd) %W %t $fg[green]$(git_branch) %{$reset_color%}
 %# '
 
 bindkey -v
