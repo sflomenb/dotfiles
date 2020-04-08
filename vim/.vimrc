@@ -145,6 +145,7 @@ elseif &loadplugins
     Plug 'fatih/vim-go'
     Plug 'tpope/vim-surround'
     Plug 'dense-analysis/ale'
+    Plug 'hynek/vim-python-pep8-indent'
 
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
