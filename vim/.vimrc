@@ -107,6 +107,17 @@ set directory=~/.vim/.swp//
 nnoremap <CR> o<Esc>
 nnoremap <C-_> O<Esc>
 
+function! FileMatchesRegex(filename, regex)
+    if filereadable(a:filename)
+        for line in readfile(a:filename)
+            if line =~ escape(a:regex, '/\.*$^~[]()|')
+                return 0
+            endif
+        endfor
+    endif
+    return 1
+endfunction
+
 " plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -221,6 +232,9 @@ elseif &loadplugins
     nmap <silent> t<C-l> :TestLast<CR>
     nmap <silent> t<C-g> :TestVisit<CR>
     let test#java#maventest#options = '-DtrimStackTrace=false'
+    if FileMatchesRegex('package.json', '^\s*"\zstest:unit\ze')
+        let test#javascript#jest#executable = 'yarn test:unit'
+    endif
 
     "let g:ale_linters = {
     "\   'python': [],
