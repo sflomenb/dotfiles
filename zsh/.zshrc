@@ -83,4 +83,12 @@ setopt SHARE_HISTORY
 
 [[ -d "/usr/local/share/git-core/contrib/diff-highlight" ]] && export PATH="${PATH}:/usr/local/share/git-core/contrib/diff-highlight"
 [[ -x "/usr/local/share/diff-highlight" ]] && export PATH="${PATH}:/usr/local/share/diff-highlight"
+
+function edit() {
+    local PATTERN="${1:?Please enter a pattern}"
+    shift
+    local OPTS="$@"
+    vim ${OPTS} $(git status --porcelain | grep "${PATTERN}" | awk '{print $2}')
+}
 return 0
+
