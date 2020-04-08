@@ -164,6 +164,7 @@ elseif &loadplugins
     augroup coc
         autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
         autocmd FileType java nnoremap <Leader>o :CocCommand java.action.organizeImports<CR>
+        autocmd FileType python nnoremap <Leader>o :CocCommand python.sortImports<CR>
         " Highlight symbol under cursor on CursorHold
         autocmd CursorHold * :silent call CocActionAsync('highlight')
     augroup END
