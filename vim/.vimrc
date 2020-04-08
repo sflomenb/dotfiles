@@ -837,3 +837,6 @@ fu FoldBlockComments()
 endfu
 
 command! FoldBlockComments :call FoldBlockComments()
+
+set updatetime=300
+
