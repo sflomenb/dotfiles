@@ -6,7 +6,7 @@ function finish {
         git reset -q --hard
         git stash pop -q --index
     fi
-    exit ${RC}
+    exit "${RC}"
 }
 
 function validate {
@@ -15,23 +15,22 @@ function validate {
     COMMAND="${3}"
     CLEANUP="${4}"
     EXTRA_CHECK="${5}"
-    for FILE in "$(git diff --name-only --diff-filter=ACM --cached -- | grep "${SUFFIX}")"; do
-        if [[ -z "${EXTRA_CHECK}" ]] || eval ${EXTRA_CHECK}; then
+    for FILE in $(git diff --name-only --diff-filter=ACM --cached -- | grep "${SUFFIX}"); do
+        if [[ -z "${EXTRA_CHECK}" ]] || eval "${EXTRA_CHECK}"; then
             if [[ -n "${FILE}" ]]; then
-                ${COMMAND} ${FILE} &> /dev/null
-                if [[ $? -ne 0 ]]; then
+                if ! eval "${COMMAND}" "${FILE}" &> /dev/null; then
                     echo "Invalid ${FILE_NAME} found" >&2
                     echo "in FILE ${FILE}" >&2
-                    ${COMMAND} ${FILE}
+                    eval "${COMMAND}" "${FILE}"
                     finish 1
                 fi
-                [[ -n "${CLEANUP}" ]] && eval ${CLEANUP}
+                [[ -n "${CLEANUP}" ]] && eval "${CLEANUP}"
             fi
         fi
     done
 }
 
-IS_AMEND="$(ps -ocommand= -p ${PPID} | grep -- 'git commit --amend')"
+IS_AMEND="$(ps -ocommand= -p "${PPID}" | grep -- 'git commit --amend')"
 NOT_FIRST_COMMIT="$(git rev-parse --verify HEAD >/dev/null 2>&1; echo $?)"
 if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]] \
     && [[ -z "${IS_AMEND}" ]]; then
