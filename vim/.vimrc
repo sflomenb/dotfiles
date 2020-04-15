@@ -597,13 +597,11 @@ augroup FastEscape
 augroup END
 
 " Show trailing whitespace and spaces before a tab
-highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
-match ExtraWhitespace /\s\+$/
 augroup whitespace
     autocmd!
-    autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+    autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+    autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * match ExtraWhitespace /\s\+$/
     autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-    autocmd InsertLeave * match ExtraWhitespace /\s\+$/
     autocmd BufWinLeave * call clearmatches()
 augroup END
 
@@ -706,9 +704,8 @@ if exists("loaded_matchit")
 endif
 
 augroup column
-    autocmd WinEnter,BufEnter * highlight ColorColumn ctermbg=magenta
-    autocmd WinEnter,BufEnter * call matchadd('ColorColumn', '\%81v', 100)
-    autocmd WinEnter,BufEnter * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * highlight ColorColumn ctermbg=magenta
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * call matchadd('ColorColumn', '\%81v', 100)
     autocmd WinLeave * call clearmatches()
 augroup END
 
@@ -802,7 +799,11 @@ endfunction
 
 function! ActiveStatus()
     let statusline=""
-    let statusline.="%#PmenuSel#"
+    if &background == 'dark'
+        let statusline.="%#PmenuSel#"
+    else
+        let statusline.="%#Pmenu#"
+    endif
     let statusline.="%(%{StatuslineGit()}%)"
     let statusline.="%*"
     let statusline.="\ %{StatusFilename()}"
@@ -842,12 +843,29 @@ set statusline=%!InactiveStatus()
 " define highlight for opening file in vim
 highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
 
+function! StatusLineColorScheme(...)
+    let l:color = 0
+    if a:0 == 1
+        if a:1 == 'dark'
+            let l:color = 0
+        else
+            let l:color=7
+        endif
+    endif
+    " dark ctermbg = 0, light 7
+    execute "highlight StatusLine   ctermbg=" . l:color . " guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE"
+    execute "autocmd ColorScheme * highlight StatusLine   ctermbg=" . l:color . " guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE"
+    autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
+endfunction
+
 augroup statusline
     autocmd!
     "autocmd BufRead * call SetStatusline()
     " define statusbar highlights for session
-    autocmd ColorScheme * highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
-    autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
+    "autocmd ColorScheme * highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
+    call StatusLineColorScheme()
+    "autocmd ColorScheme * highlight StatusLine   ctermbg=7 guibg=Gray40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
+    "autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
     autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveStatus()
     autocmd WinLeave * setlocal statusline=%!InactiveStatus()
 augroup END
@@ -880,4 +898,29 @@ endfu
 command! FoldBlockComments :call FoldBlockComments()
 
 set updatetime=300
+
+function! SetBackgroundMode(...)
+    let l:new_bg = "dark"
+    if $TERM_PROGRAM ==? "Apple_Terminal"
+        silent let l:cur_bg = system("osascript ~/light-dark.scpt")
+        if l:cur_bg =~? "dark"
+            let l:new_bg = "dark"
+        elseif l:cur_bg =~? "light"
+            let l:new_bg = "light"
+        endif
+    else
+        " This is for Linux where I use an environment variable for this:
+        if $VIM_BACKGROUND ==? "dark"
+            let l:new_bg = "dark"
+        else
+            let l:new_bg = "light"
+        endif
+    endif
+    if &background !=? l:new_bg
+        let &background = l:new_bg
+        call StatusLineColorScheme(l:new_bg)
+    endif
+endfunction
+call SetBackgroundMode()
+call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
 
