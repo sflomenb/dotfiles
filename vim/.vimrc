@@ -200,6 +200,7 @@ elseif &loadplugins
     endfunction
 
     set cmdheight=2
+    set shortmess+=c
     nmap <leader>rn <Plug>(coc-rename)
 
     " Find symbol of current document
