@@ -413,7 +413,6 @@ catch /E474/
 endtry
 
 function! PythonLogging(first_part, second_part)
-    echom('wow')
     let l:to_insert = ''
     let l:second_part = a:second_part
     if search('import logging', 'nw')
