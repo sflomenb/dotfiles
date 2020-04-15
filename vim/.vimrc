@@ -881,7 +881,7 @@ fu! BlockCommentFolds()
     endif
 endfu
 
-fu FoldBlockComments()
+fu! FoldBlockComments()
     if &foldmethod != 'expr'
         setl foldmethod=expr
         setl foldexpr=BlockCommentFolds()
