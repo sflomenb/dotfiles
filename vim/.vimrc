@@ -713,7 +713,7 @@ augroup END
 
 set autoread
 augroup file
-    au CursorHold * checktime
+    autocmd CursorHold * if expand('%') !=# '[Command Line]' | checktime | endif
 augroup END
 
 fu! s:rename(new_name)
