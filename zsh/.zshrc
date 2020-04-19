@@ -90,7 +90,8 @@ function edit() {
     local OPTS="$@"
     vim ${OPTS} $(git status --porcelain | grep "${PATTERN}" | awk '{print $2}')
 }
-return 0
 
-[[ -x "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh" && "${TERM_PROGRAM:l}" == 'apple_terminal' ]] && echo $_
+[[ "${TERM_PROGRAM:l}" == 'apple_terminal' ]] && test -x "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh" && source $_
+
+return 0
 
