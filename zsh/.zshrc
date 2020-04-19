@@ -92,3 +92,5 @@ function edit() {
 }
 return 0
 
+[[ -x "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh" && "${TERM_PROGRAM:l}" == 'apple_terminal' ]] && echo $_
+

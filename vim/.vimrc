@@ -146,6 +146,7 @@ elseif &loadplugins
     Plug 'dense-analysis/ale'
     Plug 'hynek/vim-python-pep8-indent'
     Plug 'chr4/nginx.vim'
+    Plug 'morhetz/gruvbox'
 
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
@@ -278,11 +279,10 @@ endif
 
 syntax enable
 try
-    set background=dark
-    if ($TERM_PROGRAM !=? 'apple_terminal')
-        let g:solarized_termtrans = 1
+    if $TERM_PROGRAM !=? 'apple_terminal'
+        set termguicolors
     endif
-    colorscheme solarized
+    colorscheme gruvbox
 catch /E185/
 endtry
 
@@ -800,11 +800,7 @@ endfunction
 
 function! ActiveStatus()
     let statusline=""
-    if &background == 'dark'
-        let statusline.="%#PmenuSel#"
-    else
-        let statusline.="%#Pmenu#"
-    endif
+    let statusline.="%#PmenuThumb#"
     let statusline.="%(%{StatuslineGit()}%)"
     let statusline.="%*"
     let statusline.="\ %{StatusFilename()}"
@@ -841,32 +837,9 @@ function! InactiveStatus()
 endfunction
 
 set statusline=%!InactiveStatus()
-" define highlight for opening file in vim
-highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
-
-function! StatusLineColorScheme(...)
-    let l:color = 0
-    if a:0 == 1
-        if a:1 == 'dark'
-            let l:color = 0
-        else
-            let l:color=7
-        endif
-    endif
-    " dark ctermbg = 0, light 7
-    execute "highlight StatusLine   ctermbg=" . l:color . " guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE"
-    execute "autocmd ColorScheme * highlight StatusLine   ctermbg=" . l:color . " guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE"
-    autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
-endfunction
 
 augroup statusline
     autocmd!
-    "autocmd BufRead * call SetStatusline()
-    " define statusbar highlights for session
-    "autocmd ColorScheme * highlight StatusLine   ctermbg=0 guibg=Grey40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
-    call StatusLineColorScheme()
-    "autocmd ColorScheme * highlight StatusLine   ctermbg=7 guibg=Gray40 term=NONE    cterm=NONE    ctermfg=NONE gui=NONE
-    "autocmd ColorScheme * highlight StatusLineNC ctermbg=0              term=reverse cterm=reverse ctermfg=NONE gui=reverse
     autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveStatus()
     autocmd WinLeave * setlocal statusline=%!InactiveStatus()
 augroup END
@@ -919,7 +892,6 @@ function! SetBackgroundMode(...)
     endif
     if &background !=? l:new_bg
         let &background = l:new_bg
-        call StatusLineColorScheme(l:new_bg)
     endif
 endfunction
 call SetBackgroundMode()
