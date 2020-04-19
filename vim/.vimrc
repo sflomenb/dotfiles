@@ -325,7 +325,7 @@ fu! SaveSessionAndExit(...)
 endfu
 nnoremap <Leader><Leader>s :call SaveSessionAndExit()<CR>
 
-command! SS :setlocal spell! spelllang=en_us<CR>
+command! SS :setlocal spell! spelllang=en_us
 
 nnoremap <Leader>f :call system('pbcopy', @%)<CR> " copy current file name to clipboard
 
