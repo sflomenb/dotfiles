@@ -756,8 +756,13 @@ function! GetSelectedText()
     return l:result
 endfunction
 
-function! EscapeText(str)
-    let l:escaped = escape(a:str, '/\.*$^~[]()|')
+function! EscapeText(str, ...) range
+    let l:default =  '/\.*$^~[]()|'
+    if &ft == 'json'
+        let l:default = '"'
+    endif
+    let l:characters = get(a:, 1, l:default)
+    let l:escaped = escape(a:str, l:characters)
     let @x = l:escaped
     norm "xp
 endfunction
