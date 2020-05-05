@@ -280,6 +280,10 @@ endif
 syntax enable
 try
     if $TERM_PROGRAM !=? 'apple_terminal'
+        if $TERM_PROGRAM ==# 'iTerm.app'
+            let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+            let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+        endif
         set termguicolors
     endif
     colorscheme gruvbox
@@ -876,7 +880,7 @@ set updatetime=300
 
 function! SetBackgroundMode(...)
     let l:new_bg = "dark"
-    if $TERM_PROGRAM ==? "Apple_Terminal"
+    if system('uname') =~? "Darwin"
         silent let l:cur_bg = system("osascript ~/light-dark.scpt")
         if l:cur_bg =~? "dark"
             let l:new_bg = "dark"
