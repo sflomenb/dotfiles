@@ -277,7 +277,6 @@ elseif &loadplugins
     "let g:syntastic_html_checkers = ['validator']
 endif
 
-syntax enable
 try
     if $TERM_PROGRAM !=? 'apple_terminal'
         if $TERM_PROGRAM ==# 'iTerm.app'
