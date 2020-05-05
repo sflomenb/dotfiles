@@ -289,8 +289,6 @@ try
 catch /E185/
 endtry
 
-setlocal foldmethod=manual
-
 fu! CommentWord(str)
     exe ':%s/\(\s\(2,}\)\(' . a:str . '\)/1\#/2/gc'
 endfu
