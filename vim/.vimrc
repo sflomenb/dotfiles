@@ -505,7 +505,7 @@ nnoremap <Leader>n :call ToggleNumber()<CR>
 
 " strips trailing whitespace at the end of files. this
 " is called on buffer write in the autogroup above.
-function! StripTrailingWhitespaces()
+function! StripTrailingWhitespaces() range
     " save last search & cursor position
     let _s=@/
     let l = line(".")
