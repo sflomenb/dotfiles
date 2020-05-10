@@ -6,7 +6,7 @@ bin:
 	if ! [ -d "$(HOME)/.bin" ]; then \
 		mkdir "$(HOME)/.bin" ; \
 	fi;
-	for file in $(shell find $(CURDIR)/bin -type f); do \
+	for file in $(shell find $(CURDIR)/bin -type f -maxdepth 1); do \
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/.bin/$$f; \
 	done;
