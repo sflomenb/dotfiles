@@ -915,4 +915,18 @@ function! FoldBlockComments()
     endif
 endfunction
 
+" writing mode
+function! ToggleWriting()
+    let l:num_windows = winnr('$')
+    " close other windows
+    if l:num_windows > 1
+        exec 'on'
+    endif
+    " open windows on either side of current window set to 30% of the width
+    exe 'top vnew +setlocal\ nobuflisted | call Vres(30)'
+    exe 'bot vnew +setlocal\ nobuflisted | call Vres(30)'
+    wincmd h
+endfunction
+
+command! Writing :call ToggleWriting()
 
