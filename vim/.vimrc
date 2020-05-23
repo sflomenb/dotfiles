@@ -133,7 +133,7 @@ elseif &loadplugins
     Plug 'chrisbra/colorizer'
     Plug 'wavded/vim-stylus'
     " install Dash only on Mac
-    if substitute(system('uname'), '\n', '', '') == 'Darwin'
+    silent if substitute(system('uname'), '\n', '', '') == 'Darwin'
         Plug 'rizzatti/dash.vim'
     endif
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -314,7 +314,7 @@ nnoremap <Leader>e :Lexplore<CR>
 fu! SaveSessionAndExit(...)
     set sessionoptions+=globals
     if a:0 && exists("a:1")
-        call system("rm !/.vim/sessions/" . g:Save_session_name . ".vim")
+        silent call system("rm !/.vim/sessions/" . g:Save_session_name . ".vim")
         let g:Save_session_name = a:1
     elseif !exists("g:Save_session_name")
         call inputsave()
@@ -883,7 +883,7 @@ set updatetime=300
 
 function! SetBackgroundMode(...)
     let l:new_bg = "dark"
-    if system('uname') =~? "Darwin"
+    silent if system('uname') =~? "Darwin"
         silent let l:cur_bg = system("osascript ~/light-dark.scpt")
         if l:cur_bg =~? "dark"
             let l:new_bg = "dark"
