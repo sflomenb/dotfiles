@@ -457,8 +457,8 @@ augroup configgroup
 
     " python logging
     autocmd FileType python inoremap <expr> <M-l> PythonLogging('', '<Esc>F(a')
-    autocmd FileType python nnoremap <expr> <M-l> PythonLogging('yiwo', "<Esc>F(a'<Esc>pa: %s', <Esc>p")
-    autocmd FileType python vnoremap <expr> <M-l> PythonLogging('yo', "<Esc>F(a'<Esc>pa: %s', <Esc>p")
+    autocmd FileType python nnoremap <expr> <M-l> PythonLogging('yiwo', "<Esc>F(a'<Esc>pa: %s', str()<Esc>P")
+    autocmd FileType python vnoremap <expr> <M-l> PythonLogging('yo', "<Esc>F(a'<Esc>pa: %s', str()<Esc>P")
     " python debugging
     autocmd FileType python nnoremap <M-d> oimport pdb; pdb.set_trace()<Esc>
     autocmd FileType python inoremap <M-d> <Esc>oimport pdb; pdb.set_trace()A
