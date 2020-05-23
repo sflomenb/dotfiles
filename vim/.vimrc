@@ -421,7 +421,7 @@ function! PythonLogging(first_part, second_part)
         let l:to_insert = 'logging.debug()'
     else
         let l:to_insert = 'print()'
-        let l:second_part = substitute(l:second_part, "%s',", "' + ", '')
+        let l:second_part = substitute(l:second_part, "%s',", "' +", '')
     endif
     return a:first_part . l:to_insert . l:second_part
 endfunction
