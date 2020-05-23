@@ -926,6 +926,7 @@ function! ToggleWriting()
     exe 'top vnew +setlocal\ nobuflisted | call Vres(30)'
     exe 'bot vnew +setlocal\ nobuflisted | call Vres(30)'
     wincmd h
+    set nonumber
 endfunction
 
 command! Writing :call ToggleWriting()
