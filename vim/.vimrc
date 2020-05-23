@@ -484,6 +484,7 @@ augroup configgroup
 
     " fold settings by language
     autocmd FileType * setlocal foldmethod=syntax | normal zR
+    autocmd FileType text setlocal foldmethod=manual
     autocmd FileType python,yaml setlocal foldmethod=indent | normal zR
 augroup END
 
