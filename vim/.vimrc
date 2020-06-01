@@ -928,6 +928,7 @@ function! ToggleWriting()
     exe 'bot vnew +setlocal\ nobuflisted | call Vres(30)'
     wincmd h
     set nonumber
+    setlocal spell! spelllang=en_us
 endfunction
 
 command! Writing :call ToggleWriting()
