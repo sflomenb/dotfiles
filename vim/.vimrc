@@ -214,6 +214,42 @@ elseif &loadplugins
     nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
     nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
+    " scrolling
+    function FindCursorPopup(...)
+      let radius = get(a:000, 0, 2)
+      let srow = screenrow()
+      let scol = screencol()
+
+      " it's necessary to test entire rect, as some popup might be quite small
+      for r in range(srow - radius, srow + radius)
+        for c in range(scol - radius, scol + radius)
+          let winid = popup_locate(r, c)
+          if winid != 0
+            return winid
+          endif
+        endfor
+      endfor
+
+      return 0
+    endfunction
+
+    function ScrollCursorPopup(down)
+      let winid = FindCursorPopup()
+      if winid == 0
+        return 0
+      endif
+
+      let pp = popup_getpos(winid)
+      call popup_setoptions( winid,
+            \ {'firstline' : pp.firstline + ( a:down ? 1 : -1 ) } )
+
+      return 1
+    endfunction
+
+    nnoremap <expr> <C-s> ScrollCursorPopup(1) ? '<esc>' : '<C-s>'
+    nnoremap <expr> <C-e> ScrollCursorPopup(0) ? '<esc>' : '<C-e>'
+
+
     " command for disabling coc term transparency
     fu! ToggleTransparencyFun()
         if (!exists("g:solarized_termtrans")) || g:solarized_termtrans == 0
@@ -306,8 +342,6 @@ let g:colorizer_skip_comments = 1
 
 execute "set <M-d>=∂"
 noremap <M-d> "_d
-
-nnoremap <C-s> :SyntasticCheck<CR>
 
 nnoremap <Leader>e :Lexplore<CR>
 ":normal <CR>
