@@ -755,6 +755,7 @@ augroup END
 
 fu! s:rename(new_name)
     let l:old_name = expand('%')
+    let l:old_file_name = expand('%:t')
     let l:old_name_abs_path = expand('%:p')
     let l:old_undo_file = substitute(expand(&undodir), '//', '/', '') . substitute(l:old_name_abs_path, '/', '%', 'g')
     let l:choice = confirm('Rename ' . expand('%') . ' to: ' . a:new_name . '. Continue? ', "&Yes\n&No", 2)
@@ -770,8 +771,8 @@ fu! s:rename(new_name)
                 exec 'saveas ' . a:new_name
                 " delete old file
                 call delete(fnameescape(l:old_name_abs_path))
-                " delete old undofile
-                call delete(fnameescape(l:old_undo_file))
+                let l:escaped_old_undo_file = fnameescape(l:old_undo_file)
+                system('mv ' . l:escaped_old_undo_file . ' ' . substitute(l:escaped_old_undo_file, l:old_file_name, a:new_name, ''))
             endif
         catch
             echo v:exception
