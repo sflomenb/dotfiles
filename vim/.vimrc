@@ -230,6 +230,8 @@ elseif &loadplugins
 
     nnoremap <expr> <C-s> ScrollCursorPopup(1) ? '<esc>' : '<C-s>'
     nnoremap <expr> <C-e> ScrollCursorPopup(0) ? '<esc>' : '<C-e>'
+    inoremap <expr> <C-s> ScrollCursorPopup(1) ? '' : ''
+    inoremap <expr> <C-e> ScrollCursorPopup(0) ? '' : ''
 
 
     " command for disabling coc term transparency
