@@ -215,26 +215,8 @@ elseif &loadplugins
     nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
     " scrolling
-    function FindCursorPopup(...)
-      let radius = get(a:000, 0, 2)
-      let srow = screenrow()
-      let scol = screencol()
-
-      " it's necessary to test entire rect, as some popup might be quite small
-      for r in range(srow - radius, srow + radius)
-        for c in range(scol - radius, scol + radius)
-          let winid = popup_locate(r, c)
-          if winid != 0
-            return winid
-          endif
-        endfor
-      endfor
-
-      return 0
-    endfunction
-
     function ScrollCursorPopup(down)
-      let winid = FindCursorPopup()
+      let winid = get(popup_list(), 0, 0)
       if winid == 0
         return 0
       endif
