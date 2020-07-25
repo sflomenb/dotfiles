@@ -469,7 +469,6 @@ augroup configgroup
         \ indentexpr=GetYamlIndent()
         \ indentkeys-=0#
         \ indentkeys-=<:>
-    autocmd FileType java setlocal omnifunc=javacomplete#Complete
     autocmd FileType python nnoremap <buffer> <Leader>m :exec '!python' shellescape(@%, 1)<CR>
     autocmd FileType cpp nnoremap <buffer> <Leader>m :exec '!make'<CR>
     autocmd FileType python nnoremap <buffer> <Leader><Leader>m :exec '!python3' shellescape(@%, 1)<CR>
