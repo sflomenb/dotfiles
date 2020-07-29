@@ -318,8 +318,8 @@ noremap <Leader>w :call CommentWord("<c-r>=expand("<cword>")<cr>")<CR>
 
 command! FindMergeMarkers /\v(\<{3,}|\={3,}|\>{3,})
 noremap <Leader>s :windo set scb!<CR>
-command! DT :windo diffthis<CR>
-command! DO :windo diffoff<CR>
+command! DT :windo diffthis
+command! DO :windo diffoff
 
 let g:colorizer_syntax = 1
 let g:colorizer_skip_comments = 1
