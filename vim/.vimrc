@@ -924,17 +924,6 @@ endfunction
 call SetBackgroundMode()
 call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
 
-function! FoldBlockComments()
-    let l:cur_line = getline(v:lnum)
-    if match(l:cur_line, '\/\*') >= 0
-        return '>1'
-    elseif match(l:cur_line, '\*\/') >= 0
-        return '<1'
-    else
-        return '='
-    endif
-endfunction
-
 " writing mode
 function! ToggleWriting()
     let l:num_windows = winnr('$')
