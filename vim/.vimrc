@@ -935,7 +935,8 @@ function! ToggleWriting()
     exe 'top vnew +setlocal\ nobuflisted | call Vres(30)'
     exe 'bot vnew +setlocal\ nobuflisted | call Vres(30)'
     wincmd h
-    set nonumber
+    setl nonumber
+    setl signcolumn=no
     setlocal spell! spelllang=en_us
 endfunction
 
