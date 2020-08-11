@@ -168,8 +168,7 @@ elseif &loadplugins
     endfunction
 
     " Use <c-space> to trigger completion.
-    inoremap <silent><expr> <c-space> coc#refresh()
-    imap <C-@> <C-Space>
+    inoremap <silent><expr> <c-@> coc#refresh()
 
     " use enter to confirm completion
     inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
