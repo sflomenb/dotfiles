@@ -707,7 +707,7 @@ set hidden
 
 " native fuzzy find
 set path+=**
-set wildignore+=**/target/**,**/*.class,**/*.pyc,**/*.o,**/node_modules/**
+set wildignore+=*/target/*,**/*.class,**/*.pyc,**/*.o,*/node_modules/*
 set wildmenu
 
 au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
