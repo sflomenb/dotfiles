@@ -214,7 +214,7 @@ elseif &loadplugins
     nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
     " scrolling
-    function ScrollCursorPopup(down)
+    function! ScrollCursorPopup(down)
       let winid = get(popup_list(), 0, 0)
       if winid == 0
         return 0
