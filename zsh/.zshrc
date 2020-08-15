@@ -5,10 +5,6 @@ if [[ -d "${HOME}/.oh-my-zsh" ]]; then
     source $ZSH/oh-my-zsh.sh
 fi
 
-function get_pwd() {
-    echo "${PWD/$HOME/~}"
-}
-
 function git_branch() {
     local BRANCH="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
     local STATUS="$(git status -sb 2> /dev/null)"
@@ -28,8 +24,13 @@ setopt AUTO_CD
 
 autoload -U colors && colors
 
-PROMPT='
-${MODE_INDICATOR_PROMPT}%(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: $(get_pwd) %W %t $fg[green]$(git_branch) %{$reset_color%}
+export PROMPT_PERCENT_OF_LINE=20
+
+function myPromptWidth() {
+  echo $(( ${COLUMNS:-80} * PROMPT_PERCENT_OF_LINE / 100 ))
+}
+
+PROMPT='${MODE_INDICATOR_PROMPT}%(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: %$(myPromptWidth)<..<%~%<< %W %t $fg[green]$(git_branch) %{$reset_color%}
 %# '
 
 bindkey -v
