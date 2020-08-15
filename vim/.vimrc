@@ -227,6 +227,16 @@ elseif &loadplugins
       return 1
     endfunction
 
+    " Applying codeAction to the selected region.
+    " Example: `<leader>aap` for current paragraph
+    xmap <leader>a  <Plug>(coc-codeaction-selected)
+    nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+    " Remap keys for applying codeAction to the current buffer.
+    nmap <leader>ac  <Plug>(coc-codeaction)
+    " Apply AutoFix to problem on the current line.
+    nmap <leader>qf  <Plug>(coc-fix-current)
+
     nnoremap <expr> <C-s> ScrollCursorPopup(1) ? '<esc>' : '<C-s>'
     nnoremap <expr> <C-e> ScrollCursorPopup(0) ? '<esc>' : '<C-e>'
     inoremap <expr> <C-s> ScrollCursorPopup(1) ? '' : ''
