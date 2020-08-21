@@ -505,7 +505,7 @@ augroup configgroup
     autocmd FileType go nnoremap <M-l> yiwofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
     autocmd FileType go vnoremap <M-l> yofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
     " rust logging
-    autocmd FileType rust inoremap <M-l> println!()<Esc>F(a
+    autocmd FileType rust inoremap <M-l> println!();<Esc>F(a
     autocmd FileType rust nnoremap <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
     autocmd FileType rust vnoremap <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
 
