@@ -495,8 +495,8 @@ augroup configgroup
     autocmd FileType java vnoremap <M-l> yoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
     " javascript logging
     autocmd FileType javascript,vue inoremap <M-l> console.log()<Esc>F(a
-    autocmd FileType javascript,vue nnoremap <M-l> yiwoconsole.log()<Esc>F(a"<Esc>pa: ", <Esc>pA<Esc>
-    autocmd FileType javascript,vue vnoremap <M-l> yoconsole.log()<Esc>F(a"<Esc>pa: ", <Esc>pA<Esc>
+    autocmd FileType javascript,vue nnoremap <M-l> yiwoconsole.log()<Esc>F(a'<Esc>pa: ', <Esc>pA<Esc>
+    autocmd FileType javascript,vue vnoremap <M-l> yoconsole.log()<Esc>F(a'<Esc>pa: ', <Esc>pA<Esc>
     " javascript debugging
     autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
     autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
