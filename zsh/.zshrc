@@ -35,11 +35,11 @@ PROMPT='${MODE_INDICATOR_PROMPT}%(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]
 
 bindkey -v
 
-alias ls="ls -GF"
-alias brewup='brew update; brew upgrade; brew cleanup; brew doctor'
+ls -GF > /dev/null 2>&1 && alias ls="ls -GF"
+! [[ -x "$(command -v brew)" ]] && alias brewup='brew update; brew upgrade; brew cleanup; brew doctor'
 alias ll="ls -l"
 alias la="ls -A"
-alias grep="grep --color=auto"
+grep 2>&1 | grep -q color && alias grep="grep --color=auto"
 function git_find_merge() {
     if [ -z "${1}" ]; then
         echo "Please enter a commit hash to find the merge of"
