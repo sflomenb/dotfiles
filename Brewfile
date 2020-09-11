@@ -1,6 +1,7 @@
 tap 'caskroom/cask'
 
 brew 'awscli'
+brew 'black'
 brew 'flake8'
 brew 'git'
 brew 'go'
