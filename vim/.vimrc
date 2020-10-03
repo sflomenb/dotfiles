@@ -250,6 +250,51 @@ elseif &loadplugins
     nmap [h <Plug>(GitGutterPrevHunk)
     let g:gitgutter_diff_args = '-b'
 
+    function! NextHunkAllBuffers()
+      let line = line('.')
+      GitGutterNextHunk
+      if line('.') != line
+        return
+      endif
+
+      let bufnr = bufnr('')
+      while 1
+        bnext
+        if bufnr('') == bufnr
+          return
+        endif
+        if !empty(GitGutterGetHunks())
+          1
+          GitGutterNextHunk
+          return
+        endif
+      endwhile
+    endfunction
+
+    function! PrevHunkAllBuffers()
+      let line = line('.')
+      GitGutterPrevHunk
+      if line('.') != line
+        return
+      endif
+
+      let bufnr = bufnr('')
+      while 1
+        bprevious
+        if bufnr('') == bufnr
+          return
+        endif
+        if !empty(GitGutterGetHunks())
+          normal! G
+          GitGutterPrevHunk
+          return
+        endif
+      endwhile
+    endfunction
+
+    nmap <silent> ]c :call NextHunkAllBuffers()<CR>
+    nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+
 
     " vim-test mappings
     nmap <silent> t<C-n> :TestNearest<CR>
