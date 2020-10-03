@@ -77,15 +77,6 @@ endfunction
 
 nnoremap <C-\> :exec 'vertical resize '. string(&columns * 0.25)<CR>
 
-
-"set showcmd
-" macOS clipboard shortcuts
-nnoremap <Leader>c :1,$w !pbcopy<CR><CR>
-vnoremap <Leader>c y:call system('pbcopy', @")<CR>
-"vnoremap <Leader>c :'<,'>w !pbcopy<CR><CR>
-nnoremap <Leader>v :r !pbpaste<CR><CR>
-vnoremap <Leader>v dk:r !pbpaste<CR>
-
 set nopaste
 nnoremap <C-p> :set invpaste paste?<CR>
 set pastetoggle=<C-p>
@@ -971,4 +962,21 @@ function! ToggleWriting(...)
 endfunction
 
 command! -nargs=? Writing :call ToggleWriting(<f-args>)
+
+function! Paste(regname, pasteType, pastecmd)
+  echom("Call function")
+  let reg_type = getregtype(a:regname)
+  call setreg(a:regname, getreg(a:regname), a:pasteType)
+  exe 'normal "'.a:regname . a:pastecmd
+  call setreg(a:regname, getreg(a:regname), reg_type)
+endfunction
+nmap <Leader>lP :call Paste(v:register, "l", "P")<CR>
+nmap <Leader>lp :call Paste(v:register, "l", "p")<CR>
+nmap <Leader>cP :call Paste(v:register, "v", "P")<CR>
+nmap <Leader>cp :call Paste(v:register, "v", "p")<CR>
+
+nmap <Leader>l]P :call Paste(v:register, "l", "]P")<CR>
+nmap <Leader>l]p :call Paste(v:register, "l", "]p")<CR>
+nmap <Leader>c]P :call Paste(v:register, "v", "]P")<CR>
+nmap <Leader>c]p :call Paste(v:register, "v", "]p")<CR>
 
