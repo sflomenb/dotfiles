@@ -147,6 +147,7 @@ elseif &loadplugins
     Plug 'hynek/vim-python-pep8-indent'
     Plug 'chr4/nginx.vim'
     Plug 'morhetz/gruvbox'
+    Plug 'pangloss/vim-javascript'
 
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
@@ -269,6 +270,10 @@ elseif &loadplugins
     if FileMatchesRegex('package.json', '^\s*"\zstest:unit\ze')
         let test#javascript#jest#executable = 'yarn test:unit'
     endif
+    if FileMatchesRegex('package.json', '^\s*"\zsvue-jest\ze')
+        let g:test#javascript#runner = 'jest'
+    endif
+    let g:test#javascript#jest#file_pattern = '\v(__tests__\/.*|(spec|test))\.(js|jsx|coffee|ts|tsx)$'
 
     " ale mappings
     nmap <silent> [a <Plug>(ale_previous_wrap)
