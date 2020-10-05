@@ -1039,3 +1039,6 @@ nmap <Leader>l]p :call Paste(v:register, "l", "]p")<CR>
 nmap <Leader>c]P :call Paste(v:register, "v", "]P")<CR>
 nmap <Leader>c]p :call Paste(v:register, "v", "]p")<CR>
 
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprev<CR>
+
