@@ -350,6 +350,16 @@ elseif &loadplugins
 
     let g:ale_fix_on_save = 1
 
+    nnoremap <leader>as :call ALESaveToggle()<CR>
+
+    function! ALESaveToggle()
+        if !exists("b:ale_fix_on_save") || !b:ale_fix_on_save
+            let b:ale_fix_on_save = 1
+        else
+            let b:ale_fix_on_save = 0
+        endif
+    endfunction
+
     " highlight lines git vim-gitgutter
     " let g:gitgutter_highlight_lines = 1
 
