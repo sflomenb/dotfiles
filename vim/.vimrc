@@ -346,6 +346,7 @@ elseif &loadplugins
     \   'javascript': js_fixers,
     \   'vue': js_fixers,
     \   'python': ['black', 'isort'],
+    \   'ruby': ['standardrb', 'rubocop'],
     \}
 
     let g:ale_fix_on_save = 1
