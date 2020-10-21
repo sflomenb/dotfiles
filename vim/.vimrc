@@ -146,6 +146,22 @@ elseif &loadplugins
     " always show signcolumns
     set signcolumn=yes
 
+    let g:coc_global_extensions = [
+    \   'coc-clangd',
+    \   'coc-css',
+    \   'coc-go',
+    \   'coc-java',
+    \   'coc-json',
+    \   'coc-pairs',
+    \   'coc-python',
+    \   'coc-rls',
+    \   'coc-rust-analyzer',
+    \   'coc-solargraph',
+    \   'coc-tsserver',
+    \   'coc-vetur',
+    \   'coc-yaml',
+    \]
+
     " Use tab for trigger completion with characters ahead and navigate.
     " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
     inoremap <silent><expr> <TAB>
