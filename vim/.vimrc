@@ -949,6 +949,19 @@ function! StatusFilename()
     return l:pre  . l:name
 endfunction
 
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
 function! ActiveStatus()
     let statusline=""
     let statusline.="%#PmenuThumb#"
@@ -958,6 +971,8 @@ function! ActiveStatus()
     let statusline.="%m"
     let statusline.="%r"
     let statusline.="%="
+    let statusline.="\ %{coc#status()}%{get(b:,'coc_current_function','')}"
+    let statusline.="\ %{LinterStatus()}"
     let statusline.="\ %y"
     let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
     let statusline.="\[%{&fileformat}\]"
