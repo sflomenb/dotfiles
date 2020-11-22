@@ -341,6 +341,26 @@ elseif &loadplugins
     endif
     let g:test#javascript#jest#file_pattern = '\v(__tests__\/.*|(spec|test))\.(js|jsx|coffee|ts|tsx)$'
 
+    " testing python
+    function! SetPythonTestType()
+        if match(expand('%'), '\v(test_[^/]+|[^/]+_test)\.py$')
+            echom("Test file")
+            if search('import pytest', 'nw')
+                echom("Pytest")
+                let test#python#runner = 'pytest'
+            else
+                echom("Not Pytest")
+                let test#python#runner = 'pyunit'
+            endif
+        endif
+    endfunction
+
+    augroup pythontesttype
+        au BufEnter *.py call SetPythonTestType()
+    augroup END
+
+    let test#python#pyunit#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
+
     " ale mappings
     nmap <silent> [a <Plug>(ale_previous_wrap)
     nmap <silent> ]a <Plug>(ale_next_wrap)
