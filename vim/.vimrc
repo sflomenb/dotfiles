@@ -7,6 +7,8 @@ set incsearch
 set laststatus=2
 set backspace=indent,eol,start
 
+set foldlevelstart=99
+
 set smartcase
 set ignorecase
 
@@ -625,9 +627,9 @@ augroup configgroup
     autocmd FileType rust vnoremap <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
 
     " fold settings by language
-    autocmd FileType * setlocal foldmethod=syntax | normal zR
+    autocmd FileType * setlocal foldmethod=syntax
     autocmd FileType text setlocal foldmethod=manual
-    autocmd FileType python,yaml setlocal foldmethod=indent | normal zR
+    autocmd FileType python,yaml setlocal foldmethod=indent
 augroup END
 
 " toggle between number and relativenumber
