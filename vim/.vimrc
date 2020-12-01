@@ -1082,6 +1082,7 @@ function! ToggleWriting(...)
     setl nonumber
     setl signcolumn=no
     setlocal spell! spelllang=en_us
+    setl foldmethod=manual
 endfunction
 
 command! -nargs=? Writing :call ToggleWriting(<f-args>)
