@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 
-# skip during merge, rebase
-if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" || -f ".git/MERGE_HEAD" ]]; then
+is_rebase() {
+    [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]]
+}
+
+is_merge() {
+    [[ -f ".git/MERGE_HEAD" ]]
+}
+
+is_fixup() {
+    ps -ocommand= -p "${PPID}" | grep -- '--fixup'
+}
+
+if ! is_rebase && ! is_merge && ! is_fixup; then
     FILE="${1}"
     REGEX='^(revert: )?(feat|fix|docs|style|refactor|perf|test|chore|build|ci)(\(.+\))?: .{1,50}'
     MSG='Please adhere to the conventional commits guidelines\nCommit must start with (feat|fix|docs|style|refactor|perf|test|chore|build|ci)'
