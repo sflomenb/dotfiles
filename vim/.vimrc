@@ -346,12 +346,9 @@ elseif &loadplugins
     " testing python
     function! SetPythonTestType()
         if match(expand('%'), '\v(test_[^/]+|[^/]+_test)\.py$')
-            echom("Test file")
             if search('import pytest', 'nw')
-                echom("Pytest")
                 let test#python#runner = 'pytest'
             else
-                echom("Not Pytest")
                 let test#python#runner = 'pyunit'
             endif
         endif
