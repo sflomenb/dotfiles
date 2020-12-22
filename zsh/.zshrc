@@ -30,7 +30,7 @@ function myPromptWidth() {
   echo $(( ${COLUMNS:-80} * PROMPT_PERCENT_OF_LINE / 100 ))
 }
 
-PROMPT='${MODE_INDICATOR_PROMPT}%(?.$fg[green].$fg[red])%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: %$(myPromptWidth)<..<%~%<< %W %t $fg[green]$(git_branch) %{$reset_color%}
+PROMPT='${MODE_INDICATOR_PROMPT}%(?..$fg[red]%? )$fg[green]%n$fg[magenta]@$fg[cyan]%m%{$reset_color%}: %$(myPromptWidth)<..<%~%<< %W %t $fg[green]$(git_branch) %{$reset_color%}
 %# '
 
 bindkey -v
