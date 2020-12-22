@@ -378,10 +378,13 @@ elseif &loadplugins
     \}
 
     let g:ale_fixers = {
+    \   'java': ['google_java_format'],
+    \   'json': ['jq'],
     \   'javascript': js_fixers,
     \   'vue': js_fixers,
     \   'python': ['black', 'isort'],
     \   'ruby': ['standardrb', 'rubocop'],
+    \   'terraform': ['terraform'],
     \}
 
     let g:ale_fix_on_save = 1
