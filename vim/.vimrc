@@ -590,7 +590,7 @@ augroup configgroup
     \ endif
 
     autocmd FileType * setl ts=4 sw=4 sts=4 et ai si
-    autocmd FileType ruby,javascript,css,stylus,vue setlocal ts=2 sw=2 sts=2
+    autocmd FileType ruby,javascript,css,stylus,vue,terraform setlocal ts=2 sw=2 sts=2
     autocmd FileType yaml setlocal ts=2 sw=2 sts=2
         \ indentexpr=GetYamlIndent()
         \ indentkeys-=0#
