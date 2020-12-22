@@ -852,8 +852,9 @@ if exists("loaded_matchit")
 endif
 
 augroup column
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * highlight ColorColumn ctermbg=magenta
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * highlight ColorColumn ctermbg=magenta guibg=magenta
     autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * call matchadd('ColorColumn', '\%81v', 100)
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * call matchadd('ColorColumn', '\%101v', 100)
     autocmd WinLeave * call clearmatches()
 augroup END
 
