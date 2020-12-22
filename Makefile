@@ -30,4 +30,4 @@ uninstall:
 
 .PHONY: coc
 coc:
-	ln -fn coc-settings.json $(HOME)/.vim/coc-settings.json
+	ln -fn $(shell pwd)/coc-settings.json $(HOME)/.vim/coc-settings.json
