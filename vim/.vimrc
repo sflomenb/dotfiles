@@ -155,7 +155,7 @@ elseif &loadplugins
     \   'coc-java',
     \   'coc-json',
     \   'coc-pairs',
-    \   'coc-python',
+    \   'coc-pyright',
     \   'coc-rls',
     \   'coc-rust-analyzer',
     \   'coc-solargraph',
