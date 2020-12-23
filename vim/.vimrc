@@ -156,7 +156,6 @@ elseif &loadplugins
     \   'coc-json',
     \   'coc-pairs',
     \   'coc-pyright',
-    \   'coc-rls',
     \   'coc-rust-analyzer',
     \   'coc-solargraph',
     \   'coc-tsserver',
