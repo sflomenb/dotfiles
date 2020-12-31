@@ -18,6 +18,4 @@
 			"args": ["--stdio"]
 		}
 	},
-	"pyls.enable": false,
-	"python.jediEnabled": false
 }
