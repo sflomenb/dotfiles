@@ -142,6 +142,8 @@ elseif &loadplugins
     Plug 'morhetz/gruvbox'
     Plug 'pangloss/vim-javascript'
 
+    let g:go_gopls_enabled=0
+
     call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
 
