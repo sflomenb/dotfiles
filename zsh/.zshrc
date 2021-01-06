@@ -55,6 +55,8 @@ if uname -a | grep -q Darwin; then
     alias copy_last_command='fc -ln -1 | tr -d '"'"'\n'"'"' | pbcopy'
     alias copy_git_branch='git rev-parse --abbrev-ref HEAD | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
     export JAVA_HOME=$(/usr/libexec/java_home)
+elif [[ -e /etc/os-release ]] && grep -qi alpine /etc/os-release; then
+    alias apkup='apk update && apk upgrade'
 else
     export JAVA_HOME=/usr/lib/jvm/default-java
 fi
