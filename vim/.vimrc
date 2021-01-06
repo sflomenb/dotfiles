@@ -1055,10 +1055,10 @@ function! SetBackgroundMode(...)
         endif
     else
         " This is for Linux where I use an environment variable for this:
-        if $VIM_BACKGROUND ==? "dark"
-            let l:new_bg = "dark"
-        else
+        if $VIM_BACKGROUND ==? "light"
             let l:new_bg = "light"
+        else
+            let l:new_bg = "dark"
         endif
     endif
     if &background !=? l:new_bg
