@@ -1086,6 +1086,12 @@ function! ToggleWriting(...)
     setl signcolumn=no
     setlocal spell! spelllang=en_us
     setl foldmethod=manual
+    call clearmatches()
+    augroup column
+        autocmd!
+    augroup END
+    augroup! column
+
 endfunction
 
 command! -nargs=? Writing :call ToggleWriting(<f-args>)
