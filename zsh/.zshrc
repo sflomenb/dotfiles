@@ -90,9 +90,10 @@ setopt GLOBSTARSHORT
 
 function edit() {
     local PATTERN="${1:?Please enter a pattern}"
+    local MY_GIT_DIR=$(git rev-parse --show-toplevel)
     shift
     local OPTS="$@"
-    vim ${OPTS} $(git status --porcelain | grep "${PATTERN}" | awk '{print $2}')
+    ${EDITOR} ${OPTS} $(git status --porcelain | grep "${PATTERN}" | awk '{print $NF}' | sed 's#^#'"${MY_GIT_DIR}"'/#g')
 }
 
 [[ "${TERM_PROGRAM:l}" == 'apple_terminal' ]] && test -x "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh" && source $_
