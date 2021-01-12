@@ -326,8 +326,8 @@ elseif &loadplugins
       endwhile
     endfunction
 
-    nmap <silent> ]c :call NextHunkAllBuffers()<CR>
-    nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+    nmap <silent> ]b :call NextHunkAllBuffers()<CR>
+    nmap <silent> [b :call PrevHunkAllBuffers()<CR>
 
 
     " vim-test mappings
