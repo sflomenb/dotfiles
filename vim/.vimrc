@@ -1,5 +1,5 @@
 syntax on
-set number relativenumber
+set number
 set ruler
 set autoread
 set bs=2
