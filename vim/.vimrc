@@ -1,5 +1,5 @@
 syntax on
-set number
+set number relativenumber
 set ruler
 set autoread
 set bs=2
@@ -646,6 +646,12 @@ endfunc
 
 "execute 'set <M-n>=˜'
 nnoremap <Leader>n :call ToggleNumber()<CR>
+
+augroup numbertoggle
+  autocmd!
+  autocmd WinEnter,BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd WinLeave,BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
 
 " strips trailing whitespace at the end of files. this
 " is called on buffer write in the autogroup above.
