@@ -188,7 +188,7 @@ elseif &loadplugins
     augroup coc
         autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
         autocmd FileType java nnoremap <Leader>o :CocCommand java.action.organizeImports<CR>
-        autocmd FileType python nnoremap <Leader>o :CocCommand python.sortImports<CR>
+        autocmd FileType python nnoremap <Leader>o :ALEFix isort<CR>
         autocmd FileType go nnoremap <Leader>o :silent call CocAction('runCommand', 'editor.action.organizeImport')
         autocmd FileType python let b:coc_root_patterns = ['.git', 'venv']
         " Highlight symbol under cursor on CursorHold
