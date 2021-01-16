@@ -98,10 +98,6 @@ function edit() {
 
 [[ "${TERM_PROGRAM:l}" == 'apple_terminal' ]] && test -x "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh" && source $_
 
-export PYTHONPATH="${PYTHONPATH%:*}:$(pwd)"
-function chpwd {
-    export PYTHONPATH="${PYTHONPATH%:*}:$(pwd)"
-}
 
 return 0
 
