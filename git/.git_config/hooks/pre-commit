@@ -47,7 +47,14 @@ if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]] \
 
     # stash all changes but keep index, unless there are no commits
     if [[ "${NOT_FIRST_COMMIT}" -eq 0 ]]; then
+        OLD_STASH=$(git rev-parse -q --verify refs/stash)
         git stash push -m "$(date +"%Y_%m_%d_%I_%M_%p")-pre-commit" -u --keep-index -q
+        NEW_STASH=$(git rev-parse -q --verify refs/stash)
+        if [[ "${OLD_STASH}" == "${NEW_STASH}" ]]; then
+            echo "pre-commit: no changes to verify"
+            sleep 1
+            exit 0
+        fi
         against=HEAD
     else
         against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
