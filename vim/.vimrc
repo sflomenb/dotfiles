@@ -1122,3 +1122,5 @@ nmap <Leader>c]p :call Paste(v:register, "v", "]p")<CR>
 nnoremap ]q :cnext<CR>
 nnoremap [q :cprev<CR>
 
+let $PAGER=''
+
