@@ -15,7 +15,7 @@
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
  '(git-gutter:update-interval 2)
  '(package-selected-packages
-   '(use-package origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
+   '(typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -63,9 +63,87 @@
 (electric-pair-mode 1)
 
 ;; lsp-ui
-;; (require 'lsp-ui)
-;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-;; (add-hook 'java-mode-hook 'flycheck-mode)
+(setq company-minimum-prefix-length 1
+      company-idle-delay 0.0) ;; default is 0.2
+
+(use-package flycheck
+  :init
+  (global-set-key (kbd "C-c e n") 'git-gutter:previous-hunk)
+  (global-set-key (kbd "C-c e p") 'git-gutter:previous-hunk)
+  (global-flycheck-mode))
+
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (java-mode . lsp-deferred)
+         (javascript-mode . lsp-deferred)
+         (js-mode . lsp-deferred)
+	 (typescript-mode . lsp-deferred)
+	 ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp lsp-deferred
+  :config
+  (lsp-enable-which-key-integration t)
+  (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :requires lsp-mode flycheck
+  :config (lsp-ui-flycheck-live-reporting t))
+
+(add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+(use-package dap-mode)
+
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
+(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+
+(defun setup-company-map ()
+  (define-key company-active-map (kbd "TAB") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "S-TAB") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+
+(add-hook 'company-mode-hook 'setup-company-map)
+
+;; lsp modes
+
+(require 'lsp-origami)
+(add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
+
+(setq lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
+;;(require 'lsp-java)
+;;(add-hook 'java-mode-hook #'lsp)
+(use-package lsp-java 
+  :ensure t
+  :hook (java-mode . lsp-deferred))
+
+;; to enable the lenses
+(add-hook 'lsp-mode-hook #'lsp-lens-mode)
+
+(add-hook 'js-mode-hook (lambda () (setq js-indent-level 2)))
+
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.ts\\'"
+  :config (setq typescript-indent-level 2))
+
+
+;; yasnippet
+(use-package yasnippet :config (yas-global-mode 1))
+(use-package yasnippet-snippets :ensure t)
+
+;; Bind `SPC' to `yas-expand' when snippet expansion available (it
+;; will still call `self-insert-command' otherwise).
+(define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+
+;;(define-key yas-minor-mode-map (kbd "TAB") yas-next-field-or-maybe-expand)
+
+;; Bind `C-c y' to `yas-expand' ONLY.
+(define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
+
+(global-set-key (kbd "C-c f") 'focus-mode)
+
 
 ;; disable prompts
 (fset 'yes-or-no-p 'y-or-n-p)
