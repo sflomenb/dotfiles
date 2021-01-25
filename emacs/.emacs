@@ -15,7 +15,7 @@
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
  '(git-gutter:update-interval 2)
  '(package-selected-packages
-   '(origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
+   '(use-package origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -24,6 +24,8 @@
  '(diff-refine-added ((t (:inherit diff-refine-changed :background "#22aa22" :foreground "color-229"))))
  '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229")))))
 
+(require 'use-package)
+(setq use-package-always-ensure t)
 (require 'expand-region)
 (global-set-key (kbd "C-^") '.er/expand-region)
 
