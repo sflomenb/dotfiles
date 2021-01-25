@@ -13,6 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
+ '(git-gutter:update-interval 2)
  '(package-selected-packages
    '(origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
@@ -115,8 +116,7 @@
 
 (global-git-gutter-mode t)
 
-(custom-set-variables
- '(git-gutter:update-interval 2))
+
 
 (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
 (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
