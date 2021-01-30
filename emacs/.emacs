@@ -15,7 +15,7 @@
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
  '(git-gutter:update-interval 2)
  '(package-selected-packages
-   '(typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
+   '(flycheck-pycheckers typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -71,6 +71,23 @@
   (global-set-key (kbd "C-c e n") 'flycheck-next-error)
   (global-set-key (kbd "C-c e p") 'flycheck-prev-error)
   (global-flycheck-mode))
+
+;; flycheck-pycheckers
+;; Allows multiple syntax checkers to run in parallel on Python code
+;; Ideal use-case: pyflakes for syntax combined with mypy for typing
+(use-package flycheck-pycheckers
+  :after flycheck
+  :ensure t
+  :init
+  (with-eval-after-load 'flycheck
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+    )
+  (setq flycheck-pycheckers-checkers
+    '(
+      mypy3
+      )
+    )
+  )
 
 (use-package lsp-mode
   :init
