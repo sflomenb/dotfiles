@@ -26,8 +26,32 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-(require 'expand-region)
-(global-set-key (kbd "C-^") '.er/expand-region)
+
+(use-package yasnippet-snippets
+  :config
+  (use-package yasnippet-classic-snippets))
+
+(use-package tramp
+  :config
+  (use-package docker-tramp))
+(use-package emacsql-psql)
+(use-package company)
+(use-package ace-jump-mode)
+(use-package python-pytest)
+(use-package indent-guide)
+(use-package yaml-mode)
+(use-package git-gutter)
+(use-package undohist
+  :config
+  (undohist-initialize))
+(use-package gruvbox-theme
+  :config
+  (load-theme 'gruvbox t))
+(use-package free-keys)
+(use-package json-mode)
+
+(use-package expand-region
+    :bind ("C-^" . .er/expand-region))
 
 ;; (defun my/insert-line-before ()
 ;;   "Inserts a new line(s) above the line containing the cursor."
@@ -89,6 +113,11 @@
     )
   )
 
+(use-package which-key
+  :config
+  (which-key-mode))
+
+
 (use-package lsp-mode
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -125,7 +154,9 @@
 
 ;; lsp modes
 
-(require 'lsp-origami)
+(use-package origami
+  :config
+  (use-package lsp-origami))
 (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
 
 (setq lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
@@ -134,6 +165,9 @@
 (use-package lsp-java 
   :ensure t
   :hook (java-mode . lsp-deferred))
+
+(use-package lsp-docker)
+(use-package lsp-focus)
 
 ;; to enable the lenses
 (add-hook 'lsp-mode-hook #'lsp-lens-mode)
@@ -200,8 +234,6 @@
 ;; turn off menu bar
 (menu-bar-mode -1)
 
-(load-theme 'gruvbox t)
-
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
 
@@ -209,34 +241,30 @@
 
 (setq magit-diff-refine-hunk 'all)
 
-(require 'undohist)
-(undohist-initialize)
 
 (global-git-gutter-mode t)
-
-
-
 (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
 (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
 
 (indent-guide-global-mode)
 
-(require 'evil)
-(evil-mode 1)
+(use-package evil
+  :config
+  (evil-mode 1)
+  ;; do not use evil in magit
+  (add-to-list 'evil-buffer-regexps '("\\*magit:"))
 
-;; do not use evil in magit
-(add-to-list 'evil-buffer-regexps '("\\*magit:"))
+  (use-package evil-matchit
+    :config
+    (global-evil-matchit-mode 1))
 
-(setq magit-keep-region-overlay t)
+  (use-package evil-surround
+    :config
+    (global-evil-surround-mode 1)))
 
-(require 'evil-matchit)
-(global-evil-matchit-mode 1)
-
-(require 'evil-surround)
-(global-evil-surround-mode 1)
-
-(require 'which-key)
-(which-key-mode)
+(use-package magit
+  :config
+  (setq magit-keep-region-overlay t))
 
 (defun my/split-main-window (direction size)
   "Split the main window in the DIRECTION where DIRECTION is a symbol with
