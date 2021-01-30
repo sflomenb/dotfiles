@@ -142,13 +142,19 @@
 
 (use-package dap-mode)
 
+(progn
+(let ((map (if (boundp 'input-decode-map)
+	    input-decode-map
+function-key-map)))
+(define-key map "\e[1;P9"  (kbd "C-;"))))
+
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
-(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+(global-set-key (kbd "C-;") #'company-indent-or-complete-common)
 
 (defun setup-company-map ()
-  (define-key company-active-map (kbd "TAB") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "S-TAB") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+  (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1))))
 
 (add-hook 'company-mode-hook 'setup-company-map)
 
