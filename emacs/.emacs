@@ -68,8 +68,8 @@
 
 (use-package flycheck
   :init
-  (global-set-key (kbd "C-c e n") 'git-gutter:previous-hunk)
-  (global-set-key (kbd "C-c e p") 'git-gutter:previous-hunk)
+  (global-set-key (kbd "C-c e n") 'flycheck-next-error)
+  (global-set-key (kbd "C-c e p") 'flycheck-prev-error)
   (global-flycheck-mode))
 
 (use-package lsp-mode
