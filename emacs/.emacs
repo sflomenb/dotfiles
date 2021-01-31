@@ -102,6 +102,9 @@
   :init
   (counsel-mode 1)
 
+  :config
+  (setq counsel-find-file-ignore-regexp (regexp-opt (append completion-ignored-extensions '("node_modules/" ".log/"))))
+
   :diminish)
 
 (use-package counsel-projectile
