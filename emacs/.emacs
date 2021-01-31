@@ -42,7 +42,11 @@
 (use-package indent-guide)
 (use-package yaml-mode)
 (use-package git-gutter
-  :diminish)
+  :diminish
+  :config
+  (global-git-gutter-mode t)
+  :bind (("C-x p" . 'git-gutter:previous-hunk)
+   ("C-x n" . 'git-gutter:next-hunk)))
 (use-package undohist
   :config
   (undohist-initialize))
@@ -320,10 +324,6 @@ function-key-map)))
 (setq magit-diff-refine-hunk 'all)
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
-
-(global-git-gutter-mode t)
-(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
-(global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
 
 (indent-guide-global-mode)
 
