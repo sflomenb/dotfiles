@@ -216,7 +216,7 @@ function-key-map)))
 (global-set-key (kbd "C-;") #'company-indent-or-complete-common)
 
 (defun setup-company-map ()
-  (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "TAB") (lambda () (interactive) (company-complete-common-or-cycle 1)))
   (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1))))
 
 (add-hook 'company-mode-hook 'setup-company-map)
