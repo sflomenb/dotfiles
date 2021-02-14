@@ -385,3 +385,7 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "C-c b") #'er-switch-to-previous-buffer)
 
+(provide '.emacs)
+
+;;; .emacs ends here
+
