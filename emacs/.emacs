@@ -385,6 +385,25 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "C-c b") #'er-switch-to-previous-buffer)
 
+(defun my/is-clipboard-register ()
+  "Determines if the current register is the clipboard register."
+  (interactive)
+  (and evil-this-register (string= (string evil-this-register) "+")))
+
+(defun copy-from-osx ()
+  (if (my/is-clipboard-register)
+    (shell-command-to-string "pbpaste")))
+
+(defun paste-to-osx (text &optional push)
+  (if (my/is-clipboard-register)
+    (let ((process-connection-type nil))
+    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+    (process-send-string proc text)
+    (process-send-eof proc)))))
+
+(setq interprogram-cut-function 'paste-to-osx)
+(setq interprogram-paste-function 'copy-from-osx)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
