@@ -15,7 +15,7 @@
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
  '(git-gutter:update-interval 1)
  '(package-selected-packages
-   '(terraform-mode lsp-pyright dockerfile-mode ivy-rich counsel-projectile counsel ivy diminish flycheck-pycheckers typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
+   '(xclip terraform-mode lsp-pyright dockerfile-mode ivy-rich counsel-projectile counsel ivy diminish flycheck-pycheckers typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -385,24 +385,13 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "C-c b") #'er-switch-to-previous-buffer)
 
-(defun my/is-clipboard-register ()
-  "Determines if the current register is the clipboard register."
-  (interactive)
-  (and evil-this-register (string= (string evil-this-register) "+")))
 
-(defun copy-from-osx ()
-  (if (my/is-clipboard-register)
-    (shell-command-to-string "pbpaste")))
+(setq select-enable-clipboard nil)
+(setq save-interprogram-paste-before-kill t)
 
-(defun paste-to-osx (text &optional push)
-  (if (my/is-clipboard-register)
-    (let ((process-connection-type nil))
-    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
-    (process-send-string proc text)
-    (process-send-eof proc)))))
-
-(setq interprogram-cut-function 'paste-to-osx)
-(setq interprogram-paste-function 'copy-from-osx)
+(use-package xclip
+  :config
+  (xclip-mode 1))
 
 (provide '.emacs)
 
