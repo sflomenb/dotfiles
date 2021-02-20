@@ -216,14 +216,15 @@
 (let ((map (if (boundp 'input-decode-map)
 	    input-decode-map
 function-key-map)))
-(define-key map "\e[1;P9"  (kbd "C-;"))))
+  (define-key map "\e[1;P9"  (kbd "C-;"))
+  (define-key map "\e[1;P10"  (kbd "C-."))))
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
 (global-set-key (kbd "C-;") #'company-indent-or-complete-common)
 
 (defun setup-company-map ()
-  (define-key company-active-map (kbd "TAB") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
   (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1))))
 
 (add-hook 'company-mode-hook 'setup-company-map)
@@ -266,12 +267,15 @@ function-key-map)))
 ;; yasnippet
 (use-package yasnippet
   :config (yas-global-mode 1)
-  :diminish)
+  :diminish
+  :bind (:map yas-minor-mode-map
+         ("TAB" . nil)
+         ("<tab>" . nil)))
 (use-package yasnippet-snippets :ensure t)
 
-;; Bind `SPC' to `yas-expand' when snippet expansion available (it
+;; Bind `C-.' to `yas-expand' when snippet expansion available (it
 ;; will still call `self-insert-command' otherwise).
-(define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+(define-key yas-minor-mode-map (kbd "C-.") yas-maybe-expand)
 
 ;;(define-key yas-minor-mode-map (kbd "TAB") yas-next-field-or-maybe-expand)
 
