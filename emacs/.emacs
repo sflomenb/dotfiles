@@ -43,6 +43,8 @@
 (use-package yaml-mode)
 (use-package git-gutter
   :diminish
+  :custom
+  (git-gutter:window-width 2)
   :config
   (global-git-gutter-mode t)
   :bind (("C-x p" . 'git-gutter:previous-hunk)
@@ -162,6 +164,18 @@
   (global-set-key (kbd "C-c e n") 'flycheck-next-error)
   (global-set-key (kbd "C-c e p") 'flycheck-prev-error)
   (global-flycheck-mode))
+
+;; Show indicators in the left margin
+(setq flycheck-indication-mode 'left-margin)
+
+;; Adjust margins and fringe widths…
+(defun my/set-flycheck-margins ()
+  (setq left-fringe-width 8 right-fringe-width 8
+        left-margin-width 2 right-margin-width 0)
+  (flycheck-refresh-fringes-and-margins))
+
+;; …every time Flycheck is activated in a new buffer
+(add-hook 'flycheck-mode-hook #'my/set-flycheck-margins)
 
 ;; flycheck-pycheckers
 ;; Allows multiple syntax checkers to run in parallel on Python code
