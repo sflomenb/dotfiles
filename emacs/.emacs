@@ -228,6 +228,8 @@
 	 (typescript-mode . lsp-deferred)
 	 (dockerfile-mode . lsp-deferred)
 	 (terraform-mode . lsp-deferred)
+	 (json-mode . lsp-deferred)
+	 (yaml-mode . lsp-deferred)
 	 ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp lsp-deferred
