@@ -425,6 +425,9 @@ Repeated invocations toggle between the two most recently open buffers."
   :config
   (xclip-mode 1))
 
+(straight-use-package '(apheleia :host github :repo "raxod502/apheleia"))
+(apheleia-global-mode +1)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
