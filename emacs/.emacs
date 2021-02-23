@@ -356,6 +356,14 @@ function-key-map)))
 
 (setq display-line-numbers-type 'relative)
 
+(defun toggle-relative-line-numbers ()
+  "Toggle relative line numbers."
+  (interactive)
+  (cond ((string= display-line-numbers-type "relative") (setq display-line-numbers-type t))
+	((string= display-line-numbers-type "t") (setq display-line-numbers-type 'relative)))
+  (display-line-numbers-mode)
+  (display-line-numbers-mode))
+
 (setq magit-diff-refine-hunk 'all)
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
