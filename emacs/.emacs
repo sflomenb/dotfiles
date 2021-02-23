@@ -3,9 +3,9 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+;(package-initialize)
+;(require 'package)
+;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -13,9 +13,9 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
- '(git-gutter:update-interval 1)
- '(package-selected-packages
-   '(xclip terraform-mode lsp-pyright dockerfile-mode ivy-rich counsel-projectile counsel ivy diminish flycheck-pycheckers typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
+ '(git-gutter:update-interval 1))
+ ;; '(package-selected-packages
+ ;;   '(xclip terraform-mode lsp-pyright dockerfile-mode ivy-rich counsel-projectile counsel ivy diminish flycheck-pycheckers typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -23,6 +23,24 @@
  ;; If there is more than one, they won't work right.
  '(diff-refine-added ((t (:inherit diff-refine-changed :background "#22aa22" :foreground "color-229"))))
  '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229")))))
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;;;;  Effectively replace use-package with straight-use-package
+;;; https://github.com/raxod502/straight.el/blob/develop/README.md#integration-with-use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -182,7 +200,6 @@
 ;; Ideal use-case: pyflakes for syntax combined with mypy for typing
 (use-package flycheck-pycheckers
   :after flycheck
-  :ensure t
   :init
   (with-eval-after-load 'flycheck
     (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
@@ -220,7 +237,7 @@
 
 (use-package lsp-ui
   :requires lsp-mode flycheck
-  :config (lsp-ui-flycheck-live-reporting t))
+  :config (setq lsp-ui-flycheck-live-reporting t))
 
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
@@ -254,12 +271,10 @@ function-key-map)))
 ;;(require 'lsp-java)
 ;;(add-hook 'java-mode-hook #'lsp)
 (use-package lsp-java 
-  :ensure t
   :hook (java-mode . lsp-deferred))
 
 
 (use-package lsp-pyright
-  :ensure t
   :hook (python-mode . (lambda ()
                           (require 'lsp-pyright)
                           (lsp-deferred))))
@@ -273,7 +288,6 @@ function-key-map)))
 (add-hook 'js-mode-hook (lambda () (setq js-indent-level 2)))
 
 (use-package typescript-mode
-  :ensure t
   :mode "\\.ts\\'"
   :config (setq typescript-indent-level 2))
 
@@ -285,7 +299,7 @@ function-key-map)))
   :bind (:map yas-minor-mode-map
          ("TAB" . nil)
          ("<tab>" . nil)))
-(use-package yasnippet-snippets :ensure t)
+(use-package yasnippet-snippets)
 
 ;; Bind `C-.' to `yas-expand' when snippet expansion available (it
 ;; will still call `self-insert-command' otherwise).
