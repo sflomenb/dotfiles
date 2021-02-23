@@ -270,7 +270,7 @@ function-key-map)))
 (setq lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
 ;;(require 'lsp-java)
 ;;(add-hook 'java-mode-hook #'lsp)
-(use-package lsp-java 
+(use-package lsp-java
   :hook (java-mode . lsp-deferred))
 
 
@@ -392,7 +392,7 @@ target width"
   ;;   (read-number "Size: ")))
   (let* ((new-window (split-window (frame-root-window) nil direction))
          (horizontal (member direction '(right left))))
-    (save-excursion 
+    (save-excursion
       (select-window new-window)
       (enlarge-window (- size (if horizontal
                                   (window-width)
