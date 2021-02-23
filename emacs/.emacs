@@ -254,11 +254,11 @@ function-key-map)))
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
-(global-set-key (kbd "C-;") #'company-indent-or-complete-common)
+(global-set-key (kbd "C-;") #'company-complete-common-or-cycle)
 
 (defun setup-company-map ()
-  (define-key company-active-map (kbd "C-j") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "C-k") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1))))
 
 (add-hook 'company-mode-hook 'setup-company-map)
 
