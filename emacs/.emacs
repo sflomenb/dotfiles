@@ -438,6 +438,17 @@ Repeated invocations toggle between the two most recently open buffers."
 (straight-use-package '(apheleia :host github :repo "raxod502/apheleia"))
 (apheleia-global-mode +1)
 
+(projectile-register-project-type 'npm '("package.json")
+                                  :project-file "package.json"
+				  :compile "npm install"
+				  :test "npm test"
+				  :run "npm start"
+				  :test-suffix ".spec")
+
+(straight-use-package '(jest :host github :repo "Emiller88/emacs-jest"))
+(add-hook 'js2-mode-hook 'jest-minor-mode)
+(add-hook 'js-mode-hook 'jest-minor-mode)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
