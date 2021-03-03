@@ -449,6 +449,14 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'js2-mode-hook 'jest-minor-mode)
 (add-hook 'js-mode-hook 'jest-minor-mode)
 
+(global-set-key (kbd "C-x t t") 'treemacs)
+
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
