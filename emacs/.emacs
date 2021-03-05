@@ -457,6 +457,11 @@ Repeated invocations toggle between the two most recently open buffers."
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
+(straight-use-package '(evil-org :host github :repo "Somelauw/evil-org-mode"))
+(add-hook 'org-mode-hook 'evil-org-mode)
+(evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+(evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
