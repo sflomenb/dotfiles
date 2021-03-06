@@ -104,5 +104,7 @@ export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
 
 [[ -e "$HOME/.asdf/asdf.sh" ]] && . $HOME/.asdf/asdf.sh
 
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+
 return 0
 

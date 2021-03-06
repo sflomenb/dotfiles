@@ -131,9 +131,7 @@
 
   :diminish)
 
-(use-package counsel-projectile
-  :bind (("C-c f" . #'counsel-projectile)
-         ("C-c F" . #'counsel-projectile-switch-project)))
+(use-package counsel-projectile)
 
 
 ;; (defun my/insert-line-before ()
@@ -462,6 +460,9 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'org-mode-hook 'evil-org-mode)
 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+
+(straight-use-package '(fzf :host github :repo "bling/fzf.el"))
+(global-set-key (kbd "C-c f") 'fzf)
 
 (provide '.emacs)
 
