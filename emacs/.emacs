@@ -448,6 +448,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (straight-use-package '(jest :host github :repo "Emiller88/emacs-jest"))
 (add-hook 'js2-mode-hook 'jest-minor-mode)
 (add-hook 'js-mode-hook 'jest-minor-mode)
+(add-hook 'typescript-mode-hook 'jest-minor-mode)
 
 (global-set-key (kbd "C-x t t") 'treemacs)
 
