@@ -131,7 +131,8 @@
 
   :diminish)
 
-(use-package counsel-projectile)
+(use-package counsel-projectile
+  :bind (("C-c F" . #'counsel-projectile-switch-project)))
 
 
 ;; (defun my/insert-line-before ()
