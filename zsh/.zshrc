@@ -64,7 +64,6 @@ export PATH="${JAVA_HOME}:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules
 export PATH="/usr/local/sbin:$PATH"
 
 bindkey "^R" history-incremental-search-backward
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 autoload -z edit-command-line
 zle -N edit-command-line
@@ -102,6 +101,8 @@ export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
     vim -R -c 'set ft=man nomod nolist nonumber norelativenumber' -c 'map q :q<CR>' \
     -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
     -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' -\""
+
+[[ -e "$HOME/.asdf/asdf.sh" ]] && . $HOME/.asdf/asdf.sh
 
 return 0
 
