@@ -179,7 +179,7 @@
 (use-package flycheck
   :init
   (global-set-key (kbd "C-c e n") 'flycheck-next-error)
-  (global-set-key (kbd "C-c e p") 'flycheck-prev-error)
+  (global-set-key (kbd "C-c e p") 'flycheck-previous-error)
   (global-flycheck-mode))
 
 ;; Show indicators in the left margin
