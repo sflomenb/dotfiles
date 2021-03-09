@@ -389,29 +389,6 @@ function-key-map)))
   :config
   (setq magit-keep-region-overlay t))
 
-(defun my/split-main-window (direction size)
-  "Split the main window in the DIRECTION where DIRECTION is a symbol with
-possible values of right, left, above or below and SIZE is the final size of the
-windows, if the window is split horizontally (i.e. in DIRECTION below or above)
-SIZE is assumed to be the target height otherwise SIZE is assumed to be the
-target width"
-  ;; (interactive
-  ;;  (list
-  ;;   (intern (read-string "Direction: "))
-  ;;   (read-number "Size: ")))
-  (let* ((new-window (split-window (frame-root-window) nil direction))
-         (horizontal (member direction '(right left))))
-    (save-excursion
-      (select-window new-window)
-      (enlarge-window (- size (if horizontal
-                                  (window-width)
-                                (window-height)))
-                      horizontal))
-    new-window))
-
-;; (global-set-key (kbd "C-c s t")
-;; 		(lambda () (interactive) (my/split-main-window 'above 5)))
-
 (require 'whitespace)
 
 (global-set-key (kbd "C-x w") 'whitespace-mode)
