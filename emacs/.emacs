@@ -316,6 +316,7 @@ function-key-map)))
 
 ;; disable prompts
 (fset 'yes-or-no-p 'y-or-n-p)
+(setq column-number-mode t)
 
 ;; from http://whattheemacsd.com
 
