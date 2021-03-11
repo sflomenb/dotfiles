@@ -370,6 +370,9 @@ function-key-map)))
 
 (indent-guide-global-mode)
 
+(define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
+(define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
+
 (use-package evil
   :config
   (evil-mode 1)
