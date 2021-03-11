@@ -178,8 +178,6 @@
 
 (use-package flycheck
   :init
-  (global-set-key (kbd "C-c e n") 'flycheck-next-error)
-  (global-set-key (kbd "C-c e p") 'flycheck-previous-error)
   (global-flycheck-mode))
 
 ;; Show indicators in the left margin
@@ -385,6 +383,9 @@ function-key-map)))
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1)))
+
+(define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
+(define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
 
 (use-package magit
   :config
