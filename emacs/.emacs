@@ -447,6 +447,55 @@ Repeated invocations toggle between the two most recently open buffers."
 (straight-use-package '(fzf :host github :repo "bling/fzf.el"))
 (global-set-key (kbd "C-c f") 'fzf)
 
+(setq logging-alist
+      '(("python-mode" .
+	 (("has-logging" . ("import logging" "logger = "))
+	  ("logging" .
+	   (("call" .  "logger.info(\"\")")
+	    ("seperator" . " %")
+	    ("placeholder" . "%s")))
+	  ("default" .
+	   (("call" .  "print(\"\")")
+	    ("seperator" . ",")))))))
+
+(defun is-logging (list-of-text-to-search)
+  (if (= (length list-of-text-to-search) 0) t
+    (save-excursion
+      (save-match-data
+	(goto-char (point-min))
+	(and
+	 (search-forward (car list-of-text-to-search) nil t)
+	 (is-logging (cdr list-of-text-to-search)))))))
+
+(defun log-word-at-point (&optional beg end)
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (let ((log-info (cdr (assoc (format "%s" major-mode) logging-alist))))
+	(let ((log-info-from-alist
+	       (if (is-logging (cdr (assoc "has-logging" log-info)))
+		   (cdr (assoc "logging" log-info))
+		 (cdr (assoc "default" log-info)))))
+
+	  (let ((current-word
+		 (if (region-active-p)
+		     (buffer-substring-no-properties (region-beginning) (region-end))
+		   (thing-at-point 'symbol 'no-properties))))
+	    (move-end-of-line nil)
+	    (newline-and-indent)
+	    (insert (cdr (assoc "call" log-info-from-alist)))
+	    (move-end-of-line nil)
+	    (search-backward "\"" nil t)
+	    (insert current-word ": " (alist-get "placeholder" log-info-from-alist "" nil 'equal))
+	    (move-end-of-line nil)
+	    (backward-char)
+	    (insert (cdr (assoc "seperator" log-info-from-alist)) " " current-word)))))))
+
+(defun setup-logging (map-to-add)
+  (define-key map-to-add (kbd "C-c g") 'log-word-at-point))
+
+(add-hook 'python-mode-hook (lambda () (setup-logging python-mode-map)))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
