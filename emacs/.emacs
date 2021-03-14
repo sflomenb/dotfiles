@@ -447,6 +447,10 @@ Repeated invocations toggle between the two most recently open buffers."
 (straight-use-package '(fzf :host github :repo "bling/fzf.el"))
 (global-set-key (kbd "C-c f") 'fzf)
 
+(setq js-log '(("default" .
+		(("call" .  "console.log(\"\")")
+		 ("seperator" . ",")))))
+
 (setq logging-alist
       '(("python-mode" .
 	 (("has-logging" . ("import logging" "logger = "))
@@ -456,7 +460,11 @@ Repeated invocations toggle between the two most recently open buffers."
 	    ("placeholder" . "%s")))
 	  ("default" .
 	   (("call" .  "print(\"\")")
-	    ("seperator" . ",")))))))
+	    ("seperator" . ",")))))
+	("javascript-mode" . js-log)
+	("js-mode" . js-log)
+	("js2-mode" . js-log)
+	("typescript-mode" . js-log)))
 
 (defun is-logging (list-of-text-to-search)
   (if (= (length list-of-text-to-search) 0) t
@@ -467,15 +475,21 @@ Repeated invocations toggle between the two most recently open buffers."
 	 (search-forward (car list-of-text-to-search) nil t)
 	 (is-logging (cdr list-of-text-to-search)))))))
 
+(defun my/alist-get-symbol (key alist &optional default)
+  (let ((ret-val (alist-get key alist default nil 'equal)))
+    (if (symbolp ret-val) (symbol-value ret-val) ret-val)))
+
 (defun log-word-at-point (&optional beg end)
   (interactive)
   (save-excursion
     (save-match-data
-      (let ((log-info (cdr (assoc (format "%s" major-mode) logging-alist))))
+      (let ((log-info (my/alist-get-symbol (format "%s" major-mode) logging-alist)))
 	(let ((log-info-from-alist
-	       (if (is-logging (cdr (assoc "has-logging" log-info)))
-		   (cdr (assoc "logging" log-info))
-		 (cdr (assoc "default" log-info)))))
+	       (if (and
+		    (my/alist-get-symbol "has-logging" log-info)
+		    (is-logging (my/alist-get-symbol "has-logging" log-info)))
+		   (my/alist-get-symbol "logging" log-info)
+		 (my/alist-get-symbol "default" log-info))))
 
 	  (let ((current-word
 		 (if (region-active-p)
@@ -483,18 +497,22 @@ Repeated invocations toggle between the two most recently open buffers."
 		   (thing-at-point 'symbol 'no-properties))))
 	    (move-end-of-line nil)
 	    (newline-and-indent)
-	    (insert (cdr (assoc "call" log-info-from-alist)))
+	    (insert (my/alist-get-symbol "call" log-info-from-alist))
 	    (move-end-of-line nil)
 	    (search-backward "\"" nil t)
-	    (insert current-word ": " (alist-get "placeholder" log-info-from-alist "" nil 'equal))
+	    (insert current-word ": " (my/alist-get-symbol "placeholder" log-info-from-alist ""))
 	    (move-end-of-line nil)
 	    (backward-char)
-	    (insert (cdr (assoc "seperator" log-info-from-alist)) " " current-word)))))))
+	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word))
+	  )))))
 
 (defun setup-logging (map-to-add)
   (define-key map-to-add (kbd "C-c g") 'log-word-at-point))
 
 (add-hook 'python-mode-hook (lambda () (setup-logging python-mode-map)))
+(add-hook 'js-mode-hook (lambda () (setup-logging js-mode-map)))
+(add-hook 'js2-mode-hook (lambda () (setup-logging js2-mode-map)))
+(add-hook 'typescript-mode-hook (lambda () (setup-logging typescript-mode-map)))
 
 (provide '.emacs)
 
