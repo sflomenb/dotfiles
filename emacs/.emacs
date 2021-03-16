@@ -446,6 +446,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'org-mode-hook 'evil-org-mode)
 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+(add-hook 'org-mode-hook 'flyspell-mode)
 
 (straight-use-package '(fzf :host github :repo "bling/fzf.el"))
 (global-set-key (kbd "C-c f") 'fzf)
