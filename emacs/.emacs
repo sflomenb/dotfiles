@@ -379,7 +379,8 @@ function-key-map)))
   :config
   (evil-mode 1)
   ;; do not use evil in magit
-  (add-to-list 'evil-buffer-regexps '("\\*magit:" "\\**xref*"))
+  (add-to-list 'evil-buffer-regexps '("\\*magit:"))
+  (add-to-list 'evil-buffer-regexps '("*xref*"))
 
   (use-package evil-matchit
     :config
