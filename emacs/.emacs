@@ -214,6 +214,8 @@
 
 (use-package dockerfile-mode)
 
+(use-package go-mode)
+
 (use-package lsp-mode
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -464,7 +466,17 @@ Repeated invocations toggle between the two most recently open buffers."
 	("javascript-mode" . js-log)
 	("js-mode" . js-log)
 	("js2-mode" . js-log)
-	("typescript-mode" . js-log)))
+	("typescript-mode" . js-log)
+	("go-mode" .
+	 (("has-logging" . ("log"))
+	  ("logging" .
+	   (("call" .  "log.Printf(\"\")")
+	    ("seperator" . ",")
+	    ("placeholder" . "%#v\\n")))
+	  ("default" .
+	   (("call" .  "fmt.Printf(\"\")")
+	    ("seperator" . ",")
+	    ("placeholder" . "%#v\\n")))))))
 
 (defun is-logging (list-of-text-to-search)
   (if (= (length list-of-text-to-search) 0) t
@@ -513,6 +525,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'js-mode-hook (lambda () (setup-logging js-mode-map)))
 (add-hook 'js2-mode-hook (lambda () (setup-logging js2-mode-map)))
 (add-hook 'typescript-mode-hook (lambda () (setup-logging typescript-mode-map)))
+(add-hook 'go-mode-hook (lambda () (setup-logging go-mode-map)))
 
 (provide '.emacs)
 
