@@ -529,6 +529,34 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'typescript-mode-hook (lambda () (setup-logging typescript-mode-map)))
 (add-hook 'go-mode-hook (lambda () (setup-logging go-mode-map)))
 
+(defun my/desktop-save (session-name)
+  (interactive "sSession name: ")
+  (let ((dir-name (concat "~/.emacs.d/desktops/" session-name "/")))
+    (print dir-name)
+    (unless (file-directory-p dir-name) (make-directory dir-name))
+    (setq desktop-path (list dir-name))
+    (desktop-save dir-name)
+    (desktop-save-mode 1)))
+
+(defun my/desktop-read ()
+  (interactive)
+  (let ((dir-name (read-directory-name "Directory: " "~/.emacs.d/desktops/")))
+    (print dir-name)
+    (setq desktop-path (list dir-name))
+    (desktop-read dir-name)
+    (desktop-save-mode 1)))
+
+;; https://emacs.stackexchange.com/a/45829
+(setq desktop-restore-forces-onscreen nil)
+(add-hook 'desktop-after-read-hook
+ (lambda ()
+   (frameset-restore
+    desktop-saved-frameset
+    :reuse-frames (eq desktop-restore-reuses-frames t)
+    :cleanup-frames (not (eq desktop-restore-reuses-frames 'keep))
+    :force-display desktop-restore-in-current-display
+    :force-onscreen desktop-restore-forces-onscreen)))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
