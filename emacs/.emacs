@@ -115,6 +115,7 @@
   :bind (("C-c ;" . #'counsel-M-x)
          ("C-c U" . #'counsel-unicode-char)
          ("C-c i" . #'counsel-imenu)
+         ("C-x b" . #'counsel-ibuffer)
          ("C-x f" . #'counsel-find-file)
          ("C-c y" . #'counsel-yank-pop)
          ("C-c r" . #'counsel-recentf)
