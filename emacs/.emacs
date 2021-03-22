@@ -415,6 +415,9 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (global-set-key (kbd "C-c b") #'er-switch-to-previous-buffer)
 
+(global-set-key (kbd "C-c C-n") 'next-buffer)
+(global-set-key (kbd "C-c C-p") 'previous-buffer)
+
 
 (setq select-enable-clipboard nil)
 (setq save-interprogram-paste-before-kill t)
