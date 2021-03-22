@@ -64,9 +64,7 @@
   :custom
   (git-gutter:window-width 2)
   :config
-  (global-git-gutter-mode t)
-  :bind (("C-x p" . 'git-gutter:previous-hunk)
-   ("C-x n" . 'git-gutter:next-hunk)))
+  (global-git-gutter-mode t))
 (use-package undohist
   :config
   (undohist-initialize))
@@ -394,6 +392,8 @@ function-key-map)))
 
 (define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
+(define-key evil-normal-state-map (kbd "] h") 'git-gutter:next-hunk)
+(define-key evil-normal-state-map (kbd "[ h") 'git-gutter:previous-hunk)
 
 (use-package magit
   :config
