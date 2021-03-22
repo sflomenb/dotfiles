@@ -97,9 +97,10 @@
   (ivy-mode 1)
   (setq ivy-count-format "%d/%d ")
 
-  ;; :bind (("C-c C-r" . #'ivy-resume)
-  ;;        ("C-s"     . #'swiper)
-  ;;        ("C-c s"   . #'swiper-thing-at-point))
+  :bind (("C-c k" . #'counsel-ag))
+	 ;; ("C-c C-r" . #'ivy-resume)
+         ;; ("C-s"     . #'swiper)
+         ;; ("C-c s"   . #'swiper-thing-at-point))
   )
 
 (use-package ivy-rich
