@@ -399,6 +399,8 @@ function-key-map)))
   :config
   (setq magit-keep-region-overlay t))
 
+(add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
+
 (require 'whitespace)
 
 (global-set-key (kbd "C-x w") 'whitespace-mode)
