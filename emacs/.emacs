@@ -461,7 +461,9 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (setq js-log '(("default" .
 		(("call" .  "console.log(\"\")")
-		 ("seperator" . ",")))))
+		 ("seperator" . ",")
+		 ("function-to-call" . "my/json-stringify")
+		 ("eol-char" . ";")))))
 
 (setq logging-alist
       '(("python-mode" .
@@ -525,8 +527,10 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (insert current-word ": " (my/alist-get-symbol "placeholder" log-info-from-alist ""))
 	    (move-end-of-line nil)
 	    (backward-char)
-	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word))
-	  )))))
+	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word)
+	    (let ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
+	      (if fun-to-call (funcall (intern fun-to-call))))
+	    (insert (my/alist-get-symbol "eol-char" log-info-from-alist ""))))))))
 
 (defun setup-logging (map-to-add)
   (define-key map-to-add (kbd "C-c g") 'log-word-at-point))
