@@ -537,6 +537,17 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'typescript-mode-hook (lambda () (setup-logging typescript-mode-map)))
 (add-hook 'go-mode-hook (lambda () (setup-logging go-mode-map)))
 
+(defun my/json-stringify ()
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (let ((thing (thing-at-point 'symbol 'no-properties))
+	    (bounds (bounds-of-thing-at-point 'symbol)))
+	(if bounds
+	    (progn
+	      (kill-region (car bounds) (cdr bounds))
+	      (insert "JSON.stringify(" thing ")")))))))
+
 (defun my/desktop-save (session-name)
   (interactive "sSession name: ")
   (let ((dir-name (concat "~/.emacs.d/desktops/" session-name "/")))
