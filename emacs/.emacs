@@ -380,7 +380,6 @@ function-key-map)))
   (evil-mode 1)
   ;; do not use evil in magit
   (add-to-list 'evil-buffer-regexps '("\\*magit:"))
-  (add-to-list 'evil-buffer-regexps '("*xref*"))
 
   (use-package evil-matchit
     :config
@@ -389,6 +388,8 @@ function-key-map)))
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1)))
+
+(evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") #'xref-goto-xref)
 
 (define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
