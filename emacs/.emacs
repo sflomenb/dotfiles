@@ -530,6 +530,7 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word)
 	    (let ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
 	      (if fun-to-call (funcall (intern fun-to-call))))
+	    (move-end-of-line nil)
 	    (insert (my/alist-get-symbol "eol-char" log-info-from-alist ""))))))))
 
 (defun setup-logging (map-to-add)
