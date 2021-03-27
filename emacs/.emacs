@@ -366,6 +366,8 @@ function-key-map)))
   (display-line-numbers-mode)
   (display-line-numbers-mode))
 
+(global-set-key (kbd "C-c t") 'my/toggle-relative-line-numbers)
+
 (setq magit-diff-refine-hunk 'all)
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
