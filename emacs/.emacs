@@ -368,6 +368,33 @@ function-key-map)))
 
 (global-set-key (kbd "C-c t") 'my/toggle-relative-line-numbers)
 
+(defun my/turn-on-absolute-numbers-for-window (win)
+  (with-selected-window win
+    (if display-line-numbers
+	(progn
+	  (setq display-line-numbers-type t)
+	  (display-line-numbers-mode)
+	  (display-line-numbers-mode)))))
+
+(defun my/switch-relative-numbers-off-previous-window (arg)
+  "Switch relative numbers on for current window and off for old window."
+  (if (or
+       ;; old window was closed
+       (not (window-buffer (old-selected-window)))
+       ;; going to a window with the same file
+       (not (string= (buffer-file-name) (buffer-file-name (window-buffer (old-selected-window))))))
+      (progn
+	(if display-line-numbers
+	    (progn
+	      (setq display-line-numbers-type 'relative)
+	      (display-line-numbers-mode)
+	      (display-line-numbers-mode)))
+
+	(unless (minibufferp)
+	  (my/turn-on-absolute-numbers-for-window (old-selected-window))))))
+
+(setq window-selection-change-functions '(my/switch-relative-numbers-off-previous-window))
+
 (setq magit-diff-refine-hunk 'all)
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
