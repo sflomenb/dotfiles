@@ -358,7 +358,7 @@ function-key-map)))
 
 (setq display-line-numbers-type 'relative)
 
-(defun toggle-relative-line-numbers ()
+(defun my/toggle-relative-line-numbers ()
   "Toggle relative line numbers."
   (interactive)
   (cond ((string= display-line-numbers-type "relative") (setq display-line-numbers-type t))
