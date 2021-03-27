@@ -79,8 +79,7 @@
 
 (use-package projectile
   :diminish
-  :bind (("C-c k" . #'projectile-kill-buffers)
-  ("C-c M" . #'projectile-compile-project))
+  :bind (("C-c M" . #'projectile-compile-project))
   :custom (projectile-completion-system 'ivy)
   :config (projectile-mode))
 
@@ -95,7 +94,8 @@
   (ivy-mode 1)
   (setq ivy-count-format "%d/%d ")
 
-  :bind (("C-c k" . #'counsel-ag))
+  :bind (("C-c k" . #'counsel-ag)
+	 ("C-c C-o" . #'ivy-occur))
 	 ;; ("C-c C-r" . #'ivy-resume)
          ;; ("C-s"     . #'swiper)
          ;; ("C-c s"   . #'swiper-thing-at-point))
@@ -115,6 +115,7 @@
          ("C-c U" . #'counsel-unicode-char)
          ("C-c i" . #'counsel-imenu)
          ("C-x b" . #'counsel-ibuffer)
+	 ("C-c k" . #'counsel-projectile-ag)
          ("C-x f" . #'counsel-find-file)
          ("C-c y" . #'counsel-yank-pop)
          ("C-c r" . #'counsel-recentf)
