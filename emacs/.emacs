@@ -395,6 +395,15 @@ function-key-map)))
 
 (setq window-selection-change-functions '(my/switch-relative-numbers-off-previous-window))
 
+(defun my/turn-relative-numbers-off-other-windows ()
+  (interactive)
+  (let ((current-window (selected-window)))
+    (walk-windows
+     (lambda (win)
+       (unless (eq win current-window)
+	 (my/turn-on-absolute-numbers-for-window win)))
+     nil 'visible)))
+
 (setq magit-diff-refine-hunk 'all)
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
@@ -595,7 +604,8 @@ Repeated invocations toggle between the two most recently open buffers."
   (let ((dir-name (read-directory-name "Directory: " "~/.emacs.d/desktops/")))
     (setq desktop-path (list dir-name))
     (desktop-read dir-name)
-    (desktop-save-mode 1)))
+    (desktop-save-mode 1)
+    (my/turn-relative-numbers-off-other-windows)))
 
 ;; https://emacs.stackexchange.com/a/45829
 (setq desktop-restore-forces-onscreen nil)
