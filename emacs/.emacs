@@ -434,6 +434,9 @@ function-key-map)))
   :config
   (setq magit-keep-region-overlay t))
 
+(dolist (m (list magit-status-mode-map magit-diff-mode-map))
+  (define-key m (kbd "C-u C-j") 'magit-diff-visit-worktree-file-other-window))
+
 (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
 
 (require 'whitespace)
