@@ -430,6 +430,7 @@ function-key-map)))
 (define-key evil-normal-state-map (kbd "[ h") 'git-gutter:previous-hunk)
 
 (use-package magit
+  :bind (("C-c g" . 'magit-file-dispatch))
   :config
   (setq magit-keep-region-overlay t))
 
