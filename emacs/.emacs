@@ -362,20 +362,15 @@ function-key-map)))
 (defun my/toggle-relative-line-numbers ()
   "Toggle relative line numbers."
   (interactive)
-  (cond ((string= display-line-numbers-type "relative") (setq display-line-numbers-type t))
-	((string= display-line-numbers-type "t") (setq display-line-numbers-type 'relative)))
-  (display-line-numbers-mode)
-  (display-line-numbers-mode))
+  (cond ((string= display-line-numbers "relative") (setq display-line-numbers t))
+	((string= display-line-numbers "t") (setq display-line-numbers 'relative))))
 
 (global-set-key (kbd "C-c t") 'my/toggle-relative-line-numbers)
 
 (defun my/turn-on-absolute-numbers-for-window (win)
   (with-selected-window win
     (if display-line-numbers
-	(progn
-	  (setq display-line-numbers-type t)
-	  (display-line-numbers-mode)
-	  (display-line-numbers-mode)))))
+	(setq display-line-numbers t))))
 
 (defun my/switch-relative-numbers-off-previous-window (arg)
   "Switch relative numbers on for current window and off for old window."
@@ -386,10 +381,7 @@ function-key-map)))
        (not (string= (buffer-file-name) (buffer-file-name (window-buffer (old-selected-window))))))
       (progn
 	(if display-line-numbers
-	    (progn
-	      (setq display-line-numbers-type 'relative)
-	      (display-line-numbers-mode)
-	      (display-line-numbers-mode)))
+	    (setq display-line-numbers 'relative))
 
 	(unless (minibufferp)
 	  (my/turn-on-absolute-numbers-for-window (old-selected-window))))))
