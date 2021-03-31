@@ -429,6 +429,8 @@ function-key-map)))
     (global-evil-surround-mode 1)))
 
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") #'xref-goto-xref)
+(define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
+(define-key evil-normal-state-map (kbd "z k") 'origami-previous-fold)
 
 (define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
@@ -444,8 +446,6 @@ function-key-map)))
 (require 'whitespace)
 
 (global-set-key (kbd "C-x w") 'whitespace-mode)
-
-(require 'origami)
 
 (defun er-switch-to-previous-buffer ()
   "Switch to previously open buffer.
