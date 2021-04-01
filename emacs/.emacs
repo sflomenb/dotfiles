@@ -22,7 +22,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(diff-refine-added ((t (:inherit diff-refine-changed :background "#22aa22" :foreground "color-229"))))
- '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229")))))
+ '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229"))))
+ '(ediff-current-diff-A ((t (:extend t :background "red" :foreground "brightwhite"))))
+ '(ediff-current-diff-B ((t (:extend t :background "green" :foreground "brightwhite"))))
+ '(ediff-current-diff-C ((t (:extend t :background "blue" :foreground "brightwhite"))))
+ '(ediff-fine-diff-A ((t (:foreground "color-240"))))
+ '(ediff-fine-diff-B ((t (:foreground "color-240"))))
+ '(ediff-fine-diff-C ((t (:background "color-45" :foreground "color-240")))))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
