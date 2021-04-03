@@ -565,7 +565,7 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (insert (my/alist-get-symbol "call" log-info-from-alist))
 	    (move-end-of-line nil)
 	    (search-backward "\"" nil t)
-	    (insert current-word ": " (my/alist-get-symbol "placeholder" log-info-from-alist ""))
+	    (insert (file-name-nondirectory (buffer-file-name)) ":" (int-to-string (line-number-at-pos)) " - " current-word ": " (my/alist-get-symbol "placeholder" log-info-from-alist ""))
 	    (move-end-of-line nil)
 	    (backward-char)
 	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word)
