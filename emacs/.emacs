@@ -560,6 +560,7 @@ Repeated invocations toggle between the two most recently open buffers."
 		 (if (region-active-p)
 		     (buffer-substring-no-properties (region-beginning) (region-end))
 		   (thing-at-point 'symbol 'no-properties))))
+	    (when-let* ((eol-char (my/alist-get-symbol "eol-char" log-info-from-alist))) (search-forward eol-char nil t))
 	    (move-end-of-line nil)
 	    (newline-and-indent)
 	    (insert (my/alist-get-symbol "call" log-info-from-alist))
@@ -569,8 +570,8 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (move-end-of-line nil)
 	    (backward-char)
 	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word)
-	    (let ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
-	      (if fun-to-call (funcall (intern fun-to-call))))
+	    (when-let* ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
+	      (funcall (intern fun-to-call)))
 	    (move-end-of-line nil)
 	    (insert (my/alist-get-symbol "eol-char" log-info-from-alist ""))))))))
 
