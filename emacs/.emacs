@@ -403,6 +403,8 @@ function-key-map)))
 	 (my/turn-on-absolute-numbers-for-window win)))
      nil 'visible)))
 
+(global-set-key (kbd "C-c w") 'ace-window)
+
 (setq magit-diff-refine-hunk 'all)
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
