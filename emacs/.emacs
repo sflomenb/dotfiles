@@ -363,13 +363,13 @@ function-key-map)))
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
 
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 'visual)
 
 (defun my/toggle-relative-line-numbers ()
   "Toggle relative line numbers."
   (interactive)
-  (cond ((string= display-line-numbers "relative") (setq display-line-numbers t))
-	((string= display-line-numbers "t") (setq display-line-numbers 'relative))))
+  (cond ((string= display-line-numbers "visual") (setq display-line-numbers t))
+	((string= display-line-numbers "t") (setq display-line-numbers 'visual))))
 
 (global-set-key (kbd "C-c t") 'my/toggle-relative-line-numbers)
 
@@ -387,7 +387,7 @@ function-key-map)))
        (not (string= (buffer-file-name) (buffer-file-name (window-buffer (old-selected-window))))))
       (progn
 	(if display-line-numbers
-	    (setq display-line-numbers 'relative))
+	    (setq display-line-numbers 'visual))
 
 	(unless (minibufferp)
 	  (my/turn-on-absolute-numbers-for-window (old-selected-window))))))
