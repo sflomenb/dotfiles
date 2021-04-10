@@ -436,6 +436,27 @@ function-key-map)))
 (define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
 (define-key evil-normal-state-map (kbd "z k") 'origami-previous-fold)
 
+(defun my/visual-star-search (beg end forward)
+  "Search in direction FORWARD for visual selection between BEG and END."
+  (when (evil-visual-state-p)
+    (let* ((thing-to-search (buffer-substring-no-properties (region-beginning) (region-end))))
+      (evil-exit-visual-state)
+      (evil-push-search-history thing-to-search forward)
+      (evil-search thing-to-search forward t))))
+
+(defun my/visual-star-search-forward (beg end)
+  "Search forward for visual selection between BEG and END."
+  (interactive "r")
+  (my/visual-star-search beg end t))
+
+(defun my/visual-star-search-backward (beg end)
+  "Search backward for visual selection between BEG and END."
+  (interactive "r")
+  (my/visual-star-search beg end nil))
+
+(evil-global-set-key 'visual (kbd "*") 'my/visual-star-search-forward)
+(evil-global-set-key 'visual (kbd "#") 'my/visual-star-search-backward)
+
 (define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
 (define-key evil-normal-state-map (kbd "] h") 'git-gutter:next-hunk)
