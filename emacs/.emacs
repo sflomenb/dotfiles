@@ -290,6 +290,8 @@ function-key-map)))
 
 (use-package lsp-docker)
 (use-package lsp-focus)
+(global-set-key (kbd "C-c C-f") 'focus-mode)
+(add-hook 'focus-mode-hook #'lsp-focus-mode)
 
 ;; to enable the lenses
 (add-hook 'lsp-mode-hook #'lsp-lens-mode)
@@ -319,7 +321,6 @@ function-key-map)))
 ;; Bind `C-c y' to `yas-expand' ONLY.
 (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
 
-(global-set-key (kbd "C-c C-f") 'focus-mode)
 
 
 ;; disable prompts
