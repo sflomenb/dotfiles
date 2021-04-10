@@ -420,15 +420,17 @@ function-key-map)))
   :config
   (evil-mode 1)
   ;; do not use evil in magit
-  (add-to-list 'evil-buffer-regexps '("\\*magit:"))
+  (add-to-list 'evil-buffer-regexps '("\\*magit:")))
 
-  (use-package evil-matchit
-    :config
-    (global-evil-matchit-mode 1))
+(use-package evil-matchit
+  :after (evil)
+  :config
+  (global-evil-matchit-mode 1))
 
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1)))
+(use-package evil-surround
+  :after (evil)
+  :config
+  (global-evil-surround-mode 1))
 
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") #'xref-goto-xref)
 (define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
