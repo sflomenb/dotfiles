@@ -659,6 +659,9 @@ Repeated invocations toggle between the two most recently open buffers."
     :force-display desktop-restore-in-current-display
     :force-onscreen desktop-restore-forces-onscreen)))
 
+(straight-use-package '(rainbow-delimiters :host github :repo "Fanael/rainbow-delimiters"))
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
