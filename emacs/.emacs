@@ -471,6 +471,15 @@ function-key-map)))
 (dolist (m (list magit-status-mode-map magit-diff-mode-map))
   (define-key m (kbd "C-u C-j") 'magit-diff-visit-worktree-file-other-window))
 
+;; https://emacs.stackexchange.com/a/13831
+(defun magit-diff-mbase (&optional args)
+  "Show diff of $(git diff merge-base master HEAD) to working tree."
+  (interactive (list (magit-diff-arguments)))
+  (magit-diff-working-tree
+   (magit-git-string "merge-base" "origin/master" "HEAD") args))
+
+(transient-append-suffix 'magit-diff "w" '("m" "Diff merge-base master" magit-diff-mbase))
+
 (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
 
 (require 'whitespace)
