@@ -13,8 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default))
- '(evil-want-C-w-in-emacs-state t)
- '(git-gutter:update-interval 1))
+ '(evil-want-C-w-in-emacs-state t))
  ;; '(package-selected-packages
  ;;   '(xclip terraform-mode lsp-pyright dockerfile-mode ivy-rich counsel-projectile counsel ivy diminish flycheck-pycheckers typescript-mode flycheck yasnippet-classic-snippets yasnippet-snippets docker-tramp tramp emacsql-psql use-package lsp-ui company lsp-docker lsp-focus lsp-java lsp-origami origami vimish-fold ace-jump-mode python-pytest evil-surround evil-matchit which-key evil indent-guide yaml-mode git-gutter undohist magit gruvbox-theme free-keys lsp-mode ## json-mode expand-region)))
 (custom-set-faces
@@ -66,12 +65,11 @@
 (use-package python-pytest)
 (use-package indent-guide)
 (use-package yaml-mode)
-(use-package git-gutter
-  :diminish
-  :custom
-  (git-gutter:window-width 2)
-  :config
-  (global-git-gutter-mode t))
+
+(straight-use-package '(diff-hl :host github :repo "dgutov/diff-hl"))
+(global-diff-hl-mode)
+(diff-hl-margin-mode)
+
 (use-package undohist
   :config
   (undohist-initialize))
@@ -459,13 +457,16 @@ function-key-map)))
 
 (define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
-(define-key evil-normal-state-map (kbd "] h") 'git-gutter:next-hunk)
-(define-key evil-normal-state-map (kbd "[ h") 'git-gutter:previous-hunk)
+(define-key evil-normal-state-map (kbd "] h") 'diff-hl-next-hunk)
+(define-key evil-normal-state-map (kbd "[ h") 'diff-hl-previous-hunk)
 
 (use-package magit
   :bind (("C-c g" . 'magit-file-dispatch))
   :config
   (setq magit-keep-region-overlay t))
+
+(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 (dolist (m (list magit-status-mode-map magit-diff-mode-map))
   (define-key m (kbd "C-u C-j") 'magit-diff-visit-worktree-file-other-window))
