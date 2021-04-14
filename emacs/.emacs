@@ -632,19 +632,32 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun my/desktop-save (session-name)
   (interactive "sSession name: ")
-  (let ((dir-name (concat "~/.emacs.d/desktops/" session-name "/")))
-    (unless (file-directory-p dir-name) (make-directory dir-name))
-    (setq desktop-path (list dir-name))
-    (desktop-save dir-name)
-    (desktop-save-mode 1)))
+  (setq dir-name (concat "~/.emacs.d/desktops/" session-name "/"))
+  (unless (file-directory-p dir-name) (make-directory dir-name))
+  (setq desktop-path (list dir-name))
+  (desktop-save dir-name)
+  (desktop-save-mode 1))
 
 (defun my/desktop-read ()
   (interactive)
-  (let ((dir-name (read-directory-name "Directory: " "~/.emacs.d/desktops/")))
-    (setq desktop-path (list dir-name))
-    (desktop-read dir-name)
-    (desktop-save-mode 1)
-    (my/turn-relative-numbers-off-other-windows)))
+  (my/save-and-release-desktop)
+  (setq dir-name (read-directory-name "Directory: " "~/.emacs.d/desktops/"))
+  (setq desktop-path (list dir-name))
+  (desktop-read dir-name)
+  (desktop-save-mode 1)
+  (my/turn-relative-numbers-off-other-windows))
+
+(defun my/save-and-release-desktop ()
+  (interactive)
+  "Save and release desktop which removes lock file."
+  (if (and desktop-save-mode desktop-path dir-name)
+      ;; save existing desktop
+      (progn
+	(desktop-save dir-name t)
+	(desktop-save-mode 0)
+	(message "Saved desktop."))
+    (when (called-interactively-p 'any)
+      (user-error "No current desktop to save"))))
 
 ;; https://emacs.stackexchange.com/a/45829
 (setq desktop-restore-forces-onscreen nil)
