@@ -61,7 +61,6 @@
   :config
   (use-package docker-tramp))
 (use-package emacsql-psql)
-(use-package ace-jump-mode)
 (use-package python-pytest)
 (use-package indent-guide)
 (use-package yaml-mode)
