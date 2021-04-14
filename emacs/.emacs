@@ -178,8 +178,7 @@
 ;; lsp-ui
 (use-package company
   :diminish)
-(setq company-minimum-prefix-length 1
-      company-idle-delay 0.0) ;; default is 0.2
+(setq company-minimum-prefix-length 1)
 
 (use-package flycheck
   :init
