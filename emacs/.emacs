@@ -460,6 +460,8 @@ function-key-map)))
 (evil-global-set-key 'visual (kbd "*") 'my/visual-star-search-forward)
 (evil-global-set-key 'visual (kbd "#") 'my/visual-star-search-backward)
 
+(evil-global-set-key 'normal (kbd "M-H") 'evil-ex-nohighlight)
+
 (define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
 (define-key evil-normal-state-map (kbd "] h") 'diff-hl-next-hunk)
