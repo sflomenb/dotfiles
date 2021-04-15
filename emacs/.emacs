@@ -441,9 +441,11 @@ function-key-map)))
   "Search in direction FORWARD for visual selection between BEG and END."
   (when (evil-visual-state-p)
     (let* ((thing-to-search (buffer-substring-no-properties (region-beginning) (region-end))))
-      (evil-exit-visual-state)
-      (evil-push-search-history thing-to-search forward)
-      (evil-search thing-to-search forward t))))
+      (cl-flet ((func (&rest r) thing-to-search))
+	(evil-exit-visual-state)
+	(advice-add 'evil-find-thing :override #'func)
+	(evil-ex-start-word-search t (if forward 'forward 'backward) 1)
+	(advice-remove 'evil-find-thing #'func)))))
 
 (defun my/visual-star-search-forward (beg end)
   "Search forward for visual selection between BEG and END."
