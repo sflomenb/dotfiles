@@ -27,9 +27,11 @@
  '(diff-refine-added ((t (:inherit diff-refine-changed :background "#22aa22" :foreground "color-229"))))
  '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229"))))
  '(ediff-current-diff-A ((t (:extend t :background "red" :foreground "brightwhite"))))
+ '(ediff-current-diff-Ancestor ((t (:extend t :background "#ccc6d1" :foreground "black"))))
  '(ediff-current-diff-B ((t (:extend t :background "green" :foreground "brightwhite"))))
  '(ediff-current-diff-C ((t (:extend t :background "blue" :foreground "brightwhite"))))
  '(ediff-fine-diff-A ((t (:foreground "color-240"))))
+ '(ediff-fine-diff-Ancestor ((t (:background "#b6b0d6" :foreground "black"))))
  '(ediff-fine-diff-B ((t (:foreground "color-240"))))
  '(ediff-fine-diff-C ((t (:background "color-45" :foreground "color-240")))))
 
