@@ -239,7 +239,10 @@
   :commands lsp lsp-deferred
   :config
   (lsp-enable-which-key-integration t)
-  (setq lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil)
+  (setq lsp-enable-snippet t)
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)))
 
 (use-package lsp-ui
   :requires lsp-mode flycheck
