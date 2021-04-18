@@ -58,10 +58,6 @@
 
 (use-package diminish)
 
-(use-package yasnippet-snippets
-  :config
-  (use-package yasnippet-classic-snippets))
-
 (use-package tramp
   :config
   (use-package docker-tramp))
@@ -311,7 +307,9 @@ function-key-map)))
   :bind (:map yas-minor-mode-map
          ("TAB" . nil)
          ("<tab>" . nil)))
-(use-package yasnippet-snippets)
+(use-package yasnippet-snippets
+  :after (yasnippet))
+
 
 ;; Bind `C-.' to `yas-expand' when snippet expansion available (it
 ;; will still call `self-insert-command' otherwise).
