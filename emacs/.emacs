@@ -58,9 +58,9 @@
 
 (use-package diminish)
 
-(use-package tramp
-  :config
-  (use-package docker-tramp))
+(use-package tramp)
+(use-package docker-tramp
+  :after (tramp))
 (use-package emacsql-psql)
 (use-package python-pytest)
 (use-package indent-guide)
