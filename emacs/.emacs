@@ -111,7 +111,8 @@
   (ivy-rich-path-style 'full)
   :config
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-  (ivy-rich-mode))
+  (ivy-rich-mode)
+  :after (ivy counsel))
 
 (use-package counsel
   :bind (("C-c ;" . #'counsel-M-x)
