@@ -62,7 +62,10 @@
   :after (tramp))
 (use-package emacsql-psql)
 (use-package python-pytest)
-(use-package indent-guide)
+(use-package highlight-indent-guides
+  :hook ((prog-mode . highlight-indent-guides-mode))
+  :config
+  (setq highlight-indent-guides-method 'character))
 (use-package yaml-mode)
 
 (straight-use-package '(diff-hl :host github :repo "dgutov/diff-hl"))
@@ -413,7 +416,6 @@ function-key-map)))
 
 (setq undohist-ignored-files (list "COMMIT_EDITMSG"))
 
-(indent-guide-global-mode)
 
 (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
 (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
