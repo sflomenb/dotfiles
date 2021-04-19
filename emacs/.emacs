@@ -56,6 +56,7 @@
 
 (use-package diminish)
 
+(autoload #'tramp-register-crypt-file-name-handler "tramp-crypt")
 (use-package tramp)
 (use-package docker-tramp
   :after (tramp))
