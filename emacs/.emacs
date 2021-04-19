@@ -35,6 +35,7 @@
  '(ediff-fine-diff-B ((t (:foreground "color-240"))))
  '(ediff-fine-diff-C ((t (:background "color-45" :foreground "color-240")))))
 
+(setq straight-use-package-by-default t)
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -51,9 +52,6 @@
 ;;;;  Effectively replace use-package with straight-use-package
 ;;; https://github.com/raxod502/straight.el/blob/develop/README.md#integration-with-use-package
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
-
-(require 'use-package)
 (setq use-package-always-ensure t)
 
 (use-package diminish)
