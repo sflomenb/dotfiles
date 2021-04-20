@@ -258,6 +258,10 @@
   (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024)))
 
+(with-eval-after-load 'lsp-mode
+  ;; :global/:workspace/:file
+  (setq lsp-modeline-diagnostics-scope :workspace))
+
 (use-package lsp-ui
   :requires lsp-mode flycheck
   :config (setq lsp-ui-flycheck-live-reporting t)
