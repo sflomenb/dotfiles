@@ -190,8 +190,9 @@
   :diminish
   :init
   (setq company-minimum-prefix-length 1)
-  :hook ((after-init-hook   . global-company-mode)
-	 (company-mode-hook . setup-company-map))
+  (add-hook 'after-init-hook 'global-company-mode)
+  ;; :config
+  :hook ((company-mode . setup-company-map))
   :bind (("C-;" . company-complete-common-or-cycle)))
 
 
