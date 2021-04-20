@@ -270,7 +270,8 @@
 		 input-decode-map
 	       function-key-map)))
     (define-key map "\e[1;P9"  (kbd "C-;"))
-    (define-key map "\e[1;P10"  (kbd "C-."))))
+    (define-key map "\e[1;P10"  (kbd "C-."))
+    (define-key map "\e[1;P11"  (kbd "<C-return>"))))
 
 ;; lsp modes
 
@@ -340,23 +341,6 @@
 (save-place-mode 1)
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
-
-;; newlines
-(defun open-line-below ()
-  (interactive)
-  (end-of-line)
-  (newline)
-  (indent-for-tab-command))
-
-(defun open-line-above ()
-  (interactive)
-  (beginning-of-line)
-  (newline)
-  (forward-line -1)
-  (indent-for-tab-command))
-
-(global-set-key (kbd "<C-return>") 'open-line-below)
-(global-set-key (kbd "<C-S-return>") 'open-line-above)
 
 ;; turn off menu bar
 (menu-bar-mode -1)
@@ -459,6 +443,15 @@
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
 (define-key evil-normal-state-map (kbd "] h") 'diff-hl-next-hunk)
 (define-key evil-normal-state-map (kbd "[ h") 'diff-hl-previous-hunk)
+
+(defun open-line-above ()
+  (interactive)
+  (beginning-of-line)
+  (newline)
+  (forward-line -1)
+  (indent-for-tab-command))
+
+(evil-global-set-key 'insert (kbd "<C-return>") 'open-line-above)
 
 (use-package magit
   :bind (("C-c g" . 'magit-file-dispatch))
