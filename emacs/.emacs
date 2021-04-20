@@ -146,29 +146,6 @@
 (use-package counsel-projectile
   :bind (("C-c F" . #'counsel-projectile-switch-project)))
 
-
-;; (defun my/insert-line-before ()
-;;   "Inserts a new line(s) above the line containing the cursor."
-;;   (interactive)
-;;   (save-excursion
-;;     (move-beginning-of-line 1)
-;;     (newline)))
-;; 
-;; (global-set-key (kbd "M-p")
-;; 		'my/insert-line-before)
-;; 
-;; (defun my/insert-line-after ()
-;;   "Inserts a new line(s) below the line containing the cursor."
-;;   (interactive)
-;;   (save-excursion
-;;     (move-end-of-line 1)
-;;     (newline)))
-;; 
-;; (global-set-key (kbd "M-P")
-;; 		'my/insert-line-after)
-
-; (global-linum-mode 1)
-
 (ido-mode 1)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -191,7 +168,6 @@
   :init
   (setq company-minimum-prefix-length 1)
   (add-hook 'after-init-hook 'global-company-mode)
-  ;; :config
   :hook ((company-mode . setup-company-map))
   :bind (("C-;" . company-complete-common-or-cycle)))
 
