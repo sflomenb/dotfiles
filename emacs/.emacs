@@ -68,13 +68,16 @@
   (setq highlight-indent-guides-method 'character))
 (use-package yaml-mode)
 
-(straight-use-package '(diff-hl :host github :repo "dgutov/diff-hl"))
-(global-diff-hl-mode)
-(diff-hl-margin-mode)
+(use-package diff-hl
+  :straight (:host github :repo "dgutov/diff-hl")
+  :config
+  (global-diff-hl-mode)
+  (diff-hl-margin-mode))
 
 (use-package undohist
   :config
-  (undohist-initialize))
+  (undohist-initialize)
+  (setq undohist-ignored-files (list "COMMIT_EDITMSG")))
 (use-package gruvbox-theme
   :config
   (load-theme 'gruvbox t))
@@ -179,17 +182,18 @@
 
 (use-package terraform-mode)
 
-;; lsp-ui
+(defun setup-company-map ()
+  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
+  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1))))
+
 (use-package company
-  :diminish)
-(setq company-minimum-prefix-length 1)
-
-(use-package flycheck
+  :diminish
   :init
-  (global-flycheck-mode))
+  (setq company-minimum-prefix-length 1)
+  :hook ((after-init-hook   . global-company-mode)
+	 (company-mode-hook . setup-company-map))
+  :bind (("C-;" . company-complete-common-or-cycle)))
 
-;; Show indicators in the left margin
-(setq flycheck-indication-mode 'left-margin)
 
 ;; Adjust margins and fringe widths…
 (defun my/set-flycheck-margins ()
@@ -197,8 +201,14 @@
         left-margin-width 2 right-margin-width 0)
   (flycheck-refresh-fringes-and-margins))
 
-;; …every time Flycheck is activated in a new buffer
-(add-hook 'flycheck-mode-hook #'my/set-flycheck-margins)
+(use-package flycheck
+  :init
+  (global-flycheck-mode)
+  :config
+  ;; Show indicators in the left margin
+  (setq flycheck-indication-mode 'left-margin)
+  ;; …every time Flycheck is activated in a new buffer
+  :hook (flycheck-mode . my/set-flycheck-margins))
 
 ;; flycheck-pycheckers
 ;; Allows multiple syntax checkers to run in parallel on Python code
@@ -249,35 +259,26 @@
 
 (use-package lsp-ui
   :requires lsp-mode flycheck
-  :config (setq lsp-ui-flycheck-live-reporting t))
+  :config (setq lsp-ui-flycheck-live-reporting t)
+  :hook (lsp-node . lsp-ui-mode))
 
-(add-hook 'lsp-mode-hook 'lsp-ui-mode)
 
 (use-package dap-mode)
 
 (progn
-(let ((map (if (boundp 'input-decode-map)
-	    input-decode-map
-function-key-map)))
-  (define-key map "\e[1;P9"  (kbd "C-;"))
-  (define-key map "\e[1;P10"  (kbd "C-."))))
-
-;; company
-(add-hook 'after-init-hook 'global-company-mode)
-(global-set-key (kbd "C-;") #'company-complete-common-or-cycle)
-
-(defun setup-company-map ()
-  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1))))
-
-(add-hook 'company-mode-hook 'setup-company-map)
+  (let ((map (if (boundp 'input-decode-map)
+		 input-decode-map
+	       function-key-map)))
+    (define-key map "\e[1;P9"  (kbd "C-;"))
+    (define-key map "\e[1;P10"  (kbd "C-."))))
 
 ;; lsp modes
 
-(use-package origami
-  :config
-  (use-package lsp-origami))
-(add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
+(use-package origami)
+
+(use-package lsp-origami
+  :requires (origami lsp-mode)
+  :hook (lsp-after-open-hook . lsp-origami-try-enable))
 
 (setq lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
 ;;(require 'lsp-java)
@@ -312,21 +313,14 @@ function-key-map)))
   :diminish
   :bind (:map yas-minor-mode-map
          ("TAB" . nil)
-         ("<tab>" . nil)))
+         ("<tab>" . nil)
+	 ;; Bind `C-.' to `yas-expand' when snippet expansion available (it
+	 ;; will still call `self-insert-command' otherwise).
+	 ("C-." . yas-maybe-expand)
+	 ;; Bind `C-c y' to `yas-expand' ONLY.
+	 ( "C-c y" . yas-expand)))
 (use-package yasnippet-snippets
   :after (yasnippet))
-
-
-;; Bind `C-.' to `yas-expand' when snippet expansion available (it
-;; will still call `self-insert-command' otherwise).
-(define-key yas-minor-mode-map (kbd "C-.") yas-maybe-expand)
-
-;;(define-key yas-minor-mode-map (kbd "TAB") yas-next-field-or-maybe-expand)
-
-;; Bind `C-c y' to `yas-expand' ONLY.
-(define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
-
-
 
 ;; disable prompts
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -412,10 +406,6 @@ function-key-map)))
 
 (global-set-key (kbd "C-c w") 'ace-window)
 
-(setq magit-diff-refine-hunk 'all)
-
-(setq undohist-ignored-files (list "COMMIT_EDITMSG"))
-
 
 (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
 (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
@@ -473,7 +463,8 @@ function-key-map)))
 (use-package magit
   :bind (("C-c g" . 'magit-file-dispatch))
   :config
-  (setq magit-keep-region-overlay t))
+  (setq magit-keep-region-overlay t)
+  (setq magit-diff-refine-hunk 'all))
 
 (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
@@ -515,8 +506,10 @@ Repeated invocations toggle between the two most recently open buffers."
   :config
   (xclip-mode 1))
 
-(straight-use-package '(apheleia :host github :repo "raxod502/apheleia"))
-(apheleia-global-mode +1)
+(use-package apheleia
+  :straight (:host github :repo "raxod502/apheleia")
+  :config
+  (apheleia-global-mode +1))
 
 (projectile-register-project-type 'npm '("package.json")
                                   :project-file "package.json"
@@ -525,10 +518,13 @@ Repeated invocations toggle between the two most recently open buffers."
 				  :run "npm start"
 				  :test-suffix ".spec")
 
-(straight-use-package '(jest :host github :repo "Emiller88/emacs-jest"))
-(add-hook 'js2-mode-hook 'jest-minor-mode)
-(add-hook 'js-mode-hook 'jest-minor-mode)
-(add-hook 'typescript-mode-hook 'jest-minor-mode)
+(use-package jest
+  :straight (:host github :repo "Emiller88/emacs-jest")
+  :hook ((js2-mode        . jest-minor-mode)
+	 (js-mode         . jest-minor-mode)
+	 (typescript-mode . jest-minor-mode)))
+
+(use-package lsp-ivy)
 
 (global-set-key (kbd "C-x t t") 'treemacs)
 
@@ -538,14 +534,18 @@ Repeated invocations toggle between the two most recently open buffers."
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
-(straight-use-package '(evil-org :host github :repo "Somelauw/evil-org-mode"))
+(use-package evil-org
+  :after evil
+  :straight (:host github :repo "Somelauw/evil-org-mode")
+  :hook ((org-mode . evil-org-mode)))
 (add-hook 'org-mode-hook 'evil-org-mode)
 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
 (add-hook 'org-mode-hook 'flyspell-mode)
 
-(straight-use-package '(fzf :host github :repo "bling/fzf.el"))
-(global-set-key (kbd "C-c f") 'fzf)
+(use-package fzf
+  :straight (:host github :repo "bling/fzf.el")
+  :bind (( "C-c f" . fzf)))
 
 (setq js-log '(("default" .
 		(("call" .  "console.log(\"\")")
@@ -682,8 +682,9 @@ Repeated invocations toggle between the two most recently open buffers."
     :force-display desktop-restore-in-current-display
     :force-onscreen desktop-restore-forces-onscreen)))
 
-(straight-use-package '(rainbow-delimiters :host github :repo "Fanael/rainbow-delimiters"))
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :straight (:host github :repo "Fanael/rainbow-delimiters")
+  :hook ((prog-mode-hook . rainbow-delimiters-mode)))
 
 (provide '.emacs)
 
