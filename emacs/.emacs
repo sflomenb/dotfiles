@@ -93,6 +93,94 @@
   :custom (projectile-completion-system 'ivy)
   :config (projectile-mode))
 
+(defun visit-buffer-or-file (buffer-or-file)
+  (cond ((string= (type-of buffer-or-file) "cons")
+	 (counsel-ibuffer-visit-buffer buffer-or-file))
+	((string-match-p (regexp-quote ":") buffer-or-file)
+	 (counsel-git-grep-action buffer-or-file))
+	(t (let ((default-directory) counsel--fzf-dir))
+	   (find-file buffer-or-file))))
+
+(defun split-left ()
+  (split-window-right))
+
+(defun split-right ()
+  (split-window-right)
+  (other-window 1))
+
+(defun split-above ()
+  (split-window-below))
+
+(defun split-below ()
+  (split-window-below)
+  (other-window 1))
+
+(defun split-far-left ()
+  (split-window-below)
+  (evil-window-move-far-left))
+
+(defun split-far-right ()
+  (split-window-below)
+  (evil-window-move-far-right))
+
+(defun split-top ()
+  (split-window-below)
+  (evil-window-move-very-top))
+
+(defun split-bottom ()
+  (split-window-below)
+  (evil-window-move-very-bottom))
+
+(defun split-in-direction (&rest r)
+  "Split window in evil direction, potentially call function and args within R."
+  (let* ((key (read-key-sequence "Direction or enter: ")))
+    (cond
+     ((string= key "j") (split-below))
+     ((string= key "k") (split-above))
+     ((string= key "h") (split-right))
+     ((string= key "l") (split-left))
+     ((string= key "J") (split-bottom))
+     ((string= key "K") (split-top))
+     ((string= key "H") (split-far-left))
+     ((string= key "L") (split-far-right))
+     ((functionp (car r)) (apply (car r) (cdr r))))))
+
+(advice-add 'xref-find-definitions :before #'split-in-direction)
+(advice-add 'lsp-find-definition   :before #'split-in-direction)
+(advice-add 'evil-window-split     :around #'split-in-direction)
+
+(defun find-file-left (filename)
+  (split-left)
+  (visit-buffer-or-file filename))
+
+(defun find-file-right (filename)
+  (split-right)
+  (visit-buffer-or-file filename))
+
+(defun find-file-above (filename)
+  (split-above)
+  (visit-buffer-or-file filename))
+
+(defun find-file-below (filename)
+  (split-below)
+  (visit-buffer-or-file filename))
+
+(defun find-file-far-left (filename)
+  (split-far-left)
+  (visit-buffer-or-file filename))
+
+(defun find-file-far-right (filename)
+  (split-far-right)
+  (visit-buffer-or-file filename))
+
+(defun find-file-top (filename)
+  (split-top)
+  (visit-buffer-or-file filename))
+
+(defun find-file-bottom (filename)
+  (split-bottom)
+  (visit-buffer-or-file filename))
+
 (use-package ivy
   :demand
   :diminish
@@ -103,6 +191,16 @@
   :config
   (ivy-mode 1)
   (setq ivy-count-format "%d/%d ")
+  (ivy-set-actions
+   t
+   '(("j" find-file-below "open below")
+     ("k" find-file-above "open above")
+     ("h" find-file-left "open left")
+     ("l" find-file-right "open right")
+     ("J" find-file-bottom "open botton")
+     ("K" find-file-top "open top")
+     ("H" find-file-far-left "open far-left")
+     ("L" find-file-far-right "open far-right")))
 
   :bind (("C-c k" . #'counsel-ag)
 	 ("C-c C-o" . #'ivy-occur))
