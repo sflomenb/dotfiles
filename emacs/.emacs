@@ -197,7 +197,7 @@
      ("k" find-file-above "open above")
      ("h" find-file-left "open left")
      ("l" find-file-right "open right")
-     ("J" find-file-bottom "open botton")
+     ("J" find-file-bottom "open bottom")
      ("K" find-file-top "open top")
      ("H" find-file-far-left "open far-left")
      ("L" find-file-far-right "open far-right")))
