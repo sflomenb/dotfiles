@@ -137,8 +137,8 @@
     (cond
      ((string= key "j") (split-below))
      ((string= key "k") (split-above))
-     ((string= key "h") (split-right))
-     ((string= key "l") (split-left))
+     ((string= key "h") (split-left))
+     ((string= key "l") (split-right))
      ((string= key "J") (split-bottom))
      ((string= key "K") (split-top))
      ((string= key "H") (split-far-left))
