@@ -230,6 +230,7 @@
          ("C-c r" . #'counsel-recentf)
          ("C-c v" . #'counsel-switch-buffer-other-window)
          ("C-h h" . #'counsel-command-history)
+	 ("C-c f" . #'counsel-fzf)
          ("C-x C-f" . #'counsel-find-file)
          :map ivy-minibuffer-map
          ("C-r" . counsel-minibuffer-history))
@@ -617,8 +618,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'org-mode-hook 'flyspell-mode)
 
 (use-package fzf
-  :straight (:host github :repo "bling/fzf.el")
-  :bind (( "C-c f" . fzf)))
+  :straight (:host github :repo "bling/fzf.el"))
 
 (setq js-log '(("default" .
 		(("call" .  "console.log(\"\")")
