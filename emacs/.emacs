@@ -98,8 +98,8 @@
 	 (counsel-ibuffer-visit-buffer buffer-or-file))
 	((string-match-p (regexp-quote ":") buffer-or-file)
 	 (counsel-git-grep-action buffer-or-file))
-	(t (let ((default-directory) counsel--fzf-dir))
-	   (find-file buffer-or-file))))
+	(t (let ((default-directory counsel--fzf-dir))
+	     (find-file buffer-or-file)))))
 
 (defun split-left ()
   (split-window-right))
