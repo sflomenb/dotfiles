@@ -409,6 +409,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-screen t)
 (setq column-number-mode t)
+(put 'narrow-to-region 'disabled nil)
 
 ;; from http://whattheemacsd.com
 
