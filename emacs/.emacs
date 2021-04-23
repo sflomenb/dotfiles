@@ -617,9 +617,13 @@ Repeated invocations toggle between the two most recently open buffers."
   :after evil
   :straight (:host github :repo "Somelauw/evil-org-mode")
   :hook ((org-mode . evil-org-mode)))
+
 (add-hook 'org-mode-hook 'evil-org-mode)
+
 (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
 (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+(evil-define-key 'insert org-mode-map (kbd "<C-return>") #'org-insert-heading-respect-content)
+
 (add-hook 'org-mode-hook 'flyspell-mode)
 
 (use-package fzf
