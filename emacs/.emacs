@@ -148,6 +148,7 @@
 (advice-add 'xref-find-definitions :before #'split-in-direction)
 (advice-add 'lsp-find-definition   :before #'split-in-direction)
 (advice-add 'evil-window-split     :around #'split-in-direction)
+(advice-add 'ibuffer               :before #'split-in-direction)
 
 (defun find-file-left (filename)
   (split-left)
@@ -249,6 +250,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (setq next-line-add-newlines t)
+(global-set-key (kbd "C-c C-u") #'ibuffer)
 
 ; paren mode
 (show-paren-mode 1)
