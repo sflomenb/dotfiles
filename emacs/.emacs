@@ -402,6 +402,8 @@
 	 ( "C-c y" . yas-expand)))
 (use-package yasnippet-snippets
   :after (yasnippet))
+(use-package yasnippet-classic-snippets
+  :after (yasnippet))
 
 ;; disable prompts
 (fset 'yes-or-no-p 'y-or-n-p)
