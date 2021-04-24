@@ -49,3 +49,5 @@
 	difffilter = diff-highlight
 [fetch]
 	prune = true
+[pull]
+	rebase = false
