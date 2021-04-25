@@ -285,6 +285,7 @@
   :config
   ;; Show indicators in the left margin
   (setq flycheck-indication-mode 'left-margin)
+  (setq sentence-end-double-space nil)
   ;; …every time Flycheck is activated in a new buffer
   :hook (flycheck-mode . my/set-flycheck-margins))
 
