@@ -769,7 +769,7 @@ Repeated invocations toggle between the two most recently open buffers."
 		  (buffer-substring-no-properties (region-beginning) (region-end))
 		(thing-at-point 'symbol 'no-properties)))
 	     (bounds (if (region-active-p)
-			 (list (region-beginning) (region-end))
+			 (cons (region-beginning) (region-end))
 		       (bounds-of-thing-at-point 'symbol)))
 	     (target-case (completing-read
 			   "Choose a case: "
