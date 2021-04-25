@@ -722,7 +722,7 @@ Repeated invocations toggle between the two most recently open buffers."
 	(if bounds
 	    (progn
 	      (kill-region (car bounds) (cdr bounds))
-	      (insert "JSON.stringify(" thing ")")))))))
+	      (insert "JSON.stringify(" thing ", null, 2)")))))))
 
 (defun my/desktop-save (session-name)
   (interactive "sSession name: ")
