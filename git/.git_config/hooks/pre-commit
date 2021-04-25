@@ -26,8 +26,17 @@ function validate {
                     finish 1
                 fi
                 if [[ -n "${BANNED_WORDS}" ]]; then
+		    local DIFF
+		    DIFF=$(git diff -U0 --diff-filter=d --cached -- "${FILE}" | grep -v \
+									    -e '^---' \
+									    -e '^+++' \
+									    -e '^@@' \
+									    -e '--git' \
+									    -e '^index' \
+				| grep '^+' \
+				| sed 's/^+\(.*\)$/\1/g')
                     for BANNED_WORD in ${BANNED_WORDS}; do
-                        if grep -q "${BANNED_WORD}" "${FILE}" &> /dev/null; then
+			if echo "${DIFF}" | grep -q "${BANNED_WORD}" &> /dev/null; then
                             echo "Found ${BANNED_WORD} in ${FILE}" >&2
                             grep -n "${BANNED_WORD}" "${FILE}"
                             finish 1
