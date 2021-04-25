@@ -724,6 +724,60 @@ Repeated invocations toggle between the two most recently open buffers."
 	      (kill-region (car bounds) (cdr bounds))
 	      (insert "JSON.stringify(" thing ", null, 2)")))))))
 
+(defun my/determine-case (word)
+  "Determine case of WORD."
+  (interactive)
+  (let ((case-fold-search nil))
+    (cond
+     ((string-match-p "^[A-Z]+\\(_[A-Z]+\\)*$" word) "UPPER_CASE_SNAKE_CASE")
+     ((string-match-p "_"                      word) "snake_case")
+     ((string-match-p "-"                      word) "kebab-case")
+     ((string-match-p "^[A-Z]"                 word) "PascalCase")
+     (t                                              "camelCase"))))
+
+(defun my/split-word (word)
+  "Split WORD into words. Use optional CASE as the case of the word."
+  (interactive)
+  (let ((case-fold-search nil)
+	(case (my/determine-case word)))
+    (cond
+     ((string= case "UPPER_CASE_SNAKE_CASE") (split-string word "_"))
+     ((string= case "snake_case")            (split-string word "_"))
+     ((string= case "kebab-case")            (split-string word "-"))
+     ((string= case "PascalCase")            (s-slice-at "[A-Z]" word))
+     ((string= case "camelCase" )            (s-slice-at "[A-Z]" word)))))
+
+(defun my/convert-words-to-case (words case)
+  "Combine words in WORDS into one word with case CASE."
+  (interactive)
+  (cond
+   ((string= case "UPPER_CASE_SNAKE_CASE") (mapconcat 'upcase words "_"))
+   ((string= case "snake_case")            (mapconcat 'downcase words "_"))
+   ((string= case "kebab-case")            (mapconcat 'downcase words "-"))
+   ((string= case "PascalCase")            (mapconcat 'capitalize words ""))
+   ((string= case "camelCase" )            (concat
+					    (downcase (car words))
+					    (mapconcat 'capitalize (cdr words) "")))))
+
+(defun my/change-case ()
+  "Change case of the current word or region."
+  (interactive)
+  (save-excursion
+    (save-match-data
+      (let* ((current-word
+	      (if (region-active-p)
+		  (buffer-substring-no-properties (region-beginning) (region-end))
+		(thing-at-point 'symbol 'no-properties)))
+	     (bounds (if (region-active-p)
+			 (list (region-beginning) (region-end))
+		       (bounds-of-thing-at-point 'symbol)))
+	     (target-case (completing-read
+			   "Choose a case: "
+			   '("camelCase" "snake_case" "kebab-case" "PascalCase" "UPPER_CASE_SNAKE_CASE")
+			   nil t)))
+	(kill-region (car bounds) (cdr bounds))
+	(insert (my/convert-words-to-case (my/split-word current-word) target-case))))))
+
 (defun my/desktop-save (session-name)
   (interactive "sSession name: ")
   (setq dir-name (concat "~/.emacs.d/desktops/" session-name "/"))
