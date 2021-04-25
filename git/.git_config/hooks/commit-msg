@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+unset GIT_LITERAL_PATHSPECS
+
 is_rebase() {
     [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]]
 }

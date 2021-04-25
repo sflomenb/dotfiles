@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+unset GIT_LITERAL_PATHSPECS
+
 function finish {
     RC="${1:-0}"
     if [[ "${NOT_FIRST_COMMIT}" -eq 0 ]]; then
