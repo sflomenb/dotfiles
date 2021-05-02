@@ -269,7 +269,7 @@
   (setq company-minimum-prefix-length 1)
   (add-hook 'after-init-hook 'global-company-mode)
   :hook ((company-mode . setup-company-map))
-  :bind (("C-;" . company-complete-common-or-cycle)))
+  :bind (("C-;" . company-complete)))
 
 
 ;; Adjust margins and fringe widths…
