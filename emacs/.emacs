@@ -58,8 +58,7 @@
 
 (autoload #'tramp-register-crypt-file-name-handler "tramp-crypt")
 (use-package tramp)
-(use-package docker-tramp
-  :after (tramp))
+(use-package docker-tramp)
 (use-package emacsql-psql)
 (use-package python-pytest)
 (use-package highlight-indent-guides
