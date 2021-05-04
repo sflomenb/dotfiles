@@ -417,6 +417,8 @@
 (setq inhibit-startup-screen t)
 (setq column-number-mode t)
 (put 'narrow-to-region 'disabled nil)
+;; Show tab bar only when there are multiple tabs
+(setq tab-bar-show 1)
 
 ;; from http://whattheemacsd.com
 
