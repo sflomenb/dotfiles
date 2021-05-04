@@ -147,7 +147,14 @@
 (advice-add 'xref-find-definitions :before #'split-in-direction)
 (advice-add 'lsp-find-definition   :before #'split-in-direction)
 (advice-add 'evil-window-split     :around #'split-in-direction)
-(advice-add 'ibuffer               :before #'split-in-direction)
+
+(defun my/ibuffer ()
+  "Call `ibuffer' after `split-in-direction'.
+This is used because `ibuffer' is called during counsel-ibuffer."
+  (split-in-direction)
+  (ibuffer))
+
+(global-set-key (kbd "C-c C-u") #'my/ibuffer)
 
 (defun find-file-left (filename)
   (split-left)
@@ -249,7 +256,6 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (setq next-line-add-newlines t)
-(global-set-key (kbd "C-c C-u") #'ibuffer)
 
 ; paren mode
 (show-paren-mode 1)
