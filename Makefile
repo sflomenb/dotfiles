@@ -17,6 +17,7 @@ dotfiles:
 	stow -t $(HOME) emacs
 	stow -t $(HOME) flake8
 	stow -t $(HOME) git
+	stow -t $(HOME) psql
 	stow -t $(HOME) tmux
 	stow -t $(HOME) vim
 	stow -t $(HOME) zsh
@@ -28,6 +29,7 @@ uninstall:
 	stow -t $(HOME) -D emacs
 	stow -t $(HOME) -D flake8
 	stow -t $(HOME) -D git
+	stow -t $(HOME) -D psql
 	stow -t $(HOME) -D tmux
 	stow -t $(HOME) -D vim
 	stow -t $(HOME) -D zsh
