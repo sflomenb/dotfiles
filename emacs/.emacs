@@ -147,6 +147,7 @@
 (advice-add 'xref-find-definitions :before #'split-in-direction)
 (advice-add 'lsp-find-definition   :before #'split-in-direction)
 (advice-add 'evil-window-split     :around #'split-in-direction)
+(advice-add 'dired                 :before #'split-in-direction)
 
 (defun my/ibuffer ()
   "Call `ibuffer' after `split-in-direction'.
@@ -239,6 +240,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
          ("C-h h" . #'counsel-command-history)
 	 ("C-c f" . #'counsel-fzf)
          ("C-x C-f" . #'counsel-find-file)
+	 ("C-x d" . #'counsel-dired)
+	 ("C-c d" . #'counsel-dired-jump)
          :map ivy-minibuffer-map
          ("C-r" . counsel-minibuffer-history))
   :init
