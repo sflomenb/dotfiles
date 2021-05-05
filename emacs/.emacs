@@ -152,6 +152,7 @@
 (defun my/ibuffer ()
   "Call `ibuffer' after `split-in-direction'.
 This is used because `ibuffer' is called during counsel-ibuffer."
+  (interactive)
   (split-in-direction)
   (ibuffer))
 
