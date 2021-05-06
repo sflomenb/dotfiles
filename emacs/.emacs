@@ -497,11 +497,19 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (define-key isearch-mode-map (kbd "<down>") 'isearch-ring-advance)
 (define-key isearch-mode-map (kbd "<up>") 'isearch-ring-retreat)
 
+(defun set-cursor-bar ()
+  (send-string-to-terminal "\e[5 q"))
+
+(defun restore-cursor ()
+  (send-string-to-terminal "\e[2 q"))
+
 (use-package evil
   :config
   (evil-mode 1)
   ;; do not use evil in magit
-  (add-to-list 'evil-buffer-regexps '("\\*magit:")))
+  (add-to-list 'evil-buffer-regexps '("\\*magit:"))
+  (add-hook 'evil-insert-state-entry-hook #'set-cursor-bar)
+  (add-hook 'evil-insert-state-exit-hook #'restore-cursor))
 
 (use-package evil-matchit
   :after (evil)
