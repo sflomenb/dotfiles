@@ -847,6 +847,14 @@ Repeated invocations toggle between the two most recently open buffers."
   :straight (:host github :repo "Fanael/rainbow-delimiters")
   :hook ((prog-mode-hook . rainbow-delimiters-mode)))
 
+(defun my/set-cliboard-around-command (func &rest r)
+  "Execute command with and without clipboard."
+  (setq select-enable-clipboard t)
+  (apply func r)
+  (setq select-enable-clipboard nil))
+
+(advice-add 'dired-copy-filename-as-kill :around #'my/set-clipboard-around-command)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
