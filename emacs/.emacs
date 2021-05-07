@@ -855,6 +855,12 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (advice-add 'dired-copy-filename-as-kill :around #'my/set-clipboard-around-command)
 
+(defun my/fix-insert-after-command (&rest r)
+  (interactive)
+  (restore-cursor))
+
+(advice-add 'async-shell-command :after #'my/fix-insert-after-command)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
