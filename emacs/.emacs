@@ -845,7 +845,7 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (use-package rainbow-delimiters
   :straight (:host github :repo "Fanael/rainbow-delimiters")
-  :hook ((prog-mode-hook . rainbow-delimiters-mode)))
+  :hook ((prog-mode . rainbow-delimiters-mode)))
 
 (defun my/set-cliboard-around-command (func &rest r)
   "Execute command with and without clipboard."
