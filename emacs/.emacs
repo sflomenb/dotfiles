@@ -529,6 +529,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (global-evil-surround-mode 1))
 
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") #'xref-goto-xref)
+(evil-define-key 'normal occur-mode-map (kbd "RET") #'occur-mode-goto-occurrence)
 (define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
 (define-key evil-normal-state-map (kbd "z k") 'origami-previous-fold)
 
