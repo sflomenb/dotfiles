@@ -363,7 +363,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	       function-key-map)))
     (define-key map "\e[1;P9"  (kbd "C-;"))
     (define-key map "\e[1;P10"  (kbd "C-."))
-    (define-key map "\e[1;P11"  (kbd "<C-return>"))))
+    (define-key map "\e[1;P11"  (kbd "<C-return>"))
+    (define-key map "\e[1;P12"  (kbd "C-,"))))
 
 ;; lsp modes
 
