@@ -481,7 +481,12 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	(unless (minibufferp)
 	  (my/turn-on-absolute-numbers-for-window (old-selected-window))))))
 
-(setq window-selection-change-functions '(my/switch-relative-numbers-off-previous-window))
+(defun my/switch-to-normal-mode (win)
+  "Switch to normal mode when entering a window that is in insert mode."
+  (interactive)
+  (when (evil-insert-state-p) (evil-normal-state)))
+
+(setq window-selection-change-functions '(my/switch-relative-numbers-off-previous-window my/switch-to-normal-mode))
 
 (defun my/turn-relative-numbers-off-other-windows ()
   (interactive)
