@@ -823,7 +823,8 @@ Repeated invocations toggle between the two most recently open buffers."
   (unless (file-directory-p dir-name) (make-directory dir-name))
   (setq desktop-path (list dir-name))
   (desktop-save dir-name)
-  (desktop-save-mode 1))
+  (desktop-save-mode 1)
+  (my/update-session-mode-line))
 
 (defun my/desktop-read ()
   (interactive)
@@ -832,7 +833,8 @@ Repeated invocations toggle between the two most recently open buffers."
   (setq desktop-path (list dir-name))
   (desktop-read dir-name)
   (desktop-save-mode 1)
-  (my/turn-relative-numbers-off-other-windows))
+  (my/turn-relative-numbers-off-other-windows)
+  (my/update-session-mode-line))
 
 (defun my/save-and-release-desktop ()
   (interactive)
@@ -842,7 +844,9 @@ Repeated invocations toggle between the two most recently open buffers."
       (progn
 	(desktop-save dir-name t)
 	(desktop-save-mode 0)
-	(message "Saved desktop."))
+	(message "Saved desktop.")
+	(setq dir-name nil)
+	(my/update-session-mode-line))
     (when (called-interactively-p 'any)
       (user-error "No current desktop to save"))))
 
@@ -856,6 +860,20 @@ Repeated invocations toggle between the two most recently open buffers."
     :cleanup-frames (not (eq desktop-restore-reuses-frames 'keep))
     :force-display desktop-restore-in-current-display
     :force-onscreen desktop-restore-forces-onscreen)))
+
+(defun my/update-session-mode-line ()
+  "Update session-mode-line-string."
+  (setq session-mode-line-string (concat " " (if
+						 (and (boundp 'dir-name) dir-name)
+						 (file-name-nondirectory
+						  (directory-file-name
+						   (file-name-directory dir-name)))
+					       "No session")
+					 " ")))
+
+(my/update-session-mode-line)
+
+(add-to-list 'global-mode-string '(:eval session-mode-line-string))
 
 (use-package rainbow-delimiters
   :straight (:host github :repo "Fanael/rainbow-delimiters")
