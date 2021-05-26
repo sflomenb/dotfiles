@@ -737,9 +737,10 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (insert (file-name-nondirectory (buffer-file-name)) ":" (int-to-string (line-number-at-pos)) " - " current-word ": " (my/alist-get-symbol "placeholder" log-info-from-alist ""))
 	    (move-end-of-line nil)
 	    (backward-char)
-	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " " current-word)
-	    (when-let* ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
-	      (funcall (intern fun-to-call)))
+	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " ")
+	    (if-let ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
+		(funcall (intern fun-to-call) current-word)
+	      (insert current-word))
 	    (move-end-of-line nil)
 	    (insert (my/alist-get-symbol "eol-char" log-info-from-alist ""))))))))
 
@@ -752,16 +753,16 @@ Repeated invocations toggle between the two most recently open buffers."
 (add-hook 'typescript-mode-hook (lambda () (setup-logging typescript-mode-map)))
 (add-hook 'go-mode-hook (lambda () (setup-logging go-mode-map)))
 
-(defun my/json-stringify ()
+(defun my/json-stringify (&optional word)
   (interactive)
   (save-excursion
     (save-match-data
-      (let ((thing (thing-at-point 'symbol 'no-properties))
+      (let ((thing (if word word (thing-at-point 'symbol 'no-properties)))
 	    (bounds (bounds-of-thing-at-point 'symbol)))
-	(if bounds
-	    (progn
-	      (kill-region (car bounds) (cdr bounds))
-	      (insert "JSON.stringify(" thing ", null, 2)")))))))
+	(progn
+	  (when (and bounds (not word))
+	    (kill-region (car bounds) (cdr bounds)))
+	  (insert "JSON.stringify(" thing ", null, 2)"))))))
 
 (defun my/determine-case (word)
   "Determine case of WORD."
