@@ -146,7 +146,6 @@ elseif &loadplugins
 
     let g:go_gopls_enabled=0
 
-    nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
 
     " always show signcolumns
     set signcolumn=yes
