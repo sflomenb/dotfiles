@@ -406,30 +406,6 @@ elseif &loadplugins
             let b:ale_fix_on_save = 0
         endif
     endfunction
-
-    " highlight lines git vim-gitgutter
-    " let g:gitgutter_highlight_lines = 1
-
-    "map  / <Plug>(easymotion-sn)
-    "omap / <Plug>(easymotion-tn)
-
-    " start of default statusline
-    "set statusline=%f\ %h%w%m%r\
-
-    " syntastic settings
-    "set statusline+=%#warningmsg#
-    "set statusline+=%{SyntasticStatuslineFlag()}
-    "set statusline+=%*
-
-    " end of default stautsline (with ruler)
-    "set statusline+=%=%(%l,%c%V\ %=\ %P%)
-
-    "let g:syntastic_always_populate_loc_list = 1
-    "let g:syntastic_auto_loc_list = 1
-    "let g:syntastic_check_on_open = 1
-    "let g:syntastic_check_on_wq = 0
-    "let g:syntastic_aggregate_errors = 1
-    "let g:syntastic_html_checkers = ['validator']
 endif
 
 try
