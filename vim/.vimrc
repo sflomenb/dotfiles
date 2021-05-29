@@ -142,9 +142,10 @@ elseif &loadplugins
     Plug 'morhetz/gruvbox'
     Plug 'pangloss/vim-javascript'
 
+    call plug#end()
+
     let g:go_gopls_enabled=0
 
-    call plug#end()
     nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
 
     " always show signcolumns
