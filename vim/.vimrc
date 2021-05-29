@@ -141,11 +141,17 @@ elseif &loadplugins
     Plug 'chr4/nginx.vim'
     Plug 'morhetz/gruvbox'
     Plug 'pangloss/vim-javascript'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'mileszs/ack.vim'
 
     call plug#end()
 
     let g:go_gopls_enabled=0
 
+    if executable('ag')
+        let g:ackprg = 'ag --vimgrep'
+    endif
 
     " always show signcolumns
     set signcolumn=yes
