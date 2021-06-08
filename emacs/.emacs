@@ -682,8 +682,10 @@ Repeated invocations toggle between the two most recently open buffers."
 	    ("seperator" . " %")
 	    ("placeholder" . "%s")))
 	  ("default" .
-	   (("call" .  "print(\"\")")
-	    ("seperator" . ",")))))
+	   (("call" .  "print(f\"\")")
+	    ("placeholder" . "{=}")
+	    ("char-to-insert-at" . "=")
+	    ("skip-log-word" . t)))))
 	("javascript-mode" . js-log)
 	("js-mode" . js-log)
 	("js2-mode" . js-log)
@@ -734,10 +736,22 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (insert (my/alist-get-symbol "call" log-info-from-alist))
 	    (move-end-of-line nil)
 	    (search-backward "\"" nil t)
-	    (insert (file-name-nondirectory (buffer-file-name)) ":" (int-to-string (line-number-at-pos)) " - " current-word ": " (my/alist-get-symbol "placeholder" log-info-from-alist ""))
+	    (insert
+	     (file-name-nondirectory (buffer-file-name))
+	     ":"
+	     (int-to-string (line-number-at-pos))
+	     " - "
+	     (if
+		 (not (my/alist-get-symbol "skip-log-word" log-info-from-alist))
+		 (concat current-word ": ")
+	       "")
+	     (my/alist-get-symbol "placeholder" log-info-from-alist ""))
 	    (move-end-of-line nil)
-	    (backward-char)
-	    (insert (my/alist-get-symbol "seperator" log-info-from-alist) " ")
+	    (if-let ((search-char (my/alist-get-symbol "char-to-insert-at" log-info-from-alist)))
+		(search-backward search-char nil t)
+	      (backward-char))
+	    (when-let ((seperator (my/alist-get-symbol "seperator" log-info-from-alist)))
+	      (insert seperator " "))
 	    (if-let ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
 		(funcall (intern fun-to-call) current-word)
 	      (insert current-word))
