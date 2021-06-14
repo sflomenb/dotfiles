@@ -57,7 +57,6 @@
 (use-package diminish)
 
 (autoload #'tramp-register-crypt-file-name-handler "tramp-crypt")
-(use-package tramp)
 (use-package docker-tramp)
 (use-package emacsql-psql)
 (use-package python-pytest)
