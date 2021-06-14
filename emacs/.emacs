@@ -429,6 +429,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 ;; Show tab bar only when there are multiple tabs
 (setq tab-bar-show 1)
 
+(setq-default display-fill-column-indicator-column 80)
+(add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
+
 ;; from http://whattheemacsd.com
 
 ;; Write backup files to own directory
