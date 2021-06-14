@@ -341,7 +341,6 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (lsp-enable-which-key-integration t)
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-snippet t)
-  (setq gc-cons-threshold 100000000)
   (setq read-process-output-max (* 1024 1024)))
 
 (with-eval-after-load 'lsp-mode
