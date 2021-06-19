@@ -913,6 +913,15 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (advice-add 'dired-copy-filename-as-kill :around #'my/set-clipboard-around-command)
 
+(defun my/org-copy-link ()
+  "Copy org link under point."
+  (interactive)
+  (let ((current-context (org-element-context)))
+    (if (not (org-element-type current-context))
+	(user-error "No link found at point")
+      (kill-new (org-element-property :raw-link current-context)))))
+
+(advice-add 'my/org-copy-link :around #'my/set-cliboard-around-command)
 (defun my/fix-insert-after-command (&rest r)
   (interactive)
   (restore-cursor))
