@@ -928,6 +928,17 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (advice-add 'async-shell-command :after #'my/fix-insert-after-command)
 
+;; https://www.reddit.com/r/emacs/comments/dfxe1u/codefolding_based_off_indent_level/f370ish/?utm_source=reddit&utm_medium=web2x&context=3
+(defun my/toggle-indentation-fold ()
+  "Toggle code folding according to indentation of current line."
+  (interactive)
+  (set-selective-display
+   (if selective-display
+       nil
+     (save-excursion
+       (back-to-indentation)
+       (1+ (current-column))))))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
