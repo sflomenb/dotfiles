@@ -939,7 +939,31 @@ Repeated invocations toggle between the two most recently open buffers."
        (back-to-indentation)
        (1+ (current-column))))))
 
+;; https://karthinks.com/software/batteries-included-with-emacs/
+(defun pulse-line (&rest _)
+  "Pulse the current line."
+  (pulse-momentary-highlight-one-line (point)))
+
+(dolist (command '(scroll-up-command
+		   scroll-down-command
+		   recenter-top-bottom
+		   other-window
+		   evil-window-next
+		   evil-scroll-line-to-center
+		   evil-scroll-line-to-top
+		   evil-scroll-line-to-bottom
+		   evil-window-up
+		   evil-window-down
+		   evil-window-right
+		   evil-window-left
+		   evil-window-top
+		   evil-window-bottom
+		   evil-window-bottom-right
+		   evil-window-top-left
+		   evil-window-mru
+		   evil-window-delete))
+  (advice-add command :after #'pulse-line))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
-
