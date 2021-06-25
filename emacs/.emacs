@@ -60,7 +60,11 @@
 (use-package docker-tramp)
 (use-package emacsql-psql)
 (use-package python-pytest)
+(use-package indent-guide
+  :config
+  (indent-guide-global-mode))
 (use-package highlight-indent-guides
+  :disabled
   :hook ((prog-mode . highlight-indent-guides-mode))
   :config
   (setq highlight-indent-guides-method 'character))
