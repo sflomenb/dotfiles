@@ -133,6 +133,10 @@
   (split-window-below)
   (evil-window-move-very-bottom))
 
+(defun split-new-tab ()
+  (split-window-below)
+  (evil-window-move-very-bottom))
+
 (defun split-in-direction (&rest r)
   "Split window in evil direction, potentially call function and args within R."
   (let* ((key (read-key-sequence "Direction or enter: ")))
@@ -145,6 +149,7 @@
      ((string= key "K") (split-top))
      ((string= key "H") (split-far-left))
      ((string= key "L") (split-far-right))
+     ((string= key "t") (split-new-tab))
      ((functionp (car r)) (apply (car r) (cdr r))))))
 
 (advice-add 'xref-find-definitions :before #'split-in-direction)
@@ -193,6 +198,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (split-bottom)
   (visit-buffer-or-file filename))
 
+(defun find-file-new-tab (filename)
+  (tab-new)
+  (visit-buffer-or-file filename))
+
 (use-package ivy
   :demand
   :diminish
@@ -212,7 +221,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
      ("J" find-file-bottom "open bottom")
      ("K" find-file-top "open top")
      ("H" find-file-far-left "open far-left")
-     ("L" find-file-far-right "open far-right")))
+     ("L" find-file-far-right "open far-right")
+     ("t" find-file-new-tab "open in a new tab")))
 
   :bind (("C-c k" . #'counsel-ag)
 	 ("C-c C-o" . #'ivy-occur))
