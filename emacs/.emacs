@@ -588,6 +588,15 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (evil-global-set-key 'insert (kbd "<C-return>") 'open-line-above)
 
+;; prevent electric pair when searching
+(defun my/temp-disable-electric-pair (func &rest r)
+  (electric-pair-mode -1)
+  (apply func r)
+  (electric-pair-mode +1))
+
+(advice-add 'evil-ex-search-forward :around #'my/temp-disable-electric-pair)
+(advice-add 'evil-ex-search-backward :around #'my/temp-disable-electric-pair)
+
 (use-package magit
   :bind (("C-c g" . 'magit-file-dispatch))
   :config
