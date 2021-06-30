@@ -881,9 +881,11 @@ Repeated invocations toggle between the two most recently open buffers."
   (my/save-and-release-desktop)
   (setq dir-name (read-directory-name "Directory: " "~/.emacs.d/desktops/"))
   (setq desktop-path (list dir-name))
+  (advice-remove 'dired #'split-in-direction)
   (desktop-read dir-name)
   (desktop-save-mode 1)
   (my/turn-relative-numbers-off-other-windows)
+  (advice-add 'dired :before #'split-in-direction)
   (my/update-session-mode-line))
 
 (defun my/save-and-release-desktop ()
