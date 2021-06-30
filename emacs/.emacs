@@ -987,7 +987,9 @@ Repeated invocations toggle between the two most recently open buffers."
 		   evil-window-bottom-right
 		   evil-window-top-left
 		   evil-window-mru
-		   evil-window-delete))
+		   evil-window-delete
+		   xref-goto-xref
+		   lsp-find-definition))
   (advice-add command :after #'pulse-line))
 
 (provide '.emacs)
