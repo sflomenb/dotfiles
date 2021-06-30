@@ -336,6 +336,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (use-package go-mode)
 
 (use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (java-mode . lsp-deferred)
          (javascript-mode . lsp-deferred)
@@ -544,7 +547,6 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-define-key 'normal occur-mode-map (kbd "RET") #'occur-mode-goto-occurrence)
 (define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
 (define-key evil-normal-state-map (kbd "z k") 'origami-previous-fold)
-(evil-define-key 'normal lsp-mode-map (kbd "g l") lsp-command-map)
 
 (defun my/visual-star-search (beg end forward)
   "Search in direction FORWARD for visual selection between BEG and END."
