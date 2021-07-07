@@ -596,6 +596,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (advice-add 'evil-ex-search-forward :around #'my/temp-disable-electric-pair)
 (advice-add 'evil-ex-search-backward :around #'my/temp-disable-electric-pair)
+;; Disable pairs when entering minibuffer
+(add-hook 'minibuffer-setup-hook (lambda () (electric-pair-mode -1)))
+;; Renable pairs when existing minibuffer
+(add-hook 'minibuffer-exit-hook (lambda () (electric-pair-mode 1)))
 
 (use-package magit
   :bind (("C-c g" . 'magit-file-dispatch))
