@@ -545,6 +545,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") #'xref-goto-xref)
 (evil-define-key 'normal occur-mode-map (kbd "RET") #'occur-mode-goto-occurrence)
+(evil-define-minor-mode-key 'normal 'magit-blame-mode (kbd "RET") 'magit-show-commit)
 (define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
 (define-key evil-normal-state-map (kbd "z k") 'origami-previous-fold)
 (define-key evil-normal-state-map (kbd "C-w t") 'tab-new)
