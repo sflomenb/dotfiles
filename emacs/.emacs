@@ -366,8 +366,28 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :config (setq lsp-ui-flycheck-live-reporting t)
   :hook (lsp-node . lsp-ui-mode))
 
+(use-package dap-mode
+  :config
+  (dap-mode 1)
+  :bind (("C-c a n"   . dap-next)
+	 ("C-c a c"   . dap-continue)
+	 ("C-c a b t" . dap-breakpoint-toggle)
+	 ("C-c a b d" . dap-breakpoint-delete)
+	 ("C-c a b a" . dap-breakpoint-add)
+	 ("C-c a b c" . dap-breakpoint-condition)
+	 ("C-c a b h" . dap-breakpoint-hit-condition)
+	 ("C-c a b l" . dap-breakpoint-log-message)
+	 ("C-c a e"   . dap-eval)
+	 ("C-c a r"   . dap-eval-region)
+	 ("C-c a s i" . dap-step-in)
+	 ("C-c a s o" . dap-step-out)
+	 ("C-c a d i" . dap-disconnect)
+	 ("C-c a d d" . dap-debug)
+	 ("C-c a d l" . dap-debug-last)
+	 ("C-c a d r" . dap-debug-recent)
+	 ("C-c a o"   . dap-go-to-output-buffer)))
 
-(use-package dap-mode)
+
 
 (progn
   (let ((map (if (boundp 'input-decode-map)
