@@ -134,8 +134,7 @@
   (evil-window-move-very-bottom))
 
 (defun split-new-tab ()
-  (split-window-below)
-  (evil-window-move-very-bottom))
+  (tab-new))
 
 (defun split-in-direction (&rest r)
   "Split window in evil direction, potentially call function and args within R."
