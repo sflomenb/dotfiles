@@ -598,6 +598,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
 (define-key evil-normal-state-map (kbd "] h") 'diff-hl-next-hunk)
 (define-key evil-normal-state-map (kbd "[ h") 'diff-hl-previous-hunk)
+(evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "] u") 'winner-redo)
+(evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "[ u") 'winner-undo)
 
 (defun open-line-above ()
   (interactive)
