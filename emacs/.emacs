@@ -850,7 +850,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun my/determine-case (word)
   "Determine case of WORD."
-  (interactive)
   (let ((case-fold-search nil))
     (cond
      ((string-match-p "^[A-Z]+\\(_[A-Z]+\\)*$" word) "UPPER_CASE_SNAKE_CASE")
@@ -861,7 +860,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun my/split-word (word)
   "Split WORD into words. Use optional CASE as the case of the word."
-  (interactive)
   (let ((case-fold-search nil)
 	(case (my/determine-case word)))
     (cond
@@ -873,7 +871,6 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (defun my/convert-words-to-case (words case)
   "Combine words in WORDS into one word with case CASE."
-  (interactive)
   (cond
    ((string= case "UPPER_CASE_SNAKE_CASE") (mapconcat 'upcase words "_"))
    ((string= case "snake_case")            (mapconcat 'downcase words "_"))
