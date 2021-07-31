@@ -223,7 +223,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
      ("L" find-file-far-right "open far-right")
      ("t" find-file-new-tab "open in a new tab")))
 
-  :bind (("C-c k" . #'counsel-ag)
+  :bind (("C-c K" . #'counsel-ag)
 	 ("C-c C-o" . #'ivy-occur))
 	 ;; ("C-c C-r" . #'ivy-resume)
          ;; ("C-s"     . #'swiper)
