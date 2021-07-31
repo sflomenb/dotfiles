@@ -633,7 +633,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (add-hook 'minibuffer-exit-hook (lambda () (electric-pair-mode 1)))
 
 (use-package magit
-  :bind (("C-c g" . 'magit-file-dispatch))
+  :bind (("C-c g" . 'magit-file-dispatch)
+	 ("C-c G" . 'magit-dispatch))
   :config
   (setq magit-keep-region-overlay t)
   (setq magit-diff-refine-hunk 'all))
