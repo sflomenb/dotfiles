@@ -465,6 +465,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (setq-default display-fill-column-indicator-column 80)
 (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
 
+(winner-mode)
+
 ;; from http://whattheemacsd.com
 
 ;; Write backup files to own directory
