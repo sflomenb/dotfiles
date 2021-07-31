@@ -543,6 +543,12 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (defun restore-cursor ()
   (send-string-to-terminal "\e[2 q"))
 
+(global-set-key (kbd "M-j") 'comment-indent-new-line)
+
+(defun my/evil-append (&rest _)
+  (end-of-line)
+  (evil-append 1))
+
 (use-package evil
   :config
   (evil-mode 1)
@@ -550,7 +556,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (add-to-list 'evil-buffer-regexps '("\\*magit:"))
   (add-to-list 'evil-buffer-regexps '("\\*org-goto\\*"))
   (add-hook 'evil-insert-state-entry-hook #'set-cursor-bar)
-  (add-hook 'evil-insert-state-exit-hook #'restore-cursor))
+  (add-hook 'evil-insert-state-exit-hook #'restore-cursor)
+  (advice-add 'comment-indent-new-line :after 'my/evil-append))
 
 (use-package evil-matchit
   :after (evil)
