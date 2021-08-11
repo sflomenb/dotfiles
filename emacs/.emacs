@@ -30,9 +30,9 @@
  '(ediff-current-diff-Ancestor ((t (:extend t :background "#ccc6d1" :foreground "black"))))
  '(ediff-current-diff-B ((t (:extend t :background "green" :foreground "brightwhite"))))
  '(ediff-current-diff-C ((t (:extend t :background "blue" :foreground "brightwhite"))))
- '(ediff-fine-diff-A ((t (:foreground "color-240"))))
+ '(ediff-fine-diff-A ((t (:foreground "color-255"))))
  '(ediff-fine-diff-Ancestor ((t (:background "#b6b0d6" :foreground "black"))))
- '(ediff-fine-diff-B ((t (:foreground "color-240"))))
+ '(ediff-fine-diff-B ((t (:foreground "color-255"))))
  '(ediff-fine-diff-C ((t (:background "color-45" :foreground "color-240")))))
 
 (setq straight-use-package-by-default t)
