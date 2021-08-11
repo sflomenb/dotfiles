@@ -465,6 +465,12 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (setq-default display-fill-column-indicator-column 80)
 (add-hook 'prog-mode-hook 'display-fill-column-indicator-mode)
 
+;; show trailing whitespaces
+(defun my/show-trailing-whitespace ()
+  (setq show-trailing-whitespace t))
+
+(add-hook 'prog-mode-hook #'my/show-trailing-whitespace)
+
 (winner-mode)
 
 ;; from http://whattheemacsd.com
