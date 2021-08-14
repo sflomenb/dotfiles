@@ -82,7 +82,26 @@
   (setq undohist-ignored-files (list "COMMIT_EDITMSG")))
 (use-package gruvbox-theme
   :config
-  (load-theme 'gruvbox t))
+  (load-theme 'gruvbox-light-medium t))
+
+;; auto switch theme by time of day
+;; https://stackoverflow.com/questions/14760567/emacs-auto-load-color-theme-by-time
+(defvar current-theme nil)
+
+(defun synchronize-theme ()
+  "Set theme based on time of day."
+  (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
+	 (theme-to-change-to (if (member hour (number-sequence 6 20))
+				 'gruvbox-light-medium 'gruvbox)))
+    (when (not (equal theme-to-change-to current-theme))
+      (setq current-theme theme-to-change-to)
+      (load-theme theme-to-change-to t)
+      (when (string= system-type "darwin")
+	(shell-command "~/Library/ApplicationSupport/iTerm2/iterm2env/versions/3.8.6/bin/python3 ~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py")))))
+
+(synchronize-theme)
+(run-with-timer 0 300 'synchronize-theme)
+
 (use-package free-keys)
 (use-package json-mode)
 
