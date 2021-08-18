@@ -833,7 +833,7 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (move-end-of-line nil)
 	    (search-backward "\"" nil t)
 	    (insert
-	     (file-name-nondirectory (buffer-file-name))
+	     (file-relative-name buffer-file-name (projectile-project-root))
 	     ":"
 	     (int-to-string (line-number-at-pos))
 	     " - "
