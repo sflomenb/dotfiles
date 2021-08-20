@@ -438,7 +438,6 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (use-package lsp-docker)
 (use-package lsp-focus)
-(global-set-key (kbd "C-c C-f") 'focus-mode)
 (add-hook 'focus-mode-hook #'lsp-focus-mode)
 
 ;; to enable the lenses
@@ -1022,6 +1021,7 @@ Repeated invocations toggle between the two most recently open buffers."
      (save-excursion
        (back-to-indentation)
        (1+ (current-column))))))
+(global-set-key (kbd "C-c C-f") #'my/toggle-indentation-fold)
 
 ;; https://karthinks.com/software/batteries-included-with-emacs/
 (defun pulse-line (&rest _)
