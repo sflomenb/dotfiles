@@ -1050,6 +1050,25 @@ Repeated invocations toggle between the two most recently open buffers."
 		   lsp-find-definition))
   (advice-add command :after #'pulse-line))
 
+(defun my/escape (characters beg end)
+  "Escape characters in CHARACTERS between BEG and END."
+  (interactive "sCharacters to escape: \nr")
+  (unless (region-active-p) (user-error "Please select a region before calling this function"))
+  (when (string-empty-p characters) (user-error "Please input charactes"))
+  (save-excursion
+    (let* ((character-list (s-slice-at "." characters))
+	   (current-char (car character-list)))
+      (unless character-list
+	(user-error "No characters found"))
+      (while character-list
+	(goto-char beg)
+	(while (re-search-forward (concat "\\([^\\]\\)" current-char) end t)
+	  (replace-match (concat (match-string 1) "\\\\" current-char))
+	  (setq end (1+ end)))
+	(setq character-list (cdr character-list))
+	(setq current-char (car character-list)))))
+  (if evil-mode (evil-exit-visual-state) (deactivate-mark)))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
