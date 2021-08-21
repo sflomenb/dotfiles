@@ -854,7 +854,7 @@ Repeated invocations toggle between the two most recently open buffers."
 	    (insert (my/alist-get-symbol "eol-char" log-info-from-alist ""))))))))
 
 (defun setup-logging (map-to-add)
-  (define-key map-to-add (kbd "C-c g") 'log-word-at-point))
+  (define-key map-to-add (kbd "C-c o") 'log-word-at-point))
 
 (add-hook 'python-mode-hook (lambda () (setup-logging python-mode-map)))
 (add-hook 'js-mode-hook (lambda () (setup-logging js-mode-map)))
