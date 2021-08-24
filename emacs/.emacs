@@ -1069,6 +1069,15 @@ Repeated invocations toggle between the two most recently open buffers."
 	(setq current-char (car character-list)))))
   (if evil-mode (evil-exit-visual-state) (deactivate-mark)))
 
+;; ansi color support in compilation-mode
+;; https://stackoverflow.com/a/20788581/5521899
+(ignore-errors
+  (require 'ansi-color)
+  (defun my-colorize-compilation-buffer ()
+    (when (eq major-mode 'compilation-mode)
+      (ansi-color-apply-on-region compilation-filter-start (point-max))))
+  (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
