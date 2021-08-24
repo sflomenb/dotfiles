@@ -658,9 +658,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 ;; prevent electric pair when searching
 (defun my/temp-disable-electric-pair (func &rest r)
+  "Disable and enable electric pair mode around FUNC with params R."
   (electric-pair-mode -1)
-  (apply func r)
-  (electric-pair-mode +1))
+  (unwind-protect (apply func r) (electric-pair-mode +1)))
 
 (advice-add 'evil-ex-search-forward :around #'my/temp-disable-electric-pair)
 (advice-add 'evil-ex-search-backward :around #'my/temp-disable-electric-pair)
