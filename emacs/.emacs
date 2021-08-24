@@ -627,8 +627,21 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (evil-global-set-key 'normal (kbd "M-H") 'evil-ex-nohighlight)
 
-(define-key evil-normal-state-map (kbd "] g") 'flycheck-next-error)
-(define-key evil-normal-state-map (kbd "[ g") 'flycheck-previous-error)
+(defun my/next-error ()
+  (interactive)
+  (cond ((eq major-mode 'compilation-mode)
+	 (next-error))
+	(t (flycheck-next-error))))
+
+(defun my/prev-error ()
+  (interactive)
+  (cond ((eq major-mode 'compilation-mode)
+	 (previous-error))
+	(t (flycheck-previous-error))))
+
+(dolist (map (list evil-normal-state-map evil-motion-state-map))
+  (define-key map (kbd "] g") 'my/next-error)
+  (define-key map (kbd "[ g") 'my/prev-error))
 (define-key evil-normal-state-map (kbd "] h") 'diff-hl-next-hunk)
 (define-key evil-normal-state-map (kbd "[ h") 'diff-hl-previous-hunk)
 (evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "] u") 'winner-redo)
