@@ -1019,11 +1019,15 @@ Repeated invocations toggle between the two most recently open buffers."
       (kill-new (org-element-property :raw-link current-context)))))
 
 (advice-add 'my/org-copy-link :around #'my/set-cliboard-around-command)
-(defun my/fix-insert-after-command (&rest r)
+
+(defun my/fix-insert (func &rest r)
+  "Apply FUNC with args R and then restore cursor after."
   (interactive)
+  (if (called-interactively-p 'any) (call-interactively func) (apply func r))
   (restore-cursor))
 
-(advice-add 'async-shell-command :after #'my/fix-insert-after-command)
+(advice-add 'async-shell-command :around #'my/fix-insert)
+(advice-add 'dap-debug           :around #'my/fix-insert)
 
 ;; https://www.reddit.com/r/emacs/comments/dfxe1u/codefolding_based_off_indent_level/f370ish/?utm_source=reddit&utm_medium=web2x&context=3
 (defun my/toggle-indentation-fold ()
