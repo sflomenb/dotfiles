@@ -572,11 +572,14 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (defun restore-cursor ()
   (send-string-to-terminal "\e[2 q"))
 
-(global-set-key (kbd "M-j") 'comment-indent-new-line)
+(global-set-key (kbd "C-c M-;") 'comment-indent-new-line)
 
-(defun my/evil-append (&rest _)
-  (end-of-line)
-  (evil-append 1))
+(defun my/new-comment-line-newline (&rest r)
+  "Call `comment-indent-new-line' if inside comment, otherwise `newline' with R."
+  (interactive)
+  (if (nth 4 (syntax-ppss))
+      (comment-indent-new-line)
+    (if (called-interactively-p 'any) (call-interactively 'newline) (newline r))))
 
 (use-package evil
   :config
@@ -586,7 +589,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (add-to-list 'evil-buffer-regexps '("\\*org-goto\\*"))
   (add-hook 'evil-insert-state-entry-hook #'set-cursor-bar)
   (add-hook 'evil-insert-state-exit-hook #'restore-cursor)
-  (advice-add 'comment-indent-new-line :after 'my/evil-append))
+  (define-key evil-insert-state-map (kbd "RET") #'my/new-comment-line-newline))
 
 (use-package evil-matchit
   :after (evil)
