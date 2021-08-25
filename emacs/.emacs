@@ -523,9 +523,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (global-set-key (kbd "C-c t") 'my/toggle-relative-line-numbers)
 
 (defun my/turn-on-absolute-numbers-for-window (win)
-  (with-selected-window win
-    (if display-line-numbers
-	(setq display-line-numbers t))))
+  (when (window-valid-p win)
+    (with-selected-window win
+      (if display-line-numbers
+	  (setq display-line-numbers t)))))
 
 (defun my/switch-relative-numbers-off-previous-window (arg)
   "Switch relative numbers on for current window and off for old window."
