@@ -105,9 +105,6 @@
 (use-package free-keys)
 (use-package json-mode)
 
-(use-package expand-region
-    :bind ("C-^" . .er/expand-region))
-
 (use-package projectile
   :diminish
   :bind (("C-c M" . #'projectile-compile-project))
