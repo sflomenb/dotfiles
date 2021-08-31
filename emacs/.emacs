@@ -542,9 +542,13 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	  (my/turn-on-absolute-numbers-for-window (old-selected-window))))))
 
 (defun my/switch-to-normal-mode (win)
-  "Switch to normal mode when entering a window that is in insert mode."
+  "Switch to normal mode when entering WIN that is in insert mode."
   (interactive)
-  (when (evil-insert-state-p) (evil-normal-state)))
+  (when (and
+	 (not (minibufferp))
+	 (not (minibufferp (window-buffer (old-selected-window))))
+	 (evil-insert-state-p))
+    (evil-normal-state)))
 
 (setq window-selection-change-functions '(my/switch-relative-numbers-off-previous-window my/switch-to-normal-mode))
 
