@@ -1102,6 +1102,8 @@ Repeated invocations toggle between the two most recently open buffers."
       (ansi-color-apply-on-region compilation-filter-start (point-max))))
   (add-hook 'compilation-filter-hook 'my-colorize-compilation-buffer))
 
+(advice-add #'previous-line-or-history-element :after #'move-end-of-line)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
