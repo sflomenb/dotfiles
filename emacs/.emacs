@@ -51,7 +51,10 @@
 (autoload #'tramp-register-crypt-file-name-handler "tramp-crypt")
 (use-package docker-tramp)
 (use-package emacsql-psql)
-(use-package python-pytest)
+(use-package python-pytest
+  :bind (:map python-mode-map
+	      ("C-c t" . 'python-pytest-dispatch)))
+
 (use-package indent-guide
   :config
   (indent-guide-global-mode))
