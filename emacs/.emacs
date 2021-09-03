@@ -25,15 +25,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(diff-refine-added ((t (:inherit diff-refine-changed :background "#22aa22" :foreground "color-229"))))
- '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229"))))
- '(ediff-current-diff-A ((t (:extend t :background "red" :foreground "brightwhite"))))
- '(ediff-current-diff-Ancestor ((t (:extend t :background "#ccc6d1" :foreground "black"))))
- '(ediff-current-diff-B ((t (:extend t :background "green" :foreground "brightwhite"))))
- '(ediff-current-diff-C ((t (:extend t :background "blue" :foreground "brightwhite"))))
- '(ediff-fine-diff-A ((t (:foreground "color-255"))))
- '(ediff-fine-diff-Ancestor ((t (:background "#b6b0d6" :foreground "black"))))
- '(ediff-fine-diff-B ((t (:foreground "color-255"))))
- '(ediff-fine-diff-C ((t (:background "color-45" :foreground "color-240")))))
+ '(diff-refine-removed ((t (:inherit diff-refine-changed :background "#aa2222" :foreground "color-229")))))
 
 (setq straight-use-package-by-default t)
 (defvar bootstrap-version)
@@ -710,13 +702,24 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
 
+(when (not (= (display-color-cells) 16777216)) ; true color support
+  (set-face-attribute 'ediff-current-diff-A nil :extend t :background "red" :foreground "brightwhite")
+  (set-face-attribute 'ediff-current-diff-Ancestor nil :extend t :background "#ccc6d1" :foreground "black")
+  (set-face-attribute 'ediff-current-diff-B nil :extend t :background "green" :foreground "brightwhite")
+  (set-face-attribute 'ediff-current-diff-C nil :extend t :background "blue" :foreground "brightwhite")
+  (set-face-attribute 'ediff-fine-diff-A nil :foreground "color-255")
+  (set-face-attribute 'ediff-fine-diff-Ancestor nil :background "#b6b0d6" :foreground "black")
+  (set-face-attribute 'ediff-fine-diff-B nil :foreground "color-255")
+  (set-face-attribute 'ediff-fine-diff-C nil :background "color-45" :foreground "color-240"))
+
+
 (require 'whitespace)
 
 (global-set-key (kbd "C-x w") 'whitespace-mode)
 
 (defun er-switch-to-previous-buffer ()
   "Switch to previously open buffer.
-Repeated invocations toggle between the two most recently open buffers."
+  Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
