@@ -506,18 +506,40 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 ;; turn off menu bar
 (menu-bar-mode -1)
 
-(when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
+(defun my/get-line-number-type ()
+  "Return visual or relative depending on what mode is enabled."
+  (cond ((or
+	  selective-display
+	  (and (boundp 'hs-minor-mode) hs-minor-mode)
+	  (and (boundp 'origami-mode) origami-mode))
+	 'visual)
+        ((derived-mode-p 'text-mode) 'visual)
+        ((derived-mode-p 'prog-mode) 'relative)))
 
-(setq display-line-numbers-type 'visual)
+(add-hook 'prog-mode-hook (lambda () (setq display-line-numbers 'relative)))
+(add-hook 'text-mode-hook (lambda ()
+			    (setq display-line-numbers 'visual)
+			    (visual-line-mode)))
+
+(defun my/enable-folding-mode (hook-enabled)
+  (if hook-enabled
+      (progn
+	(setq display-line-numbers 'visual)
+	(visual-line-mode)
+	(setq truncate-lines t))
+    (progn
+      (setq display-line-numbers 'relative)
+      (visual-line-mode 0)
+      (setq truncate-lines nil))))
+
+(add-hook 'hs-minor-mode-hook (lambda () (my/enable-folding-mode hs-minor-mode)))
+(add-hook 'origami-mode-hook (lambda () (my/enable-folding-mode origami-mode)))
 
 (defun my/toggle-relative-line-numbers ()
   "Toggle relative line numbers."
   (interactive)
-  (cond ((string= display-line-numbers "visual") (setq display-line-numbers t))
-	((string= display-line-numbers "t") (setq display-line-numbers 'visual))))
-
-(global-set-key (kbd "C-c t") 'my/toggle-relative-line-numbers)
+  (cond ((string= display-line-numbers (symbol-name (my/get-line-number-type))) (setq display-line-numbers t))
+	((string= display-line-numbers "t") (setq display-line-numbers (my/get-line-number-type)))))
 
 (defun my/turn-on-absolute-numbers-for-window (win)
   (when (window-valid-p win)
@@ -533,8 +555,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
        ;; going to a window with the same file
        (not (string= (buffer-file-name) (buffer-file-name (window-buffer (old-selected-window))))))
       (progn
-	(if display-line-numbers
-	    (setq display-line-numbers 'visual))
+	(when display-line-numbers
+	  (setq display-line-numbers (my/get-line-number-type)))
 
 	(unless (minibufferp)
 	  (my/turn-on-absolute-numbers-for-window (old-selected-window))))))
@@ -581,6 +603,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
     (if (called-interactively-p 'any) (call-interactively 'newline) (newline r))))
 
 (use-package evil
+  :init
+  (setq evil-respect-visual-line-mode t)
   :config
   (evil-mode 1)
   ;; do not use evil in magit
@@ -605,6 +629,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-define-minor-mode-key 'normal 'magit-blame-mode (kbd "RET") 'magit-show-commit)
 (define-key evil-normal-state-map (kbd "z j") 'origami-next-fold)
 (define-key evil-normal-state-map (kbd "z k") 'origami-previous-fold)
+(define-key evil-normal-state-map (kbd "z e") 'origami-show-only-node)
 (define-key evil-normal-state-map (kbd "C-w t") 'tab-new)
 
 (defun my/visual-star-search (beg end forward)
@@ -1050,10 +1075,18 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (interactive)
   (set-selective-display
    (if selective-display
-       nil
-     (save-excursion
-       (back-to-indentation)
-       (1+ (current-column))))))
+       (progn
+	 (setq truncate-lines nil)
+	 (visual-line-mode 0)
+	 (setq display-line-numbers 'relative)
+	 nil)
+     (progn
+       (setq truncate-lines t)
+       (visual-line-mode)
+       (setq display-line-numbers 'visual)
+       (save-excursion
+	 (back-to-indentation)
+	 (1+ (current-column)))))))
 (global-set-key (kbd "C-c C-f") #'my/toggle-indentation-fold)
 
 ;; https://karthinks.com/software/batteries-included-with-emacs/
