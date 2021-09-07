@@ -86,9 +86,9 @@
 (defun synchronize-theme ()
   "Set theme based on time of day."
   (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
-	 (theme-to-change-to (if (member hour (number-sequence 6 20))
+	 (theme-to-change-to (if (member hour (number-sequence 6 19))
 				 'gruvbox-light-medium 'gruvbox)))
-    (when (not (equal theme-to-change-to current-theme))
+    (when (not (string= theme-to-change-to current-theme))
       (setq current-theme theme-to-change-to)
       (load-theme theme-to-change-to t))
     (when (string= system-type "darwin")
