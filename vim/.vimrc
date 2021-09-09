@@ -144,10 +144,13 @@ elseif &loadplugins
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
     Plug 'mileszs/ack.vim'
+    Plug 'luochen1990/rainbow'
 
     call plug#end()
 
     let g:go_gopls_enabled=0
+
+    let g:rainbow_active = 1
 
     if executable('ag')
         let g:ackprg = 'ag --vimgrep'
