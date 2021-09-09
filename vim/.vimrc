@@ -1005,7 +1005,9 @@ augroup END
 
 fu! BlockCommentFolds()
     let l:thisline  = getline(v:lnum)
-    if match(l:thisline, '/\*') >= 0
+    if match(l:thisline, '/\*.*\*/') >= 0
+        return "="
+    elseif match(l:thisline, '/\*') >= 0
         return ">1"
     elseif match(l:thisline, '\*/') >= 0
         return "<1"
