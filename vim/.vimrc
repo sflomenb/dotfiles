@@ -154,7 +154,7 @@ elseif &loadplugins
     let g:rainbow_active = 1
 
     if executable('ag')
-        let g:ackprg = 'ag --vimgrep'
+        let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
     endif
 
     " always show signcolumns
