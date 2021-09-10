@@ -157,6 +157,14 @@ elseif &loadplugins
         let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
     endif
 
+    noremap <leader>f :Files<CR>
+    noremap <leader>fd :Files< %:p:hCR>
+
+    noremap <leader>b :Buffers<CR>
+
+    noremap <leader>k :Ack!<space>''<left>
+    noremap <leader>kd :Ack!<space>'' %:p:h<left><left><left><left><left><left><left>
+
     " always show signcolumns
     set signcolumn=yes
 
@@ -461,8 +469,6 @@ nnoremap <Leader><Leader>s :call SaveSessionAndExit()<CR>
 
 command! SS :setlocal spell! spelllang=en_us
 
-nnoremap <Leader>f :call system('pbcopy', @%)<CR> " copy current file name to clipboard
-
 nnoremap ** *<C-O>:%s///gn<CR>``
 
 let g:netrw_liststyle=3
@@ -531,9 +537,9 @@ nnoremap <Leader>sc :SyntasticCheck<CR>
 nnoremap <Leader>sr :SyntasticReset<CR>
 
 
-nnoremap <Leader>f : call system('pbcopy', @%)<CR>
-nnoremap <Leader>ft : call system('pbcopy', expand('%:t'))<CR>
-nnoremap <Leader>ftr : call system('pbcopy', expand('%:t:r'))<CR>
+nnoremap <Leader>cf : call system('pbcopy', @%)<CR>
+nnoremap <Leader>cft : call system('pbcopy', expand('%:t'))<CR>
+nnoremap <Leader>cftr : call system('pbcopy', expand('%:t:r'))<CR>
 
 " get current line number
 cnoremap <Leader>l =line('.')<CR>
