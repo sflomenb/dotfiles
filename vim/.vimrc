@@ -110,6 +110,10 @@ function! FileMatchesRegex(filename, regex)
     return 1
 endfunction
 
+function! ShouldShowIndentGuides()
+    return !empty(&ft) && &ft !~? 'man\|text'
+endfunction
+
 " plugins
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -141,6 +145,7 @@ elseif &loadplugins
     Plug 'chr4/nginx.vim'
     Plug 'morhetz/gruvbox'
     Plug 'pangloss/vim-javascript'
+    Plug 'nathanaelkane/vim-indent-guides'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
     Plug 'mileszs/ack.vim'
@@ -148,6 +153,11 @@ elseif &loadplugins
     Plug 'tpope/vim-commentary'
 
     call plug#end()
+
+    if ShouldShowIndentGuides()
+        let g:indent_guides_enable_on_vim_startup = 1
+        let g:indent_guides_guide_size = 1
+    endif
 
     let g:go_gopls_enabled=0
 
@@ -852,9 +862,9 @@ if exists("loaded_matchit")
 endif
 
 augroup column
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if &ft !~ 'man\|text' | highlight ColorColumn ctermbg=magenta guibg=magenta | endif
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if &ft !~ 'man\|text' | call matchadd('ColorColumn', '\%81v', 100) | endif
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if &ft !~ 'man\|text' | call matchadd('ColorColumn', '\%101v', 100) | endif
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | highlight ColorColumn ctermbg=magenta guibg=magenta | endif
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%81v', 100) | endif
+    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%101v', 100) | endif
     autocmd WinLeave * call clearmatches()
 augroup END
 
