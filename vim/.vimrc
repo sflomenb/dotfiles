@@ -145,6 +145,7 @@ elseif &loadplugins
     Plug 'junegunn/fzf.vim'
     Plug 'mileszs/ack.vim'
     Plug 'luochen1990/rainbow'
+    Plug 'tpope/vim-commentary'
 
     call plug#end()
 
