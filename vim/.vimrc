@@ -1128,3 +1128,6 @@ nnoremap [q :cprev<CR>
 
 let $PAGER=''
 
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap * *zzzv
