@@ -632,7 +632,7 @@ augroup configgroup
 
     " fold settings by language
     autocmd FileType * setlocal foldmethod=syntax
-    autocmd FileType text setlocal foldmethod=manual
+    autocmd FileType text,man setlocal foldmethod=manual
     autocmd FileType python,yaml setlocal foldmethod=indent
 augroup END
 
