@@ -975,11 +975,27 @@ function! LinterStatus() abort
     \)
 endfunction
 
+let g:currentmode={
+       \ 'n'  : 'NORMAL ',
+       \ 'v'  : 'VISUAL ',
+       \ 'V'  : 'V·Line ',
+       \ "\<C-V>" : 'V·Block ',
+       \ 'i'  : 'INSERT ',
+       \ 'R'  : 'R ',
+       \ 'Rv' : 'V·Replace ',
+       \ 'c'  : 'Command ',
+       \ 's'  : 'SELECT ',
+       \ 'S'  : 'S·Line ',
+       \ "\<C-S>" : 'S·Block ',
+       \ 't'  : 'Terminal ',
+       \}
+
 function! ActiveStatus()
     let statusline=""
-    let statusline.="%#PmenuThumb#"
-    let statusline.="%(%{StatuslineGit()}%)"
+    let statusline.="%#WildMenu#"
+    let statusline.="%{toupper(g:currentmode[mode()])}"
     let statusline.="%*"
+    let statusline.="%(%{StatuslineGit()}%)"
     let statusline.="\ %{StatusFilename()}"
     let statusline.="%m"
     let statusline.="%r"
