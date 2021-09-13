@@ -181,6 +181,7 @@ elseif &loadplugins
     let g:coc_global_extensions = [
     \   'coc-clangd',
     \   'coc-css',
+    \   'coc-eslint',
     \   'coc-go',
     \   'coc-java',
     \   'coc-json',
