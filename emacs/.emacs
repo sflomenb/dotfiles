@@ -795,6 +795,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
+(use-package lsp-treemacs
+  :straight (lsp-treemacs :host github :repo "emacs-lsp/lsp-treemacs"))
 
 
 (use-package org
