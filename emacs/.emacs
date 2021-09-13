@@ -795,24 +795,35 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (use-package treemacs-projectile
   :after (treemacs projectile))
 
+
+
+(use-package org
+  :straight (org :type built-in)
+  :config
+  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+  (evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
+  (evil-define-key 'insert org-mode-map (kbd "<C-return>") #'org-insert-heading-respect-content)
+
+  (add-hook 'org-mode-hook 'flyspell-mode)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (python . t)))
+
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "IN-PROGRESS(i)" "WAIT(w@/!)" "|" "DONE(d@)" "CANCELED(c@)")))
+
+  (setq org-goto-auto-isearch nil)
+
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate))
+
 (use-package evil-org
-  :after evil
+  :after (evil org)
   :straight (:host github :repo "Somelauw/evil-org-mode")
   :hook ((org-mode . evil-org-mode)))
-
-(add-hook 'org-mode-hook 'evil-org-mode)
-
-(evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
-(evil-define-key 'normal org-mode-map (kbd "TAB") #'org-cycle)
-(evil-define-key 'insert org-mode-map (kbd "<C-return>") #'org-insert-heading-respect-content)
-
-(add-hook 'org-mode-hook 'flyspell-mode)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (shell . t)
-   (python . t)))
 
 (use-package fzf
   :straight (:host github :repo "bling/fzf.el"))
