@@ -1159,6 +1159,47 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (advice-add #'previous-line-or-history-element :after #'move-end-of-line)
 
+(use-package tree-sitter-langs)
+(use-package tree-sitter
+  ;; :init
+  ;; (setq tree-sitter-hl-use-font-lock-keywords nil)
+  :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode))
+
+;; https://github.com/emacs-tree-sitter/elisp-tree-sitter/discussions/132#discussioncomment-502873
+;;;; Smart f-strings
+;; https://github.com/ubolonton/emacs-tree-sitter/issues/52
+(defun my/python-f-string-ify (&rest _)
+  ;; Does nothing if major-mode is not python or point is not on a string.
+  (when-let* ((python-mode-p (eq major-mode 'python-mode))
+              (str (tree-sitter-node-at-point 'string))
+              (text (ts-node-text str)))
+    (let ((is-f-string (string-match-p "^[bru]*f+[bru]*\\(\"\\|'\\)" text))
+          (should-f-string (and (s-contains-p "{" text)
+                                (s-contains-p "}" text))))
+      (if should-f-string
+          (unless is-f-string
+            (save-excursion
+              (goto-char (ts-node-start-position str))
+              (insert "f")))
+        (when is-f-string
+          (save-excursion
+            (goto-char (ts-node-start-position str))
+            (when (char-equal (char-after) ?f)
+              (delete-char 1))))))))
+
+(define-key python-mode-map (kbd "{") (lambda ()
+                                        (interactive)
+                                        (call-interactively 'self-insert-command)
+                                        (my/python-f-string-ify)))
+
+(advice-add 'wrap-region-trigger  :after #'my/python-f-string-ify)
+(advice-add 'delete-char          :after #'my/python-f-string-ify)
+(advice-add 'delete-active-region :after #'my/python-f-string-ify)
+(advice-add 'evil-delete          :after #'my/python-f-string-ify)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
