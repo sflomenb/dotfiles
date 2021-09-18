@@ -491,9 +491,11 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 ;; from http://whattheemacsd.com
 
 ;; Write backup files to own directory
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name
-                 (concat user-emacs-directory "backups")))))
+(let ((backup-dir (file-name-as-directory (expand-file-name
+					   (concat user-emacs-directory "backups")))))
+  (setq
+   backup-directory-alist `(("." . ,backup-dir))
+   auto-save-file-name-transforms `((".*" ,backup-dir t))))
 
 ;; Make backups of files, even when they're in version control
 (setq vc-make-backup-files t)
