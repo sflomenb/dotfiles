@@ -1159,6 +1159,14 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (advice-add #'previous-line-or-history-element :after #'move-end-of-line)
 
+(defun my/with-projectile-root(func &rest r)
+  "Run FUNC with args R with default directory set to `(projectile-project-root)'."
+  (let ((default-directory (projectile-project-root)))
+    (apply func r)))
+(advice-add 'find-file-at-point                :around #'my/with-projectile-root)
+(advice-add 'evil-find-file-at-point-with-line :around #'my/with-projectile-root)
+(advice-add 'compile                           :around #'my/with-projectile-root)
+
 (use-package tree-sitter-langs)
 (use-package tree-sitter
   ;; :init
