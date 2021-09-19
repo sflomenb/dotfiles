@@ -1210,6 +1210,46 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (advice-add 'delete-active-region :after #'my/python-f-string-ify)
 (advice-add 'evil-delete          :after #'my/python-f-string-ify)
 
+(defun my/replace-char (chars replace)
+  "Replace char at point with REPLACE if any of CHARS."
+  (when (seq-some
+	 (lambda (char)
+	   (char-equal (char-after) char))
+	 chars)
+    (delete-char 1)
+    (insert replace)))
+
+(defun my/template-literal-backtick-ify (&rest _)
+  (when-let* ((ts-or-js-mode-p (member major-mode '(typescript-mode js-mode)))
+              (str (or (tree-sitter-node-at-point 'string) (tree-sitter-node-at-point 'template_string)))
+              (text (ts-node-text str)))
+    (let ((is-template-literal (tree-sitter-node-at-point 'template_string))
+	  (should-template-literal (and (s-contains-p "${" text)
+					(s-contains-p "}" text))))
+      (if should-template-literal
+          (unless is-template-literal
+            (save-excursion
+	      (dolist (pos '((ts-node-start-position str) (ts-node-end-position str)))
+		(goto-char (eval pos))
+		(my/replace-char (list ?\" ?') "`"))))
+        (when is-template-literal
+          (save-excursion
+	    (dolist (pos '((ts-node-start-position str) (ts-node-end-position str)))
+	      (goto-char (eval pos))
+	      (my/replace-char (list ?`) "\""))))))))
+
+(with-eval-after-load 'typescript-mode
+  (when (and (boundp 'typescript-mode-map) typescript-mode-map)
+    (define-key typescript-mode-map (kbd "{") (lambda ()
+						(interactive)
+						(call-interactively 'self-insert-command)
+						(my/template-literal-backtick-ify)))))
+
+(advice-add 'wrap-region-trigger  :after #'my/template-literal-backtick-ify)
+(advice-add 'delete-char          :after #'my/template-literal-backtick-ify)
+(advice-add 'delete-active-region :after #'my/template-literal-backtick-ify)
+(advice-add 'evil-delete          :after #'my/template-literal-backtick-ify)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
