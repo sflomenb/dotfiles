@@ -77,7 +77,9 @@
   (setq undohist-ignored-files (list "COMMIT_EDITMSG")))
 (use-package gruvbox-theme
   :config
-  (load-theme 'gruvbox-light-medium t))
+  (if (= (display-color-cells) 16777216)
+      (load-theme 'gruvbox-light-medium t)
+    (load-theme 'gruvbox t)))
 
 ;; auto switch theme by time of day
 ;; https://stackoverflow.com/questions/14760567/emacs-auto-load-color-theme-by-time
@@ -105,8 +107,10 @@
 	(when (seq-every-p #'file-exists-p (list iterm2-python-path toggle-script-path))
 	  (shell-command (format "%s %s" iterm2-python-path toggle-script-path)))))))
 
-(synchronize-theme)
-(run-with-timer 0 300 'synchronize-theme)
+(when (= (display-color-cells) 16777216)
+  (progn
+    (synchronize-theme)
+    (run-with-timer 0 300 'synchronize-theme)))
 
 (use-package free-keys)
 (use-package json-mode)
