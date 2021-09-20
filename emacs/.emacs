@@ -86,12 +86,20 @@
 (defun synchronize-theme ()
   "Set theme based on time of day."
   (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
-	 (theme-to-change-to (if (member hour (number-sequence 6 19))
-				 'gruvbox-light-medium 'gruvbox)))
+	 (is-darwin (string= system-type "darwin"))
+	 (light-dark-script "~/light-dark.scpt")
+	 (theme-to-change-to (if (and is-darwin (file-exists-p light-dark-script))
+				 (let ((result (shell-command-to-string (format "osascript %s" light-dark-script)))
+				       (case-fold-search t))
+				   (if (string-match-p "light" result)
+				       'gruvbox-light-medium 'gruvbox))
+			       (if (member hour (number-sequence 6 19))
+				   'gruvbox-light-medium 'gruvbox))))
     (when (not (string= theme-to-change-to current-theme))
       (setq current-theme theme-to-change-to)
       (load-theme theme-to-change-to t))
-    (when (string= system-type "darwin")
+    ;; Change iTerm2 theme if on Mac
+    (when is-darwin
       (let ((iterm2-python-path "~/Library/ApplicationSupport/iTerm2/iterm2env/versions/3.8.6/bin/python3")
 	    (toggle-script-path "~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py"))
 	(when (seq-every-p #'file-exists-p (list iterm2-python-path toggle-script-path))
