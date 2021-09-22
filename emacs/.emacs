@@ -373,6 +373,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 (terraform-mode . lsp-deferred)
 	 (json-mode . lsp-deferred)
 	 (yaml-mode . lsp-deferred)
+	 (rustic-mode . lsp-deferred)
 	 ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp lsp-deferred
@@ -458,6 +459,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :mode "\\.ts\\'"
   :config (setq typescript-indent-level 2))
 
+(use-package project
+  :straight (project :type built-in))
+(use-package rustic)
 
 ;; yasnippet
 (use-package yasnippet
