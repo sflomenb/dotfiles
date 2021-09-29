@@ -1265,6 +1265,28 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (advice-add 'delete-active-region :after #'my/template-literal-backtick-ify)
 (advice-add 'evil-delete          :after #'my/template-literal-backtick-ify)
 
+(defun my/change-window-layout (func)
+  "Change window layout based on FUNC."
+  (let ((win-length (length (window-list)))
+	(num-windows-processed 0)
+	(win (car-safe (window-list))))
+    (while (and win (< num-windows-processed win-length))
+      (with-selected-window win
+	(funcall func)
+	(other-window 1)
+	(setq win (car-safe (window-list)))
+	(setq num-windows-processed (1+ num-windows-processed))))))
+
+(defun my/split-windows-horizontal ()
+  "Splits all windows horizontally."
+  (interactive)
+  (my/change-window-layout 'evil-window-move-very-bottom))
+
+(defun my/split-windows-vertical ()
+  "Splits all windows vertically."
+  (interactive)
+  (my/change-window-layout 'evil-window-move-far-right))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
