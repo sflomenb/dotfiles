@@ -456,6 +456,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
+  ;; https://github.com/emacs-typescript/typescript.el/issues/4#issuecomment-849355222
+  :init
+  (define-derived-mode typescript-tsx-mode typescript-mode "typescript-tsx")
+  (add-to-list 'auto-mode-alist (cons (rx ".tsx" string-end) #'typescript-tsx-mode))
   :config (setq typescript-indent-level 2))
 
 (use-package project
@@ -1191,7 +1195,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
   :config
   (require 'tree-sitter-langs)
-  (global-tree-sitter-mode))
+  (global-tree-sitter-mode)
+  ;; https://github.com/emacs-typescript/typescript.el/issues/4#issuecomment-849355222
+  (setf (alist-get 'typescript-tsx-mode tree-sitter-major-mode-language-alist) 'tsx))
 
 ;; https://github.com/emacs-tree-sitter/elisp-tree-sitter/discussions/132#discussioncomment-502873
 ;;;; Smart f-strings
