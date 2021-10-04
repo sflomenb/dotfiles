@@ -1294,6 +1294,21 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (interactive)
   (my/change-window-layout 'evil-window-move-far-right))
 
+(defun my/goto-prev-indentation-level ()
+  "Move point to previous indentation level in file."
+  (interactive)
+  (back-to-indentation)
+  (let ((current-indentation-level (current-indentation)))
+    (while (and (not (bolp)) (<= current-indentation-level (current-indentation)))
+      (if (fboundp 'evil-previous-line)
+	  (evil-previous-line)
+	(forward-line -1))))
+  (when (fboundp 'evil-set-jump)
+    (evil-set-jump)
+    (back-to-indentation)))
+
+(global-set-key (kbd "C-c u") #'my/goto-prev-indentation-level)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
