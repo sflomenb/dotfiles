@@ -1317,20 +1317,15 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (unless (eq major-mode 'csv-mode)
     (user-error "Please use this in csv-mode"))
   (when-let* ((field-name csv-field-index-string)
-	      (index 0)
 	      (dest-index (string-to-number (substring field-name 1))))
     (save-excursion
-      (save-match-data
-	(beginning-of-buffer)
-	(while (< index dest-index)
-	  (message "searching %s %s" index dest-index)
-	  (search-forward "," (line-end-position) t)
-	  (setq index (1+ index)))
-	(let ((beg (point)))
-	  (re-search-forward ",\\|$" (line-end-position))
-	  ;; prevent including the comma
-	  (when (char-equal (char-before) ?,) (forward-char -1))
-	  (print (buffer-substring-no-properties beg (point))))))))
+      (beginning-of-buffer)
+      (print (nth dest-index
+		  (split-string
+		   (buffer-substring-no-properties
+		    (line-beginning-position)
+		    (line-end-position))
+		   ","))))))
 
 (provide '.emacs)
 
