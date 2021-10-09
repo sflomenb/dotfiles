@@ -1231,6 +1231,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (advice-add 'delete-char          :after #'my/python-f-string-ify)
 (advice-add 'delete-active-region :after #'my/python-f-string-ify)
 (advice-add 'evil-delete          :after #'my/python-f-string-ify)
+(advice-add 'evil-surround-region :after #'my/python-f-string-ify)
+(advice-add 'evil-surround-change :after #'my/python-f-string-ify)
+(advice-add 'evil-surround-delete :after #'my/python-f-string-ify)
 
 (defun my/replace-char (chars replace)
   "Replace char at point with REPLACE if any of CHARS."
@@ -1271,6 +1274,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (advice-add 'delete-char          :after #'my/template-literal-backtick-ify)
 (advice-add 'delete-active-region :after #'my/template-literal-backtick-ify)
 (advice-add 'evil-delete          :after #'my/template-literal-backtick-ify)
+(advice-add 'evil-surround-region :after #'my/template-literal-backtick-ify)
+(advice-add 'evil-surround-change :after #'my/template-literal-backtick-ify)
+(advice-add 'evil-surround-delete :after #'my/template-literal-backtick-ify)
 
 (defun my/change-window-layout (func)
   "Change window layout based on FUNC."
