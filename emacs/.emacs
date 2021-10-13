@@ -1350,6 +1350,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 		    (line-end-position))
 		   ","))))))
 
+(global-set-key (kbd "C-c q") #'quit-window)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
