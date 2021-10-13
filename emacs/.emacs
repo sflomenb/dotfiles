@@ -699,12 +699,29 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "] u") 'winner-redo)
 (evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "[ u") 'winner-undo)
 
+;; https://emacs.stackexchange.com/a/16825
+(defun my/only-whitespace-p ()
+  "Return t if line is nonempty and only whitespace."
+  (and
+   (> (current-indentation) 0)
+   (= (current-indentation)
+      (- (line-end-position) (line-beginning-position)))))
+
+(defun my/kill-line-if-only-whitespace (&rest _)
+  "Kill the current line if it is only made up of whitespace."
+  (when (my/only-whitespace-p)
+    (beginning-of-line)
+    (kill-line)))
+
 (defun my/open-line-above ()
   (interactive)
   (beginning-of-line)
+  (my/kill-line-if-only-whitespace)
   (newline)
   (forward-line -1)
   (indent-for-tab-command))
+
+(advice-add 'evil-normal-state :after #'my/kill-line-if-only-whitespace)
 
 (evil-global-set-key 'insert (kbd "<C-return>") 'my/open-line-above)
 
