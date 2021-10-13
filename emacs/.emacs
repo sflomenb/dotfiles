@@ -1352,6 +1352,13 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (global-set-key (kbd "C-c q") #'quit-window)
 
+(defun my/recreate-buffer ()
+  "Kill and replace the current buffer."
+  (interactive)
+  (let ((buffer-name buffer-file-truename))
+    (kill-this-buffer)
+    (find-file buffer-name)))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
