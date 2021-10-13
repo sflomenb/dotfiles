@@ -699,14 +699,14 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "] u") 'winner-redo)
 (evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "[ u") 'winner-undo)
 
-(defun open-line-above ()
+(defun my/open-line-above ()
   (interactive)
   (beginning-of-line)
   (newline)
   (forward-line -1)
   (indent-for-tab-command))
 
-(evil-global-set-key 'insert (kbd "<C-return>") 'open-line-above)
+(evil-global-set-key 'insert (kbd "<C-return>") 'my/open-line-above)
 
 ;; prevent electric pair when searching
 (defun my/temp-disable-electric-pair (func &rest r)
