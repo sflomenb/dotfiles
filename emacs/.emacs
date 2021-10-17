@@ -1295,6 +1295,73 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (advice-add 'evil-surround-change :after #'my/template-literal-backtick-ify)
 (advice-add 'evil-surround-delete :after #'my/template-literal-backtick-ify)
 
+(defun my/sort-js-object (&optional pos)
+  "Sort JS/TS object alphabetically by keys, optionally with the object at POS."
+  (interactive)
+  (let* ((starting-pos (or pos (point)))
+	 (cursor (tsc-make-cursor (tree-sitter-node-at-pos 'object starting-pos)))
+	 (node (tsc-current-node cursor))
+	 (pair-nodes (list))
+	 sorted-pairs pair-seperator start-seperator end-seperator)
+    ;; Get all pairs.
+    (dotimes (child-num (tsc-count-children node))
+      (let ((child (tsc-get-nth-child node child-num)))
+	(when (equal (tsc-node-type child) 'pair)
+
+	  ;; Save the text from the start to the beginning of the first seperator.
+	  (when (= (length pair-nodes) 0)
+	    (setq start-seperator (buffer-substring-no-properties
+				   (tsc-node-start-position node)
+				   (tsc-node-start-position child))))
+
+	  ;; Save separator in between the pairs.
+	  (when (= (length pair-nodes) 1)
+	    (setq pair-seperator (buffer-substring-no-properties
+				  (tsc-node-end-position (car pair-nodes))
+				  (tsc-node-start-position child))))
+
+	  ;; if we find a nested object, we have to recursively sort any objects inside
+	  (when-let* ((potential-object-node (tsc-get-nth-child child 2))
+		      (is-object-p (equal (tsc-node-type potential-object-node) 'object)))
+	    (my/sort-js-object (tsc-node-start-position potential-object-node))
+
+	    ;; The nodes have been updates, so we have to parse the object again
+	    ;; and gather the pairs.
+	    (setq cursor (tsc-make-cursor (tree-sitter-node-at-pos 'object starting-pos)))
+	    (setq node (tsc-current-node cursor))
+	    (setq pair-nodes (list))
+
+	    ;; Grab all pairs and current child again.
+	    ;; This is simpler since all prior things have been sorted and seperators
+	    ;; have been obtained.
+	    (dotimes (redo-child-num child-num)
+	      (let ((redo-child (tsc-get-nth-child node redo-child-num)))
+		(when (equal (tsc-node-type redo-child) 'pair)
+		  (setq pair-nodes (append pair-nodes (list redo-child))))))
+	    (setq child (tsc-get-nth-child node child-num)))
+
+	  (setq pair-nodes (append pair-nodes (list child))))))
+
+    ;; Save the text from the end of the last pair to the end.
+    (setq end-seperator (buffer-substring-no-properties
+			 (tsc-node-end-position (car (last pair-nodes)))
+			 (tsc-node-end-position node)))
+
+    (setq sorted-pairs (string-join
+			;; Grab the text of each node.
+			(mapcar 'tsc-node-text
+				;; Sort on the keys.
+				(sort pair-nodes (lambda (first second)
+						   (string<
+						    ;; The key is the first child of a pair node.
+						    (tsc-node-text (tsc-get-nth-child first 0))
+						    (tsc-node-text (tsc-get-nth-child second 0))))))
+			pair-seperator))
+    ;; Update the text in the buffer;
+    (goto-char (tsc-node-start-position node))
+    (kill-region (tsc-node-start-position node) (tsc-node-end-position node))
+    (insert (concat start-seperator sorted-pairs end-seperator))))
+
 (defun my/change-window-layout (func)
   "Change window layout based on FUNC."
   (let ((win-length (length (window-list)))
