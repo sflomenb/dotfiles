@@ -1362,6 +1362,23 @@ This is used because `ibuffer' is called during counsel-ibuffer."
     (kill-region (tsc-node-start-position node) (tsc-node-end-position node))
     (insert (concat start-seperator sorted-pairs end-seperator))))
 
+(defun my/goto-top-object ()
+  "Move point to the beginning of the topmost object."
+  (interactive)
+  (let* ((cursor (tsc-make-cursor (tree-sitter-node-at-point 'object)))
+	 (node (tsc-current-node cursor)))
+    (while (or
+	    (equal (tsc-node-type (tsc-get-parent node)) 'object)
+	    (equal (tsc-node-type (tsc-get-parent node)) 'pair))
+      (setq node (tsc-get-parent node)))
+    (goto-char (tsc-node-start-position node))))
+
+(defun my/goto-top-object-and-sort ()
+  "Move point to the topmost object and sort."
+  (interactive)
+  (my/goto-top-object)
+  (my/sort-js-object))
+
 (defun my/change-window-layout (func)
   "Change window layout based on FUNC."
   (let ((win-length (length (window-list)))
