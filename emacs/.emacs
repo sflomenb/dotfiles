@@ -161,6 +161,11 @@
 (defun split-new-tab ()
   (tab-new))
 
+(defun split-other-window ()
+  (let ((new-window (display-buffer (current-buffer) '((display-buffer-pop-up-window) . ((inhibit-same-window . t))))))
+    (if new-window (select-window new-window)
+      (other-window 1))))
+
 (defun split-in-direction (&rest r)
   "Split window in evil direction, potentially call function and args within R."
   (let* ((key (read-key-sequence "Direction or enter: ")))
@@ -174,6 +179,7 @@
      ((string= key "H") (split-far-left))
      ((string= key "L") (split-far-right))
      ((string= key "t") (split-new-tab))
+     ((string= key "O") (split-other-window))
      ((functionp (car r)) (apply (car r) (cdr r))))))
 
 (advice-add 'xref-find-definitions :before #'split-in-direction)
@@ -226,6 +232,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (tab-new)
   (visit-buffer-or-file filename))
 
+(defun find-file-other-window (filename)
+  (split-other-window)
+  (visit-buffer-or-file filename))
+
 (use-package ivy
   :demand
   :diminish
@@ -246,7 +256,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
      ("K" find-file-top "open top")
      ("H" find-file-far-left "open far-left")
      ("L" find-file-far-right "open far-right")
-     ("t" find-file-new-tab "open in a new tab")))
+     ("t" find-file-new-tab "open in a new tab")
+     ("O" find-file-other-window "open in a new tab")))
 
   :bind (("C-c K" . #'counsel-ag)
 	 ("C-c C-o" . #'ivy-occur))
