@@ -1454,6 +1454,43 @@ This is used because `ibuffer' is called during counsel-ibuffer."
     (kill-this-buffer)
     (find-file buffer-name)))
 
+(defun my/number-of-windows-wide(&optional num-of-windows window)
+  (interactive)
+  (let* ((current-window (or window (selected-window)))
+	 (num-of-windows (or num-of-windows 0))
+	 (window-at-right-side (window-at-side-p current-window 'right))
+	 )
+    (if window-at-right-side (1+ num-of-windows)
+      (max
+       (my/number-of-windows-wide (1+ num-of-windows)
+				  (window-in-direction 'right current-window nil +1))
+       (my/number-of-windows-wide (1+ num-of-windows)
+				  (window-in-direction 'right current-window nil -1))
+       (if (and
+	    (window-at-side-p current-window 'left)
+	    (not (window-at-side-p current-window 'bottom))
+	    (window-at-side-p (window-in-direction 'down current-window nil +1) 'left))
+	   (my/number-of-windows-wide 0 (window-in-direction 'down current-window nil +1))
+	 0)))))
+
+(defun my/balance-window-widths ()
+  "Balance all window widths."
+  (interactive)
+  (let* ((win (frame-first-window))
+	 (num-windows-wide (my/number-of-windows-wide 0 win))
+	 (desired-width (/ (frame-text-width) num-windows-wide)))
+    (balance-windows)
+    (dotimes (_ (count-windows))
+      (with-selected-window win
+	(enlarge-window-horizontally (- desired-width (window-width))))
+      (setq win (next-window)))
+    (dotimes (_ (count-windows))
+      (with-selected-window win
+	(enlarge-window-horizontally (- desired-width (window-width)))
+	(setq win (previous-window))))))
+
+(define-key evil-motion-state-map [remap balance-windows] 'my/balance-window-widths)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
