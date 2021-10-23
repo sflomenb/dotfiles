@@ -764,20 +764,21 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 ;; https://emacs.stackexchange.com/a/13831
 (defun magit-diff-mbase-master (&optional args)
-  "Show diff of $(git diff merge-base master HEAD) to working tree."
+  "Show diff of $(git diff merge-base master HEAD) to working tree with optional ARGS."
   (interactive (list (magit-diff-arguments)))
   (magit-diff-working-tree
-   (magit-git-string "merge-base" "origin/master" "HEAD") args))
+   (magit-git-string "merge-base" "origin/master" "HEAD") (car args) (cadr args)))
 
 (transient-append-suffix 'magit-diff "w" '("m" "Diff merge-base master" magit-diff-mbase-master))
 
 (defun magit-diff-mbase-other (&optional args)
-  "Show diff of $(git diff merge-base master HEAD) to working tree."
+  "Show diff of $(git diff merge-base <branch> HEAD) to working tree with optional ARGS."
   (interactive (list (magit-diff-arguments)))
   (magit-diff-working-tree
    (magit-git-string "merge-base"
 		     (magit-read-other-branch "Select start of merge-base")
-		     "HEAD") args))
+		     "HEAD")
+   (car args) (cadr args)))
 
 (transient-append-suffix 'magit-diff "m" '("o" "Diff merge-base other" magit-diff-mbase-other))
 
