@@ -236,6 +236,25 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (split-other-window)
   (visit-buffer-or-file filename))
 
+
+;; https://github.com/abo-abo/swiper/issues/1068
+(defun my/ivy-with-thing-at-point (cmd &optional dir)
+  (let ((ivy-initial-inputs-alist
+	 (list
+	  (cons cmd (thing-at-point 'symbol)))))
+    (funcall cmd nil dir)))
+
+(defun my/counsel-ag (&optional dir)
+  (interactive "D")
+  (my/ivy-with-thing-at-point
+   'counsel-ag
+   (or dir (file-name-directory (buffer-file-name)))))
+
+(defun my/counsel-projectile-ag ()
+  (interactive)
+  (my/ivy-with-thing-at-point
+   'counsel-projectile-ag))
+
 (use-package ivy
   :demand
   :diminish
@@ -259,7 +278,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
      ("t" find-file-new-tab "open in a new tab")
      ("O" find-file-other-window "open in a new tab")))
 
-  :bind (("C-c K" . #'counsel-ag)
+  :bind (("C-c K" . #'my/counsel-ag)
 	 ("C-c C-o" . #'ivy-occur))
 	 ;; ("C-c C-r" . #'ivy-resume)
          ;; ("C-s"     . #'swiper)
