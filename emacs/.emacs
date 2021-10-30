@@ -48,9 +48,12 @@
 (use-package diminish)
 
 (autoload #'tramp-register-crypt-file-name-handler "tramp-crypt")
-(use-package docker-tramp)
-(use-package emacsql-psql)
+(use-package docker-tramp
+  :if (executable-find "docker"))
+(use-package emacsql-psql
+  :if (or (executable-find "psql") (executable-find "docker")))
 (use-package python-pytest
+  :if (executable-find "pytest")
   :bind (:map python-mode-map
 	      ("C-c t" . 'python-pytest-dispatch)))
 
@@ -74,6 +77,7 @@
   :config
   (undohist-initialize)
   (setq undohist-ignored-files (list "COMMIT_EDITMSG")))
+
 (use-package gruvbox-theme
   :config
   (if (= (display-color-cells) 16777216)
@@ -334,7 +338,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 ;; auto insert closing bracket
 (electric-pair-mode 1)
 
-(use-package terraform-mode)
+(use-package terraform-mode
+  :if (executable-find "terraform"))
 
 (defun setup-company-map ()
   (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
@@ -385,9 +390,11 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :config
   (which-key-mode))
 
-(use-package dockerfile-mode)
+(use-package dockerfile-mode
+  :if (executable-find "docker"))
 
-(use-package go-mode)
+(use-package go-mode
+  :if (executable-find "go"))
 
 (use-package lsp-mode
   :init
@@ -468,6 +475,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 ;;(require 'lsp-java)
 ;;(add-hook 'java-mode-hook #'lsp)
 (use-package lsp-java
+  :if (getenv "JAVA_HOME")
   :hook (java-mode . lsp-deferred))
 
 
@@ -495,7 +503,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (use-package project
   :straight (project :type built-in))
-(use-package rustic)
+
+(use-package rustic
+  :if (executable-find "cargo"))
 
 ;; yasnippet
 (use-package yasnippet
@@ -898,6 +908,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :hook ((org-mode . evil-org-mode)))
 
 (use-package fzf
+  :if (executable-find "fzf")
   :straight (:host github :repo "bling/fzf.el"))
 
 (setq js-log '(("default" .
