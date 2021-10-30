@@ -509,20 +509,20 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 ;; yasnippet
 (use-package yasnippet
-  :config (yas-global-mode 1)
+  :defer 2
+  :config
+  (yas-global-mode 1)
+  ;; Bind `C-.' to `yas-expand' when snippet expansion available (it
+  ;; will still call `self-insert-command' otherwise).
+  (define-key yas-minor-mode-map (kbd "C-.") yas-maybe-expand)
+
+  ;; Bind `C-c y' to `yas-expand' ONLY.
+  (define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
+
   :diminish
   :bind (:map yas-minor-mode-map
-              ("TAB" . nil)
-              ("<tab>" . nil)))
-
-;; Bind `C-.' to `yas-expand' when snippet expansion available (it
-;; will still call `self-insert-command' otherwise).
-(define-key yas-minor-mode-map (kbd "C-.") yas-maybe-expand)
-
-;;(define-key yas-minor-mode-map (kbd "TAB") yas-next-field-or-maybe-expand)
-
-;; Bind `C-c y' to `yas-expand' ONLY.
-(define-key yas-minor-mode-map (kbd "C-c y") #'yas-expand)
+	      ("TAB" . nil)
+	      ("<tab>" . nil)))
 
 (use-package yasnippet-snippets
   :after (yasnippet))
