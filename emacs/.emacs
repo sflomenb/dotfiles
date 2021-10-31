@@ -834,7 +834,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (add-hook 'git-commit-setup-hook 'git-commit-turn-on-flyspell)
 
-(when (not (= (display-color-cells) 16777216)) ; true color support
+(unless (= (display-color-cells) 16777216) ; true color support
   (set-face-attribute 'ediff-current-diff-A nil :extend t :background "red" :foreground "brightwhite")
   (set-face-attribute 'ediff-current-diff-Ancestor nil :extend t :background "#ccc6d1" :foreground "black")
   (set-face-attribute 'ediff-current-diff-B nil :extend t :background "green" :foreground "brightwhite")
