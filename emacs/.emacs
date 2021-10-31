@@ -65,14 +65,15 @@
 (use-package diminish)
 
 (autoload #'tramp-register-crypt-file-name-handler "tramp-crypt")
-(use-package docker-tramp
-  :if (executable-find "docker"))
-(use-package emacsql-psql
-  :if (or (executable-find "psql") (executable-find "docker")))
-(use-package python-pytest
-  :if (executable-find "pytest")
-  :bind (:map python-mode-map
-	      ("C-c t" . 'python-pytest-dispatch)))
+(when (executable-find "docker")
+  (use-package docker-tramp))
+(when (or (executable-find "psql")  (executable-find "docker"))
+  (use-package emacsql-psql))
+(when
+    (executable-find "pytest")
+  (use-package python-pytest
+    :bind (:map python-mode-map
+		("C-c t" . 'python-pytest-dispatch))))
 
 (use-package indent-guide
   :config
@@ -355,8 +356,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 ;; auto insert closing bracket
 (electric-pair-mode 1)
 
-(use-package terraform-mode
-  :if (executable-find "terraform"))
+(when
+    (executable-find "terraform")
+  (use-package terraform-mode))
 
 (defun setup-company-map ()
   (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
@@ -407,11 +409,13 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :config
   (which-key-mode))
 
-(use-package dockerfile-mode
-  :if (executable-find "docker"))
+(when
+    (executable-find "docker")
+  (use-package dockerfile-mode))
 
-(use-package go-mode
-  :if (executable-find "go"))
+(when
+    (executable-find "go")
+  (use-package go-mode))
 
 (use-package lsp-mode
   :init
@@ -491,9 +495,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (setq lsp-java-java-path (concat (getenv "JAVA_HOME") "/bin/java"))
 ;;(require 'lsp-java)
 ;;(add-hook 'java-mode-hook #'lsp)
-(use-package lsp-java
-  :if (getenv "JAVA_HOME")
-  :hook (java-mode . lsp-deferred))
+(when
+    (getenv "JAVA_HOME")
+  (use-package lsp-java
+    :hook (java-mode . lsp-deferred)))
 
 
 (use-package lsp-pyright
@@ -521,8 +526,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (use-package project
   :straight (project :type built-in))
 
-(use-package rustic
-  :if (executable-find "cargo"))
+(when
+    (executable-find "cargo")
+  (use-package rustic))
 
 ;; yasnippet
 (use-package yasnippet
@@ -924,9 +930,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :straight (:host github :repo "Somelauw/evil-org-mode")
   :hook ((org-mode . evil-org-mode)))
 
-(use-package fzf
-  :if (executable-find "fzf")
-  :straight (:host github :repo "bling/fzf.el"))
+(when
+    (executable-find "fzf")
+  (use-package fzf
+    :straight (:host github :repo "bling/fzf.el")))
 
 (setq js-log '(("default" .
 		(("call" .  "console.log(\"\")")
