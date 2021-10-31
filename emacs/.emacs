@@ -869,9 +869,14 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (xclip-mode 1))
 
 (use-package apheleia
+  :disabled t
   :straight (:host github :repo "raxod502/apheleia")
   :config
   (apheleia-global-mode +1))
+
+(use-package format-all
+  :hook ((prog-mode . format-all-mode)
+	 (format-all-mode . format-all-ensure-formatter)))
 
 (projectile-register-project-type 'npm '("package.json")
                                   :project-file "package.json"
