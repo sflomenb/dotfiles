@@ -744,14 +744,12 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (defun my/next-error ()
   (interactive)
-  (cond ((eq major-mode 'compilation-mode)
-	 (next-error))
+  (cond ((derived-mode-p 'compilation-mode) (next-error))
 	(t (flycheck-next-error))))
 
 (defun my/prev-error ()
   (interactive)
-  (cond ((eq major-mode 'compilation-mode)
-	 (previous-error))
+  (cond ((derived-mode-p 'compilation-mode) (previous-error))
 	(t (flycheck-previous-error))))
 
 (dolist (map (list evil-normal-state-map evil-motion-state-map))
