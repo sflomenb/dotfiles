@@ -1159,6 +1159,30 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (add-to-list 'global-mode-string '(:eval session-mode-line-string))
 
+(defun my/shorten-path (path)
+  (let* ((file-only (file-name-nondirectory path))
+	 (dir (file-name-directory path))
+	 (short-path (string-join (mapcar (lambda (part)
+					    (let ((first-letter (substring part 0 1)))
+					      (if (string= first-letter ".")
+						  (substring part 0 2) first-letter))) (split-string dir "/" t)) "/")))
+    (format "%s/%s" short-path file-only)))
+
+;; https://www.reddit.com/r/emacs/comments/8xobt3/tip_in_modeline_show_buffer_file_path_relative_to
+(with-eval-after-load 'subr-x
+  (setq-default mode-line-buffer-identification
+                '(:eval (format-mode-line (propertized-buffer-identification (or (when-let*
+										     ((buffer-file-truename buffer-file-truename)
+										      (prj (cdr-safe (project-current)))
+										      (prj-parent (file-name-directory (directory-file-name (expand-file-name prj))))
+										      (my-mode-line-name (file-relative-name buffer-file-truename prj))
+										      (ratio (/ (window-total-width) (length my-mode-line-name))))
+										   (cond ((and (<= ratio 2) (> ratio 1))
+											  (my/shorten-path my-mode-line-name))
+											 ((<= ratio 1) (buffer-name))
+											 (t my-mode-line-name)))
+										 "%b"))))))
+
 (use-package rainbow-delimiters
   :straight (:host github :repo "Fanael/rainbow-delimiters")
   :hook ((prog-mode . rainbow-delimiters-mode)))
