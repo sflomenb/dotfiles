@@ -431,6 +431,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 (json-mode . lsp-deferred)
 	 (yaml-mode . lsp-deferred)
 	 (go-mode . lsp-deferred)
+	 (rustic-mode . lsp-rust-analyzer-inlay-hints-mode)
 	 (rustic-mode . lsp-deferred)
 	 ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
@@ -439,7 +440,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (lsp-enable-which-key-integration t)
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-snippet t)
-  (setq read-process-output-max (* 1024 1024)))
+  (setq read-process-output-max (* 1024 1024))
+  (setq lsp-rust-analyzer-server-display-inlay-hints t
+	lsp-rust-analyzer-display-chaining-hints t
+	lsp-rust-analyzer-display-parameter-hints t))
 
 (with-eval-after-load 'lsp-mode
   ;; :global/:workspace/:file
