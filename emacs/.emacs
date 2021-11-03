@@ -1307,6 +1307,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :config
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
+  (set-face-attribute 'tree-sitter-hl-face:function.call nil
+		      :inherit '(link font-lock-function-name-face)
+		      :foreground "#458488"
+		      :underline nil)
   ;; https://github.com/emacs-typescript/typescript.el/issues/4#issuecomment-849355222
   (setf (alist-get 'typescript-tsx-mode tree-sitter-major-mode-language-alist) 'tsx))
 
