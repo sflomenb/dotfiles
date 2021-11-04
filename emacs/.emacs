@@ -431,7 +431,6 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 (json-mode . lsp-deferred)
 	 (yaml-mode . lsp-deferred)
 	 (go-mode . lsp-deferred)
-	 (rustic-mode . lsp-rust-analyzer-inlay-hints-mode)
 	 (rustic-mode . lsp-deferred)
 	 ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
