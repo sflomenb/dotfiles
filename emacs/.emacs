@@ -691,6 +691,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
     (if (called-interactively-p 'any) (call-interactively 'newline) (newline r))))
 
 (use-package evil
+  :after evil-leader
   :init
   (setq evil-respect-visual-line-mode t)
   :config
@@ -711,6 +712,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :after (evil)
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode))
 
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "RET") #'xref-goto-xref)
 (evil-define-key 'normal occur-mode-map (kbd "RET") #'occur-mode-goto-occurrence)
@@ -1579,6 +1584,49 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	(setq win (previous-window))))))
 
 (define-key evil-motion-state-map [remap balance-windows] 'my/balance-window-widths)
+
+(defun my/evil-custom-paste (before-or-after type &optional register)
+  (let* ((register (or register ?\"))
+	 (text (evil-get-register register))
+	 (command (cond ((eq before-or-after 'before) 'evil-paste-before)
+			((eq before-or-after 'after) 'evil-paste-after)
+			(t nil))))
+    (unless command (user-error "Please supply a valid command"))
+
+    (set-text-properties 0 (length text) nil text)
+    (unless type (setq text (string-trim text)))
+
+    ;; `filter-buffer-substring' is used to get the text that will be yanked.
+    ;; We want to override that so it returns our specified text instead.
+    (advice-add 'filter-buffer-substring :override (lambda (&rest _) text) '((name . "test")))
+
+    ;; Perform the yank with the specified type
+    (evil-yank 0 0 type register)
+    (advice-remove 'filter-buffer-substring "test")
+
+    ;; Call the paste function to insert our text
+    (funcall command '(1 register))))
+
+(evil-define-command my/evil-paste-after-linewise (&optional register)
+  (interactive "<x>")
+  (my/evil-custom-paste 'after 'line register))
+
+(evil-define-command my/evil-paste-after-characterwise (&optional register)
+  (interactive "<x>")
+  (my/evil-custom-paste 'after nil register))
+
+(evil-define-command my/evil-paste-before-linewise (&optional register)
+  (interactive "<x>")
+  (my/evil-custom-paste 'before 'line register))
+
+(evil-define-command my/evil-paste-before-characterwise (&optional register)
+  (interactive "<x>")
+  (my/evil-custom-paste 'before nil register))
+
+(evil-leader/set-key (kbd "l p") 'my/evil-paste-after-linewise)
+(evil-leader/set-key (kbd "l P") 'my/evil-paste-before-linewise)
+(evil-leader/set-key (kbd "c p") 'my/evil-paste-after-characterwise)
+(evil-leader/set-key (kbd "c P") 'my/evil-paste-before-characterwise)
 
 (provide '.emacs)
 
