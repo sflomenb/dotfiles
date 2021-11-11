@@ -683,6 +683,11 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (global-set-key (kbd "C-c M-;") 'comment-indent-new-line)
 
+(defun my/set-auto-fill-mode ()
+  (auto-fill-mode 1)
+  (set (make-local-variable 'comment-auto-fill-only-comments) t))
+(add-hook 'prog-mode-hook 'my/set-auto-fill-mode)
+
 (defun my/new-comment-line-newline (&rest r)
   "Call `comment-indent-new-line' if inside comment, otherwise `newline' with R."
   (interactive)
