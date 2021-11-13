@@ -571,6 +571,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (setq show-trailing-whitespace t))
 
 (add-hook 'prog-mode-hook #'my/show-trailing-whitespace)
+(add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
 (winner-mode)
 
