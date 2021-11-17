@@ -1137,16 +1137,17 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (defun my/save-and-release-desktop ()
   (interactive)
   "Save and release desktop which removes lock file."
-  (if (and desktop-save-mode desktop-path dir-name)
-      ;; save existing desktop
-      (progn
-	(desktop-save dir-name t)
-	(desktop-save-mode 0)
-	(message "Saved desktop.")
-	(setq dir-name nil)
-	(my/update-session-mode-line))
-    (when (called-interactively-p 'any)
-      (user-error "No current desktop to save"))))
+  (let ((should-release (yes-or-no-p "Release desktop when saving?")))
+    (if (and desktop-save-mode desktop-path dir-name)
+	;; save existing desktop
+	(progn
+	  (desktop-save dir-name should-release)
+	  (when should-release (desktop-save-mode 0))
+	  (message "Saved desktop.")
+	  (setq dir-name nil)
+	  (my/update-session-mode-line))
+      (when (called-interactively-p 'any)
+	(user-error "No current desktop to save")))))
 
 ;; https://emacs.stackexchange.com/a/45829
 (setq desktop-restore-forces-onscreen nil)
