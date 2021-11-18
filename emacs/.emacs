@@ -1124,7 +1124,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (defun my/desktop-read ()
   (interactive)
-  (my/save-and-release-desktop)
+  (my/save-and-release-desktop t)
   (setq dir-name (read-directory-name "Directory: " "~/.emacs.d/desktops/"))
   (setq desktop-path (list dir-name))
   (advice-remove 'dired #'split-in-direction)
@@ -1134,10 +1134,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (advice-add 'dired :before #'split-in-direction)
   (my/update-session-mode-line))
 
-(defun my/save-and-release-desktop ()
+(defun my/save-and-release-desktop (&optional should-release)
   (interactive)
   "Save and release desktop which removes lock file."
-  (let ((should-release (yes-or-no-p "Release desktop when saving?")))
+  (let ((should-release (or should-release (yes-or-no-p "Release desktop when saving?"))))
     (if (and desktop-save-mode desktop-path dir-name)
 	;; save existing desktop
 	(progn
