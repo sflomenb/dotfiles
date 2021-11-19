@@ -756,6 +756,26 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (evil-global-set-key 'normal (kbd "M-H") 'evil-ex-nohighlight)
 
+(defun my/evil-search-all-windows (func &rest r)
+  "Show highlighting in all visible windows, calling search function FUNC with args R."
+  (let ((current-window (selected-window)))
+    (apply func r)
+    (dolist (win (window-list))
+      (unless (eq win current-window)
+	(with-selected-window win
+	  (evil-ex-search-activate-highlight evil-ex-search-pattern))))))
+
+(advice-add 'evil-ex-start-search      :around #'my/evil-search-all-windows)
+(advice-add 'evil-ex-start-word-search :around #'my/evil-search-all-windows)
+
+(defun my/evil-no-highlight (func &rest r)
+  "Removes highlight in all windows by calling FUNC with args R."
+  (dolist (win (window-list))
+    (with-selected-window win
+      (apply func r))))
+
+(advice-add 'evil-ex-nohighlight :around #'my/evil-no-highlight)
+
 (defun my/next-error ()
   (interactive)
   (cond ((derived-mode-p 'compilation-mode) (next-error))
