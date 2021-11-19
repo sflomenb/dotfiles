@@ -708,6 +708,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (add-hook 'evil-insert-state-exit-hook #'restore-cursor)
   (define-key evil-insert-state-map (kbd "RET") #'my/new-comment-line-newline))
 
+(defun my/evil-insert-mode (&rest _)
+  "Used in advice for switching to insert mode."
+  (evil-insert 1))
+
 (use-package evil-matchit
   :after (evil)
   :config
@@ -1653,6 +1657,14 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-leader/set-key (kbd "l P") 'my/evil-paste-before-linewise)
 (evil-leader/set-key (kbd "c p") 'my/evil-paste-after-characterwise)
 (evil-leader/set-key (kbd "c P") 'my/evil-paste-before-characterwise)
+
+(use-package hl-todo
+  :after evil
+  :config
+  (global-hl-todo-mode)
+  (define-key evil-normal-state-map (kbd "] t") 'hl-todo-next)
+  (define-key evil-normal-state-map (kbd "[ t") 'hl-todo-previous)
+  (advice-add 'hl-todo-insert :after 'my/evil-insert-mode))
 
 (provide '.emacs)
 
