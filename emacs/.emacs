@@ -1136,6 +1136,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	(kill-region (car bounds) (cdr bounds))
 	(insert (my/convert-words-to-case (my/split-word current-word) target-case))))))
 
+(defvar dir-name nil "Directory name for the current session.")
+
 (defun my/desktop-save (session-name)
   (interactive "sSession name: ")
   (setq dir-name (concat "~/.emacs.d/desktops/" session-name "/"))
