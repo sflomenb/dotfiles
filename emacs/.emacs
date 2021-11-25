@@ -1668,6 +1668,13 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (define-key evil-normal-state-map (kbd "[ t") 'hl-todo-previous)
   (advice-add 'hl-todo-insert :after 'my/evil-insert-mode))
 
+(defun my/prompt-indent-tabs (func &rest r)
+  "Call function FUNC with args R asking user for value for `indent-tabs-mode'."
+  (let ((indent-tabs-mode (yes-or-no-p "Use tabs for indentation?")))
+    (apply func r)))
+
+(advice-add 'align-regexp :around #'my/prompt-indent-tabs)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
