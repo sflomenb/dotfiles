@@ -757,7 +757,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-global-set-key 'visual (kbd "*") 'my/visual-star-search-forward)
 (evil-global-set-key 'visual (kbd "#") 'my/visual-star-search-backward)
 
-(evil-global-set-key 'normal (kbd "M-H") 'evil-ex-nohighlight)
+(evil-global-set-key 'normal (kbd "C-c h") 'evil-ex-nohighlight)
 
 (defun my/evil-search-all-windows (func &rest r)
   "Show highlighting in all visible windows, calling search function FUNC with args R."
