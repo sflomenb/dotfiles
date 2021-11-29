@@ -1346,6 +1346,12 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :hook ((tree-sitter-after-on . tree-sitter-hl-mode))
   :config
   (require 'tree-sitter-langs)
+  ;; fix flyspell-prog-mode
+  (dolist (face '(tree-sitter-hl-face:comment
+                  tree-sitter-hl-face:string
+                  tree-sitter-hl-face:string.special))
+    (add-to-list 'flyspell-prog-text-faces face))
+
   (global-tree-sitter-mode)
   (set-face-attribute 'tree-sitter-hl-face:function.call nil
 		      :inherit '(link font-lock-function-name-face)
