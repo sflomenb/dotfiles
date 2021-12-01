@@ -1681,6 +1681,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (advice-add 'align-regexp :around #'my/prompt-indent-tabs)
 
+(global-so-long-mode)
+
 (provide '.emacs)
 
 ;;; .emacs ends here
