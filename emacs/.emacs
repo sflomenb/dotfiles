@@ -847,7 +847,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 (dolist (m (list magit-status-mode-map magit-diff-mode-map))
-  (define-key m (kbd "C-u C-j") 'magit-diff-visit-worktree-file-other-window))
+  (define-key m (kbd "C-c j") 'magit-diff-visit-worktree-file-other-window))
 
 ;; https://emacs.stackexchange.com/a/13831
 (defun magit-diff-mbase-master (&optional args)
