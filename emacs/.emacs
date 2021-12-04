@@ -108,6 +108,7 @@
 
 (defun synchronize-theme ()
   "Set theme based on time of day."
+  (interactive)
   (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
 	 (is-darwin (string= system-type "darwin"))
 	 (light-dark-script "~/light-dark.scpt")
