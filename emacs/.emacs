@@ -988,10 +988,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
     :straight (:host github :repo "bling/fzf.el")))
 
 (setq js-log '(("default" .
-		(("call" .  "console.log(\"\")")
-		 ("separator" . ",")
+		(("call"             .  "console .log(\"\")")
+		 ("separator"        . ",")
 		 ("function-to-call" . "my/json-stringify")
-		 ("eol-char" . ";")))))
+		 ("eol-char"         . ";")))))
 
 
 (defvar logging-alist nil "Alist that contains logging for different languages.
@@ -1017,34 +1017,34 @@ skip-log-word - whether or not to not log the word at all (because the logger
                 logs the variable for you)")
 (setq logging-alist
       '(("python-mode" .
-	 (("has-logging" . ("import logging" "logger = "))
-	  ("logging" .
-	   (("call" .  "logger.info(\"\")")
-	    ("separator" . " %")
-	    ("placeholder" . "%s")))
-	  ("default" .
-	   (("call" .  "print(f\"\")")
-	    ("placeholder" . "{=}")
+	 (("has-logging"         . ("import logging" "logger = "))
+	  ("logging"             .
+	   (("call"              .  "logger .info(\"\")")
+	    ("separator"         . " %")
+	    ("placeholder"       . "%s")))
+	  ("default"             .
+	   (("call"              .  "print(f\"\")")
+	    ("placeholder"       . "{=}")
 	    ("char-to-insert-at" . "=")
-	    ("skip-log-word" . t)))))
-	("js-mode" . js-log)
-	("js2-mode" . js-log)
+	    ("skip-log-word"     . t)))))
+	("js-mode"         . js-log)
+	("js2-mode"        . js-log)
 	("typescript-mode" . js-log)
 	("rustic-mode" .
-	 (("default" .
+	 (("default"       .
 	   (("call"        . "println!(\"\")")
 	    ("separator"   . ",")
 	    ("placeholder" . "{}")
 	    ("eol-char"    . ";")))))
 	("go-mode" .
-	 (("has-logging" . ("log"))
-	  ("logging" .
-	   (("call" .  "log.Printf(\"\")")
-	    ("separator" . ",")
+	 (("has-logging"   . ("log"))
+	  ("logging"       .
+	   (("call"        .  "log .Printf(\"\")")
+	    ("separator"   . ",")
 	    ("placeholder" . "%#v\\n")))
-	  ("default" .
-	   (("call" .  "fmt.Printf(\"\")")
-	    ("separator" . ",")
+	  ("default"       .
+	   (("call"        .  "fmt .Printf(\"\")")
+	    ("separator"   . ",")
 	    ("placeholder" . "%#v\\n")))))))
 
 (defun is-logging (list-of-text-to-search)
