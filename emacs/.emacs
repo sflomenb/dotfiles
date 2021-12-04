@@ -978,7 +978,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (setq js-log '(("default" .
 		(("call" .  "console.log(\"\")")
-		 ("seperator" . ",")
+		 ("separator" . ",")
 		 ("function-to-call" . "my/json-stringify")
 		 ("eol-char" . ";")))))
 
@@ -987,7 +987,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 (("has-logging" . ("import logging" "logger = "))
 	  ("logging" .
 	   (("call" .  "logger.info(\"\")")
-	    ("seperator" . " %")
+	    ("separator" . " %")
 	    ("placeholder" . "%s")))
 	  ("default" .
 	   (("call" .  "print(f\"\")")
@@ -1000,18 +1000,18 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	("rustic-mode" .
 	 (("default" .
 	   (("call"        . "println!(\"\")")
-	    ("seperator"   . ",")
+	    ("separator"   . ",")
 	    ("placeholder" . "{}")
 	    ("eol-char"    . ";")))))
 	("go-mode" .
 	 (("has-logging" . ("log"))
 	  ("logging" .
 	   (("call" .  "log.Printf(\"\")")
-	    ("seperator" . ",")
+	    ("separator" . ",")
 	    ("placeholder" . "%#v\\n")))
 	  ("default" .
 	   (("call" .  "fmt.Printf(\"\")")
-	    ("seperator" . ",")
+	    ("separator" . ",")
 	    ("placeholder" . "%#v\\n")))))))
 
 (defun is-logging (list-of-text-to-search)
@@ -1063,8 +1063,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	    (if-let ((search-char (my/alist-get-symbol "char-to-insert-at" log-info-from-alist)))
 		(search-backward search-char nil t)
 	      (backward-char))
-	    (when-let ((seperator (my/alist-get-symbol "seperator" log-info-from-alist)))
-	      (insert seperator " "))
+	    (when-let ((separator (my/alist-get-symbol "separator" log-info-from-alist)))
+	      (insert separator " "))
 	    (if-let ((fun-to-call (my/alist-get-symbol "function-to-call" log-info-from-alist)))
 		(funcall (intern fun-to-call) current-word)
 	      (insert current-word))
@@ -1452,21 +1452,21 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 (cursor (tsc-make-cursor (tree-sitter-node-at-pos 'object starting-pos)))
 	 (node (tsc-current-node cursor))
 	 (pair-nodes (list))
-	 sorted-pairs pair-seperator start-seperator end-seperator)
+	 sorted-pairs pair-separator start-separator end-separator)
     ;; Get all pairs.
     (dotimes (child-num (tsc-count-children node))
       (let ((child (tsc-get-nth-child node child-num)))
 	(when (equal (tsc-node-type child) 'pair)
 
-	  ;; Save the text from the start to the beginning of the first seperator.
+	  ;; Save the text from the start to the beginning of the first separator.
 	  (when (= (length pair-nodes) 0)
-	    (setq start-seperator (buffer-substring-no-properties
+	    (setq start-separator (buffer-substring-no-properties
 				   (tsc-node-start-position node)
 				   (tsc-node-start-position child))))
 
 	  ;; Save separator in between the pairs.
 	  (when (= (length pair-nodes) 1)
-	    (setq pair-seperator (buffer-substring-no-properties
+	    (setq pair-separator (buffer-substring-no-properties
 				  (tsc-node-end-position (car pair-nodes))
 				  (tsc-node-start-position child))))
 
@@ -1493,7 +1493,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	  (setq pair-nodes (append pair-nodes (list child))))))
 
     ;; Save the text from the end of the last pair to the end.
-    (setq end-seperator (buffer-substring-no-properties
+    (setq end-separator (buffer-substring-no-properties
 			 (tsc-node-end-position (car (last pair-nodes)))
 			 (tsc-node-end-position node)))
 
@@ -1506,11 +1506,11 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 						    ;; The key is the first child of a pair node.
 						    (tsc-node-text (tsc-get-nth-child first 0))
 						    (tsc-node-text (tsc-get-nth-child second 0))))))
-			pair-seperator))
+			pair-separator))
     ;; Update the text in the buffer;
     (goto-char (tsc-node-start-position node))
     (kill-region (tsc-node-start-position node) (tsc-node-end-position node))
-    (insert (concat start-seperator sorted-pairs end-seperator))))
+    (insert (concat start-separator sorted-pairs end-separator))))
 
 (defun my/goto-top-object ()
   "Move point to the beginning of the topmost object."
