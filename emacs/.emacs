@@ -371,6 +371,14 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (add-hook 'after-init-hook 'global-company-mode)
   :hook ((company-mode . setup-company-map))
   :bind (("C-;" . company-complete)))
+  :config
+  (defun company-mode/backend-with-yas (backend)
+    (if (and (listp backend) (member 'company-yasnippet backend))
+	backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends)))
 
 
 ;; Adjust margins and fringe widths…
@@ -421,6 +429,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-completion-provider :none)
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (java-mode . lsp-deferred)
          (javascript-mode . lsp-deferred)
