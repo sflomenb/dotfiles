@@ -982,6 +982,28 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 		 ("function-to-call" . "my/json-stringify")
 		 ("eol-char" . ";")))))
 
+
+(defvar logging-alist nil "Alist that contains logging for different languages.
+
+Top level can have these keys:
+- has-logging - list of strings to check if the current file should use the
+                logging alternative
+- logging     - provides instructions on how to log with the language's logger
+- default     - default logging
+
+Possible keys for each instruction:
+
+Mandatory:
+call - the function that will be inserted into the code that performs the
+       logging/printing
+
+Optional:
+placeholder   - the placeholder that gets inserted into the log string
+eol-char      - character to insert
+separator     - the separator to insert between the string and the variable to
+                log
+skip-log-word - whether or not to not log the word at all (because the logger
+                logs the variable for you)")
 (setq logging-alist
       '(("python-mode" .
 	 (("has-logging" . ("import logging" "logger = "))
