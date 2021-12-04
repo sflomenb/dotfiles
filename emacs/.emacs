@@ -370,7 +370,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (setq company-minimum-prefix-length 1)
   (add-hook 'after-init-hook 'global-company-mode)
   :hook ((company-mode . setup-company-map))
-  :bind (("C-;" . company-complete)))
+  :bind* (("C-;" . company-complete))
   :config
   (defun company-mode/backend-with-yas (backend)
     (if (and (listp backend) (member 'company-yasnippet backend))
