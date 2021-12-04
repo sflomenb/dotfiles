@@ -997,6 +997,12 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	("js-mode" . js-log)
 	("js2-mode" . js-log)
 	("typescript-mode" . js-log)
+	("rustic-mode" .
+	 (("default" .
+	   (("call"        . "println!(\"\")")
+	    ("seperator"   . ",")
+	    ("placeholder" . "{}")
+	    ("eol-char"    . ";")))))
 	("go-mode" .
 	 (("has-logging" . ("log"))
 	  ("logging" .
@@ -1073,6 +1079,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (add-hook 'js2-mode-hook (lambda () (setup-logging js2-mode-map)))
 (add-hook 'typescript-mode-hook (lambda () (setup-logging typescript-mode-map)))
 (add-hook 'go-mode-hook (lambda () (setup-logging go-mode-map)))
+(add-hook 'rustic-mode-hook (lambda () (setup-logging rustic-mode-map)))
 
 (defun my/json-stringify (&optional word)
   (interactive)
