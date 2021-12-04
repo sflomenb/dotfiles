@@ -372,6 +372,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :hook ((company-mode . setup-company-map))
   :bind* (("C-;" . company-complete))
   :config
+  ;; https://emacs.stackexchange.com/questions/10431/get-company-to-show-suggestions-for-yasnippet-names
   (defun company-mode/backend-with-yas (backend)
     (if (and (listp backend) (member 'company-yasnippet backend))
 	backend
@@ -429,6 +430,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
+  ;; https://www.reddit.com/r/emacs/comments/imlw1u/comment/g4184tz/?utm_source=reddit&utm_medium=web2x&context=3
   (setq lsp-completion-provider :none)
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (java-mode . lsp-deferred)
