@@ -994,7 +994,6 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	    ("placeholder" . "{=}")
 	    ("char-to-insert-at" . "=")
 	    ("skip-log-word" . t)))))
-	("javascript-mode" . js-log)
 	("js-mode" . js-log)
 	("js2-mode" . js-log)
 	("typescript-mode" . js-log)
