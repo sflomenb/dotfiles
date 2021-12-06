@@ -170,6 +170,7 @@ elseif &loadplugins
         Plug 'nvim-telescope/telescope.nvim'
         Plug 'APZelos/blamer.nvim'
         Plug 'windwp/nvim-autopairs'
+        Plug 'p00f/nvim-ts-rainbow'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
