@@ -5,4 +5,5 @@ source ~/.vimrc
 lua << EOF
 require('lsp')
 require('ts')
+require('my_telescope')
 EOF
