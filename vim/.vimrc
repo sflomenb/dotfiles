@@ -145,19 +145,35 @@ elseif &loadplugins
     Plug 'chr4/nginx.vim'
     Plug 'morhetz/gruvbox'
     Plug 'pangloss/vim-javascript'
-    Plug 'nathanaelkane/vim-indent-guides'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
     Plug 'mileszs/ack.vim'
     Plug 'luochen1990/rainbow'
     Plug 'tpope/vim-commentary'
 
+    " nvim exclusive
+    if has('nvim')
+        Plug 'lukas-reineke/indent-blankline.nvim'
+        Plug 'neovim/nvim-lspconfig'
+        Plug 'simrat39/rust-tools.nvim'
+        Plug 'nvim-treesitter/nvim-treesitter'
+        Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+        Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
+        Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
+        Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
+        Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
+        Plug 'L3MON4D3/LuaSnip' " Snippets plugin
+
+        " Optional dependencies
+        Plug 'nvim-lua/popup.nvim'
+        Plug 'nvim-lua/plenary.nvim'
+        Plug 'nvim-telescope/telescope.nvim'
+    else
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    endif
+
     call plug#end()
 
-    if ShouldShowIndentGuides()
-        let g:indent_guides_enable_on_vim_startup = 1
-        let g:indent_guides_guide_size = 1
-    endif
 
     let g:go_gopls_enabled=0
 
