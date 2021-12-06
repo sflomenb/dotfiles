@@ -1091,6 +1091,34 @@ command! FoldBlockComments :call FoldBlockComments()
 
 set updatetime=300
 
+fu! GoErrFolds()
+    let l:thisline  = getline(v:lnum)
+    if match(l:thisline, 'if.*err') >= 0
+        return ">1"
+    elseif match(l:thisline, '}') >= 0
+        return "<1"
+    else
+        return "="
+    endif
+endfu
+
+fu! FoldGoErrs()
+    if &foldmethod != 'expr'
+        setl foldmethod=expr
+        setl foldexpr=GoErrFolds()
+        norm zM
+    else
+        set foldmethod<
+        set foldexpr<
+        norm zR
+    endif
+    set foldmethod?
+    set foldexpr?
+endfu
+
+command! FoldBlockComments :call FoldBlockComments()
+command! FoldGoErrs :call FoldGoErrs()
+
 function! SetBackgroundMode(...)
     let l:new_bg = "light"
     silent if system('uname') =~? "Darwin" && filereadable(expand("~/light-dark.scpt"))
