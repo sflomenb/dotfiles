@@ -183,10 +183,7 @@ elseif &loadplugins
         let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
     endif
 
-    noremap <leader>f :Files<CR>
     noremap <leader>fd :Files< %:p:hCR>
-
-    noremap <leader>b :Buffers<CR>
 
     noremap <leader>k :Ack!<space>''<left>
     noremap <leader>kd :Ack!<space>'' %:p:h<left><left><left><left><left><left><left>
@@ -194,125 +191,133 @@ elseif &loadplugins
     " always show signcolumns
     set signcolumn=yes
 
-    let g:coc_global_extensions = [
-    \   'coc-clangd',
-    \   'coc-css',
-    \   'coc-eslint',
-    \   'coc-go',
-    \   'coc-java',
-    \   'coc-json',
-    \   'coc-pairs',
-    \   'coc-pyright',
-    \   'coc-rust-analyzer',
-    \   'coc-solargraph',
-    \   'coc-tsserver',
-    \   'coc-vetur',
-    \   'coc-yaml',
-    \]
+    if !has('nvim')
+        let g:coc_global_extensions = [
+        \   'coc-clangd',
+        \   'coc-css',
+        \   'coc-eslint',
+        \   'coc-go',
+        \   'coc-java',
+        \   'coc-json',
+        \   'coc-pairs',
+        \   'coc-pyright',
+        \   'coc-rust-analyzer',
+        \   'coc-solargraph',
+        \   'coc-tsserver',
+        \   'coc-vetur',
+        \   'coc-yaml',
+        \]
 
-    " Use tab for trigger completion with characters ahead and navigate.
-    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+        " Use tab for trigger completion with characters ahead and navigate.
+        " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+        inoremap <silent><expr> <TAB>
+                    \ pumvisible() ? "\<C-n>" :
+                    \ <SID>check_back_space() ? "\<TAB>" :
+                    \ coc#refresh()
+        inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+        function! s:check_back_space() abort
+            let col = col('.') - 1
+            return !col || getline('.')[col - 1]  =~# '\s'
+        endfunction
 
-    " Use <c-space> to trigger completion.
-    inoremap <silent><expr> <c-@> coc#refresh()
+        " Use <c-space> to trigger completion.
+        inoremap <silent><expr> <c-@> coc#refresh()
 
-    " use enter to confirm completion
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        " use enter to confirm completion
+        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-    " close preview window when completion is done
-    augroup coc
-        autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-        autocmd FileType java nnoremap <Leader>o :CocCommand java.action.organizeImports<CR>
-        autocmd FileType python nnoremap <Leader>o :ALEFix isort<CR>
-        autocmd FileType go nnoremap <Leader>o :silent call CocAction('runCommand', 'editor.action.organizeImport')
-        autocmd FileType python let b:coc_root_patterns = ['.git', 'venv']
-        " Highlight symbol under cursor on CursorHold
-        autocmd CursorHold * :silent call CocActionAsync('highlight')
-    augroup END
+        " close preview window when completion is done
+        augroup coc
+            autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+            autocmd FileType * nnoremap <Leader>o :CocCommand editor.action.organizeImport<CR>
+            autocmd FileType java nnoremap <Leader>o :CocCommand java.action.organizeImports<CR>
+            autocmd FileType python nnoremap <Leader>o :ALEFix isort<CR>
+            autocmd FileType python let b:coc_root_patterns = ['.git', 'venv']
+            " Highlight symbol under cursor on CursorHold
+            autocmd CursorHold * :silent call CocActionAsync('highlight')
+        augroup END
 
-    " Remap keys for gotos
-    nmap <silent> gcd <Plug>(coc-definition)
-    nmap <silent> gcy <Plug>(coc-type-definition)
-    nmap <silent> gci <Plug>(coc-implementation)
-    nmap <silent> gcr <Plug>(coc-references)
+        nnoremap <silent> gd gcd
+        nnoremap <silent> gy gcy
+        nnoremap <silent> gi gci
+        nnoremap <silent> gr gcr
+        nnoremap <silent> K  Kc
 
-    " Use K for show documentation in preview window
-    nnoremap <silent> Kc :call <SID>show_documentation()<CR>
+        " Remap keys for gotos
+        nmap <silent> gd <Plug>(coc-definition)
+        nmap <silent> gy <Plug>(coc-type-definition)
+        nmap <silent> gi <Plug>(coc-implementation)
+        nmap <silent> gr <Plug>(coc-references)
 
-    function! s:show_documentation()
-      if &filetype == 'vim'
-        execute 'h '.expand('<cword>')
-      else
-        call CocAction('doHover')
-      endif
-    endfunction
+        " Use K for show documentation in preview window
+        nnoremap <silent> Kc :call <SID>show_documentation()<CR>
 
-    set cmdheight=2
-    set shortmess+=c
-    nmap <leader>rn <Plug>(coc-rename)
+        function! s:show_documentation()
+          if &filetype == 'vim'
+            execute 'h '.expand('<cword>')
+          else
+            call CocAction('doHover')
+          endif
+        endfunction
 
-    " Show all diagnostics.
-    nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-    " Manage extensions.
-    nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-    " Show commands.
-    nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-    " Find symbol of current document.
-    nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-    " Search workspace symbols.
-    nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-    " Do default action for next item.
-    nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-    " Do default action for previous item.
-    nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-    " Resume latest coc list.
-    nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+        set cmdheight=2
+        set shortmess+=c
+        nmap <leader>rn <Plug>(coc-rename)
 
-    " Use `[g` and `]g` to navigate diagnostics
-    nmap <silent> [g <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]g <Plug>(coc-diagnostic-next)
-    nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
-    nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
+        " Show all diagnostics.
+        nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+        " Manage extensions.
+        nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+        " Show commands.
+        nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+        " Find symbol of current document.
+        nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+        " Search workspace symbols.
+        nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+        " Do default action for next item.
+        nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+        " Do default action for previous item.
+        nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+        " Resume latest coc list.
+        nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
-    " scrolling
-    function! ScrollCursorPopup(down)
-      let winid = get(popup_list(), 0, 0)
-      if winid == 0
-        return 0
-      endif
+        " Use `[g` and `]g` to navigate diagnostics
+        nmap <silent> [g <Plug>(coc-diagnostic-prev)
+        nmap <silent> ]g <Plug>(coc-diagnostic-next)
+        nmap <silent> [e <Plug>(coc-diagnostic-prev-error)
+        nmap <silent> ]e <Plug>(coc-diagnostic-next-error)
 
-      let pp = popup_getpos(winid)
-      call popup_setoptions( winid,
-            \ {'firstline' : pp.firstline + ( a:down ? 1 : -1 ) } )
+        " scrolling
+        function! ScrollCursorPopup(down)
+          let winid = get(popup_list(), 0, 0)
+          if winid == 0
+            return 0
+          endif
 
-      return 1
-    endfunction
+          let pp = popup_getpos(winid)
+          call popup_setoptions( winid,
+                \ {'firstline' : pp.firstline + ( a:down ? 1 : -1 ) } )
 
-    " Applying codeAction to the selected region.
-    " Example: `<leader>aap` for current paragraph
-    xmap <leader>a  <Plug>(coc-codeaction-selected)
-    nmap <leader>a  <Plug>(coc-codeaction-selected)
+          return 1
+        endfunction
 
-    " Remap keys for applying codeAction to the current buffer.
-    nmap <leader>ac  <Plug>(coc-codeaction)
-    " Apply AutoFix to problem on the current line.
-    nmap <leader>qf  <Plug>(coc-fix-current)
+        " Applying codeAction to the selected region.
+        " Example: `<leader>aap` for current paragraph
+        xmap <leader>a  <Plug>(coc-codeaction-selected)
+        nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-    nnoremap <expr> <C-s> ScrollCursorPopup(1) ? '<esc>' : '<C-s>'
-    nnoremap <expr> <C-e> ScrollCursorPopup(0) ? '<esc>' : '<C-e>'
-    inoremap <expr> <C-s> ScrollCursorPopup(1) ? '' : ''
-    inoremap <expr> <C-e> ScrollCursorPopup(0) ? '' : ''
+        " Remap keys for applying codeAction to the current buffer.
+        nmap <leader>ac  <Plug>(coc-codeaction)
+        " Apply AutoFix to problem on the current line.
+        nmap <leader>qf  <Plug>(coc-fix-current)
 
+        nnoremap <expr> <C-s> ScrollCursorPopup(1) ? '<esc>' : '<C-s>'
+        nnoremap <expr> <C-e> ScrollCursorPopup(0) ? '<esc>' : '<C-e>'
+        inoremap <expr> <C-s> ScrollCursorPopup(1) ? '' : ''
+        inoremap <expr> <C-e> ScrollCursorPopup(0) ? '' : ''
+
+    endif
 
     " command for disabling coc term transparency
     fu! ToggleTransparencyFun()
