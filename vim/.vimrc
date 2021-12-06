@@ -133,7 +133,6 @@ elseif &loadplugins
     silent if substitute(system('uname'), '\n', '', '') == 'Darwin'
         Plug 'rizzatti/dash.vim'
     endif
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'hashivim/vim-terraform'
     Plug 'janko/vim-test'
     Plug 'rust-lang/rust.vim'
