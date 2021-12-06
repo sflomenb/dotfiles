@@ -3,6 +3,7 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 let g:blamer_enabled = 1
+let g:blamer_date_format = '%m/%m/%y %H:%M'
 set formatoptions+=jclroq
 
 lua << EOF
