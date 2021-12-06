@@ -188,11 +188,6 @@ elseif &loadplugins
         let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
     endif
 
-    noremap <leader>fd :Files< %:p:hCR>
-
-    noremap <leader>k :Ack!<space>''<left>
-    noremap <leader>kd :Ack!<space>'' %:p:h<left><left><left><left><left><left><left>
-
     " always show signcolumns
     set signcolumn=yes
 
