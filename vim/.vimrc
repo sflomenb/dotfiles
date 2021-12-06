@@ -171,6 +171,8 @@ elseif &loadplugins
         Plug 'APZelos/blamer.nvim'
         Plug 'windwp/nvim-autopairs'
         Plug 'p00f/nvim-ts-rainbow'
+        Plug 'folke/todo-comments.nvim'
+        Plug 'folke/trouble.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     endif
