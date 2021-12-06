@@ -54,7 +54,13 @@ for _, lsp in ipairs(servers_with_default_config) do
     nvim_lsp[lsp].setup(myopts)
 end
 
-require('rust-tools').setup(myopts)
+require('rust-tools').setup({ server = {
+        on_attach = on_attach,
+        flags = {
+            debounce_text_changes = 150,
+        },
+        capabilities = capabilities,
+    }})
 
 nvim_lsp.tsserver.setup({
     -- Needed for inlayHints. Merge this table with your settings or copy
