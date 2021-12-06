@@ -9,4 +9,5 @@ lua << EOF
 require('lsp')
 require('ts')
 require('my_telescope')
+require('nvim-autopairs').setup{}
 EOF
