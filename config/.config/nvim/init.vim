@@ -3,6 +3,7 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 let g:blamer_enabled = 1
+set formatoptions+=jclroq
 
 lua << EOF
 require('lsp')
