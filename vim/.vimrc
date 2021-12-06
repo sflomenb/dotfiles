@@ -1094,17 +1094,36 @@ command! FoldBlockComments :call FoldBlockComments()
 set updatetime=300
 
 function! SetBackgroundMode(...)
-    let l:new_bg = "dark"
-    silent if system('uname') =~? "Darwin"
+    let l:new_bg = "light"
+    silent if system('uname') =~? "Darwin" && filereadable(expand("~/light-dark.scpt"))
         silent let l:cur_bg = system("osascript ~/light-dark.scpt")
         if l:cur_bg =~? "dark"
             let l:new_bg = "dark"
         elseif l:cur_bg =~? "light"
             let l:new_bg = "light"
         endif
-    else
-        " This is for Linux where I use an environment variable for this:
+    elseif !empty($VIM_BACKGROUND)
         if $VIM_BACKGROUND ==? "light"
+            let l:new_bg = "light"
+        else
+            let l:new_bg = "dark"
+        endif
+    else
+        " ['Mon', 'Dec', '6', '07:01:44', '2021', 'EST']
+        let l:current_time = split(strftime('%c %Z'), '\s\+')
+        let l:current_hour = split(l:current_time[3], ':')[0]
+        let l:current_time_zone = l:current_time[5]
+        let l:start_hour = 0
+        let l:end_hour = 0
+        " Use different hours for standard time
+        if l:current_time_zone =~? 'st$'
+            let l:start_hour = 6
+            let l:end_hour = 17
+        else
+            let l:start_hour = 6
+            let l:end_hour = 19
+        endif
+        if index(range(l:start_hour, l:end_hour), str2nr(l:current_hour)) != -1
             let l:new_bg = "light"
         else
             let l:new_bg = "dark"
