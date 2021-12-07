@@ -6,6 +6,11 @@ let g:blamer_enabled = 1
 let g:blamer_date_format = '%m/%m/%y %H:%M'
 set formatoptions+=jclroq
 
+augroup AutoChange
+    autocmd!
+    autocmd FileType python autocmd TextChanged,TextChangedI * :lua require('auto-change.python-f-strings').pythonFString()
+augroup END
+
 lua << EOF
 require('lsp')
 require('ts')
