@@ -9,6 +9,7 @@ set formatoptions+=jclroq
 augroup AutoChange
     autocmd!
     autocmd FileType python autocmd TextChanged,TextChangedI * :lua require('auto-change.python-f-strings').pythonFString()
+    autocmd FileType javascript,typescript autocmd TextChanged,TextChangedI * :lua require('auto-change.ts-js-backticks').tsJsBackticks()
 augroup END
 
 lua << EOF
