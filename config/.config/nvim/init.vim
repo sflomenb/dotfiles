@@ -4,6 +4,7 @@ source ~/.vimrc
 
 let g:blamer_enabled = 1
 let g:blamer_date_format = '%m/%m/%y %H:%M'
+let g:blamer_relative_time = 1
 set formatoptions+=jclroq
 
 augroup AutoChange
