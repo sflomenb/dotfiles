@@ -172,6 +172,7 @@ elseif &loadplugins
         Plug 'p00f/nvim-ts-rainbow'
         Plug 'folke/todo-comments.nvim'
         Plug 'folke/trouble.nvim'
+        Plug 'nvim-treesitter/playground'
         Plug 'jose-elias-alvarez/null-ls.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
