@@ -168,7 +168,7 @@ cmp.setup {
   },
 }
 
-require'lspconfig'.sumneko_lua.setup {
+nvim_lsp.sumneko_lua.setup {
   on_attach = on_attach,
   flags = {
       debounce_text_changes = 150,
