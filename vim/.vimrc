@@ -139,7 +139,6 @@ elseif &loadplugins
     Plug 'posva/vim-vue'
     Plug 'fatih/vim-go'
     Plug 'tpope/vim-surround'
-    Plug 'dense-analysis/ale'
     Plug 'hynek/vim-python-pep8-indent'
     Plug 'chr4/nginx.vim'
     Plug 'morhetz/gruvbox'
@@ -176,6 +175,7 @@ elseif &loadplugins
         Plug 'jose-elias-alvarez/null-ls.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'dense-analysis/ale'
     endif
 
     call plug#end()
@@ -413,44 +413,48 @@ elseif &loadplugins
 
     let test#python#pyunit#file_pattern = '\v(test_[^/]+|[^/]+_test)\.py$'
 
-    " ale mappings
-    nmap <silent> [a <Plug>(ale_previous_wrap)
-    nmap <silent> ]a <Plug>(ale_next_wrap)
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    let g:ale_python_pylint_options = '--load-plugins=pylint_django --disable=C0114,C0115,C0116'
-    "let g:ale_python_pylint_change_directory=0
-    "let g:ale_python_flake8_change_directory=0
+    if exists(":ALEInfo")
+        " ale mappings
+        nmap <silent> [a <Plug>(ale_previous_wrap)
+        nmap <silent> ]a <Plug>(ale_next_wrap)
+        let g:ale_echo_msg_error_str = 'E'
+        let g:ale_echo_msg_warning_str = 'W'
+        let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+        let g:ale_python_pylint_options = '--load-plugins=pylint_django --disable=C0114,C0115,C0116'
+        "let g:ale_python_pylint_change_directory=0
+        "let g:ale_python_flake8_change_directory=0
 
-    let js_fixers = ['prettier', 'eslint']
+        let js_fixers = ['prettier', 'eslint']
+        let ts_fixers = js_fixers
 
-    let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
-    let g:ale_linters = {
-    \   'vue': ['eslint', 'vls']
-    \}
+        let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+        let g:ale_linters = {
+        \   'vue': ['eslint', 'vls']
+        \}
 
-    let g:ale_fixers = {
-    \   'java': ['google_java_format'],
-    \   'json': ['jq'],
-    \   'javascript': js_fixers,
-    \   'vue': js_fixers,
-    \   'python': ['black', 'isort'],
-    \   'ruby': ['standardrb', 'rubocop'],
-    \   'terraform': ['terraform'],
-    \}
+        let g:ale_fixers = {
+        \   'java': ['google_java_format'],
+        \   'json': ['jq'],
+        \   'javascript': js_fixers,
+        \   'vue': js_fixers,
+        \   'typescript': ts_fixers,
+        \   'python': ['black', 'isort'],
+        \   'ruby': ['standardrb', 'rubocop'],
+        \   'terraform': ['terraform'],
+        \}
 
-    let g:ale_fix_on_save = 1
+        let g:ale_fix_on_save = 1
 
-    nnoremap <leader>as :call ALESaveToggle()<CR>
+        nnoremap <leader>as :call ALESaveToggle()<CR>
 
-    function! ALESaveToggle()
-        if !exists("b:ale_fix_on_save") || !b:ale_fix_on_save
-            let b:ale_fix_on_save = 1
-        else
-            let b:ale_fix_on_save = 0
-        endif
-    endfunction
+        function! ALESaveToggle()
+            if !exists("b:ale_fix_on_save") || !b:ale_fix_on_save
+                let b:ale_fix_on_save = 1
+            else
+                let b:ale_fix_on_save = 0
+            endif
+        endfunction
+    endif
 endif
 
 try
@@ -1023,8 +1027,13 @@ function! ActiveStatus()
     let statusline.="%m"
     let statusline.="%r"
     let statusline.="%="
-    let statusline.="\ %{coc#status()}%{get(b:,'coc_current_function','')}"
-    let statusline.="\ %{LinterStatus()}"
+    let statusline.="%<"
+    if exists(":CocCommand")
+        let statusline.="\ %{coc#status()}%{get(b:,'coc_current_function','')}"
+    endif
+    if exists(":ALEInfo")
+        let statusline.="\ %{LinterStatus()}"
+    endif
     let statusline.="\ %y"
     let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
     let statusline.="\[%{&fileformat}\]"
