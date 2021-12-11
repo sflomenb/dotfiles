@@ -1,6 +1,7 @@
 -- To debug, uncomment the below line:
 -- vim.lsp.set_log_level('debug')
 local nvim_lsp = require('lspconfig')
+local null_ls = require("null-ls")
 
 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -111,6 +112,9 @@ nvim_lsp.tsserver.setup({
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", opts)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
         vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", opts)
+
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
     end,
     flags = {
         debounce_text_changes = 150,
@@ -193,3 +197,28 @@ require'lspconfig'.sumneko_lua.setup {
     },
   },
 }
+
+local sources = {
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.gofmt,
+    null_ls.builtins.formatting.goimports,
+    null_ls.builtins.formatting.rustfmt,
+    null_ls.builtins.formatting.terraform_fmt,
+
+    null_ls.builtins.diagnostics.shellcheck,
+
+    null_ls.builtins.code_actions.shellcheck,
+}
+null_ls.config({
+    sources = sources,
+})
+nvim_lsp["null-ls"].setup({
+    -- add to a specific server's on_attach,
+    -- or to a common on_attach callback to enable for all supported filetypes
+    on_attach = function(client)
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+        end
+    end
+})
