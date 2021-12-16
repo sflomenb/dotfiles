@@ -1017,7 +1017,7 @@ let g:currentmode={
        \}
 
 function! ActiveStatus()
-    let statusline=""
+    let statusline="\ "
     let statusline.="%#WildMenu#"
     let statusline.="%{toupper(g:currentmode[mode()])}"
     let statusline.="%*"
