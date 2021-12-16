@@ -1035,7 +1035,7 @@ function! ActiveStatus()
     endif
     let statusline.="\ %y"
     let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
-    let statusline.="\[%{&fileformat}\]"
+    let statusline.="\ [%{&fileformat}\]"
     let statusline.="\ %p%%"
     let statusline.="\ %l:%c"
     let statusline.="\ #%{winnr()}"
