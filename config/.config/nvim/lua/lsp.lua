@@ -42,7 +42,7 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers_with_default_config = { 'pyright', 'gopls', 'eslint' }
+local servers_with_default_config = { 'pyright', 'gopls', 'eslint', 'terraform_lsp' }
 
 local myopts = {
         on_attach = on_attach,
