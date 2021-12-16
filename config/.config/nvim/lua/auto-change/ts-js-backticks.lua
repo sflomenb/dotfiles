@@ -12,8 +12,6 @@ function M.tsJsBackticks()
             return
         end
 
-        local node_text = vim.treesitter.query.get_node_text(current_node, bufnr)
-
         local isString = current_node:type() == 'string'
         local isStringFragment = current_node:type() == 'string_fragment'
 
@@ -25,12 +23,19 @@ function M.tsJsBackticks()
             current_node = current_node:parent()
         end
 
+        local node_text = vim.treesitter.query.get_node_text(current_node, bufnr)
+
+        if not node_text then
+            return
+        end
+
         local hasInterpolation = string.find(node_text, '%${')
 
         if hasInterpolation then
             local sRow, sCol, eRow, eCol = current_node:range()
             utils.change_character_at_pos(sRow, sCol, '`')
-            utils.change_character_at_pos(eRow, eCol, '`')
+            -- Subtract 1 from eCol since the close } is added automatically
+            utils.change_character_at_pos(eRow, eCol - 1, '`')
         end
     end
 end
