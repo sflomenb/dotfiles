@@ -486,7 +486,6 @@ let g:colorizer_skip_comments = 1
 execute "set <M-d>=∂"
 noremap <M-d> "_d
 
-nnoremap <Leader>e :Lexplore<CR>
 ":normal <CR>
 
 fu! SaveSessionAndExit(...)
