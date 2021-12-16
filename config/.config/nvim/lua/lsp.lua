@@ -2,6 +2,7 @@
 -- vim.lsp.set_log_level('debug')
 local nvim_lsp = require('lspconfig')
 local null_ls = require("null-ls")
+local luasnip = require('luasnip')
 
 local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -129,7 +130,7 @@ local cmp = require 'cmp'
 cmp.setup {
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = {
