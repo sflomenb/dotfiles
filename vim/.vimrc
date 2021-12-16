@@ -1007,7 +1007,7 @@ let g:currentmode={
        \ 'V'  : 'V·Line ',
        \ "\<C-V>" : 'V·Block ',
        \ 'i'  : 'INSERT ',
-       \ 'R'  : 'R ',
+       \ 'R'  : 'REPLACE ',
        \ 'Rv' : 'V·Replace ',
        \ 'c'  : 'Command ',
        \ 's'  : 'SELECT ',
