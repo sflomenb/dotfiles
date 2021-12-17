@@ -118,4 +118,33 @@ function M.sort_object()
 	vim.cmd("keeppattern s/{\\zs/\\r/g")
 end
 
+function M.goto_top_object()
+	vim.cmd("normal $")
+	local lang = vim.bo.ft
+	if lang ~= "javascript" and lang ~= "typescript" then
+		return
+	end
+
+	local current_node = ts_utils.get_node_at_cursor()
+
+	if not current_node then
+		print("Unable to get current node")
+		return
+	end
+
+	while current_node and (current_node:parent():type() == "object" or current_node:parent():type() == "pair") do
+		current_node = current_node:parent()
+	end
+
+	local sRow, sCol, _, _ = current_node:range()
+	vim.api.nvim_win_set_cursor(0, { sRow + 1, sCol })
+end
+
+function M.goto_top_object_and_sort()
+	M.goto_top_object()
+	M.sort_object()
+end
+
+vim.api.nvim_exec([[command! SortObject :lua require('sort_object').goto_top_object_and_sort()]], false)
+
 return M

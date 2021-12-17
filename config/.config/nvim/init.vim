@@ -20,4 +20,5 @@ require('my_telescope')
 require('nvim-autopairs').setup{}
 require("todo-comments").setup {}
 require("trouble").setup {}
+require('sort_object')
 EOF
