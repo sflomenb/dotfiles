@@ -199,28 +199,26 @@ nvim_lsp.sumneko_lua.setup {
   },
 }
 
-local sources = {
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.black,
-    null_ls.builtins.formatting.gofmt,
-    null_ls.builtins.formatting.goimports,
-    null_ls.builtins.formatting.rustfmt,
-    null_ls.builtins.formatting.terraform_fmt,
-    null_ls.builtins.formatting.stylua,
 
-    null_ls.builtins.diagnostics.shellcheck,
-
-    null_ls.builtins.code_actions.shellcheck,
-}
-null_ls.config({
-    sources = sources,
 })
-nvim_lsp["null-ls"].setup({
-    -- add to a specific server's on_attach,
-    -- or to a common on_attach callback to enable for all supported filetypes
-    on_attach = function(client)
-    if client.resolved_capabilities.document_formatting then
-        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-        end
-    end
+
+null_ls.setup({
+	on_attach = function(client)
+		if client.resolved_capabilities.document_formatting then
+			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+		end
+	end,
+	sources = {
+		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.gofmt,
+		null_ls.builtins.formatting.goimports,
+		null_ls.builtins.formatting.rustfmt,
+		null_ls.builtins.formatting.terraform_fmt,
+		null_ls.builtins.formatting.stylua,
+
+		null_ls.builtins.diagnostics.shellcheck,
+
+		null_ls.builtins.code_actions.shellcheck,
+	},
 })
