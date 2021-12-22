@@ -22,4 +22,5 @@ require("todo-comments").setup {}
 require("trouble").setup {}
 require('sort_object')
 require('change_case')
+require('prev_indent_level')
 EOF
