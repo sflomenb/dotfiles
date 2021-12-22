@@ -173,6 +173,7 @@ elseif &loadplugins
         Plug 'folke/trouble.nvim'
         Plug 'nvim-treesitter/playground'
         Plug 'jose-elias-alvarez/null-ls.nvim'
+        Plug 'nvim-telescope/telescope-ui-select.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
@@ -1275,39 +1276,41 @@ function! ConvertWordsToCase(words, case)
     endif
 endfunction
 
-function! ChangeCase()
-    " use '-' as a word character so we can get words so we can get words that
-    " contain '-' in kebab-case
-    "let l:old_iskeyword = &iskeyword
-    "echo(l:old_iskeyword)
-    setlocal iskeyword+=-
+if !has('nvim')
+    function! ChangeCase()
+        " use '-' as a word character so we can get words so we can get words that
+        " contain '-' in kebab-case
+        "let l:old_iskeyword = &iskeyword
+        "echo(l:old_iskeyword)
+        setlocal iskeyword+=-
 
-    let l:word = expand("<cword>")
-    let l:line = getline(".")
-    let l:pos = col(".") - 1
-    let l:cases = ["camelCase",
-                \ "snake_case",
-                \ "kebab-case",
-                \ "PascalCase",
-                \ "UPPER_CASE_SNAKE_CASE"]
+        let l:word = expand("<cword>")
+        let l:line = getline(".")
+        let l:pos = col(".") - 1
+        let l:cases = ["camelCase",
+                    \ "snake_case",
+                    \ "kebab-case",
+                    \ "PascalCase",
+                    \ "UPPER_CASE_SNAKE_CASE"]
 
-    " convert to confirm format with each word prefixed with & and folowed by
-    " \n
-    let l:choices = join(mapnew(l:cases, {_,val -> '&' . val}), "\n")
-    let l:choice = confirm('Choose case', l:choices)
+        " convert to confirm format with each word prefixed with & and folowed by
+        " \n
+        let l:choices = join(mapnew(l:cases, {_,val -> '&' . val}), "\n")
+        let l:choice = confirm('Choose case', l:choices)
 
-    let l:case = l:cases[l:choice - 1]
+        let l:case = l:cases[l:choice - 1]
 
-    let l:split_words = SplitWord(l:word)
+        let l:split_words = SplitWord(l:word)
 
-    let l:new_word = ConvertWordsToCase(l:split_words, case)
+        let l:new_word = ConvertWordsToCase(l:split_words, case)
 
-    let @z = l:new_word
-    norm! viw"zp
+        let @z = l:new_word
+        norm! viw"zp
 
-    " restore iskeyword
-    "set iskeyword=old_iskeyword
-    set iskeyword<
-endfunction
+        " restore iskeyword
+        "set iskeyword=old_iskeyword
+        set iskeyword<
+    endfunction
 
-command! ChangeCase call ChangeCase()
+    command! ChangeCase call ChangeCase()
+endif
