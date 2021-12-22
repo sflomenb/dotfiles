@@ -43,6 +43,13 @@ set_keymap(
 	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden'} end, cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
+set_keymap("n", "<Leader>o", "<cmd>lua require('telescope').extensions['todo-comments']['todo']()<cr>", opts)
+set_keymap(
+	"n",
+	"<Leader>O",
+	"<cmd>lua require('telescope').extensions['todo-comments']['todo']({ cwd = vim.fn.expand('%:h') })<cr>",
+	opts
+)
 
 -- This is your opts table
 require("telescope").setup({
@@ -52,8 +59,10 @@ require("telescope").setup({
 				-- even more opts
 			}),
 		},
+		["todo-comments"] = {},
 	},
 })
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 require("telescope").load_extension("ui-select")
+require("telescope").load_extension("todo-comments")
