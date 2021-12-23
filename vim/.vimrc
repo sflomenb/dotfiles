@@ -1227,56 +1227,56 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap * *zzzv
 
-function! DetermineCase(word)
-    if a:word =~# '\v^[A-Z]+(_[A-Z]\+)*$'
-        return 'UPPER_CASE_SNAKE_CASE'
-    elseif a:word =~# '_'
-        return 'snake_case'
-    elseif a:word =~# '-'
-        return 'kebab-case'
-    elseif a:word =~# '^[A-Z]'
-        return 'PascalCase'
-    else
-        return 'camelCase'
-    endif
-endfunction
-
-function! SplitWord(word)
-    let l:case = DetermineCase(a:word)
-    if l:case == 'UPPER_CASE_SNAKE_CASE'
-        return split(a:word, '_')
-    elseif l:case == 'snake_case'
-        return split(a:word, '_')
-    elseif l:case == 'kebab-case'
-        return split(a:word, '-')
-    elseif l:case == 'PascalCase'
-    return split(a:word, '\ze[A-Z]')
-elseif l:case == 'camelCase'
-        return split(a:word, '\ze[A-Z]')
-    endif
-endfunction
-
-function! ToPascalCase(key, val)
-    return substitute(a:val, '\v^(\a)(\a*)', '\u\1\L\2', '')
-endfunction
-
-function! ConvertWordsToCase(words, case)
-    if a:case == 'UPPER_CASE_SNAKE_CASE'
-        return join(map(a:words, {_, val -> toupper(val)}), '_')
-    elseif a:case == 'snake_case'
-        return join(map(a:words, {_, val -> tolower(val)}), '_')
-    elseif a:case == 'kebab-case'
-        return join(map(a:words, {_, val -> tolower(val)}), '-')
-    elseif a:case == 'PascalCase'
-        return join(map(a:words, function('ToPascalCase')), '')
-    elseif a:case == 'camelCase'
-        let l:first_word = tolower(a:words[0])
-        let l:other_words = map(a:words[1:], function('ToPascalCase'))
-        return join([l:first_word] + l:other_words, '')
-    endif
-endfunction
-
 if !has('nvim')
+    function! DetermineCase(word)
+        if a:word =~# '\v^[A-Z]+(_[A-Z]\+)*$'
+            return 'UPPER_CASE_SNAKE_CASE'
+        elseif a:word =~# '_'
+            return 'snake_case'
+        elseif a:word =~# '-'
+            return 'kebab-case'
+        elseif a:word =~# '^[A-Z]'
+            return 'PascalCase'
+        else
+            return 'camelCase'
+        endif
+    endfunction
+
+    function! SplitWord(word)
+        let l:case = DetermineCase(a:word)
+        if l:case == 'UPPER_CASE_SNAKE_CASE'
+            return split(a:word, '_')
+        elseif l:case == 'snake_case'
+            return split(a:word, '_')
+        elseif l:case == 'kebab-case'
+            return split(a:word, '-')
+        elseif l:case == 'PascalCase'
+        return split(a:word, '\ze[A-Z]')
+    elseif l:case == 'camelCase'
+            return split(a:word, '\ze[A-Z]')
+        endif
+    endfunction
+
+    function! ToPascalCase(key, val)
+        return substitute(a:val, '\v^(\a)(\a*)', '\u\1\L\2', '')
+    endfunction
+
+    function! ConvertWordsToCase(words, case)
+        if a:case == 'UPPER_CASE_SNAKE_CASE'
+            return join(map(a:words, {_, val -> toupper(val)}), '_')
+        elseif a:case == 'snake_case'
+            return join(map(a:words, {_, val -> tolower(val)}), '_')
+        elseif a:case == 'kebab-case'
+            return join(map(a:words, {_, val -> tolower(val)}), '-')
+        elseif a:case == 'PascalCase'
+            return join(map(a:words, function('ToPascalCase')), '')
+        elseif a:case == 'camelCase'
+            let l:first_word = tolower(a:words[0])
+            let l:other_words = map(a:words[1:], function('ToPascalCase'))
+            return join([l:first_word] + l:other_words, '')
+        endif
+    endfunction
+
     function! ChangeCase()
         " use '-' as a word character so we can get words so we can get words that
         " contain '-' in kebab-case
