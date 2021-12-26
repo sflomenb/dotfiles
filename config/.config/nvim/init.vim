@@ -18,7 +18,11 @@ require('lsp')
 require('ts')
 require('my_telescope')
 require('nvim-autopairs').setup{}
-require("todo-comments").setup {}
+require("todo-comments").setup({
+	keywords = {
+		NOTE = { alt = { "INFO", "ASSUMPTION" } },
+	},
+})
 require("trouble").setup {}
 require('sort_object')
 require('change_case')
