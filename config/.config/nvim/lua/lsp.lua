@@ -71,6 +71,11 @@ require("rust-tools").setup({
 		},
 		capabilities = capabilities,
 	},
+	tools = {
+		runnables = {
+			use_telescope = true,
+		},
+	},
 })
 
 nvim_lsp.tsserver.setup({
