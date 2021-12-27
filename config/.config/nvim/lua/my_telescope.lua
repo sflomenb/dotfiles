@@ -1,3 +1,5 @@
+local action_set = require("telescope.actions.set")
+
 local function set_keymap(...)
 	vim.api.nvim_set_keymap(...)
 end
@@ -51,8 +53,40 @@ set_keymap(
 	opts
 )
 
+-- Custom splitting to split in any direction.
+-- Inspired by builtin actions and code from telescope.
+local transform_mod = require("telescope.actions.mt").transform_mod
+
+local directions = {
+	["k"] = "new",
+	["j"] = "bel new",
+	["J"] = "bot bel new",
+	["K"] = "top abo new",
+	["h"] = "vnew",
+	["l"] = "bel vnew",
+	["L"] = "bot bel vnew",
+	["H"] = "top abo vnew",
+	["t"] = "tabedit",
+}
+
+-- or create your custom action
+local split = transform_mod({
+	split_in_direction = function(prompt_bufnr)
+		local input = vim.fn.nr2char(vim.fn.getchar())
+		print("input was " .. input)
+		return action_set.edit(prompt_bufnr, directions[input] or "edit")
+	end,
+})
+
 -- This is your opts table
 require("telescope").setup({
+	defaults = {
+		mappings = {
+			i = {
+				["<C-s>"] = split.split_in_direction,
+			},
+		},
+	},
 	extensions = {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({
