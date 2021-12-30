@@ -969,6 +969,60 @@ function! StatuslineGit()
     return !empty(l:branchname) ? '  ' . l:branchname . ' ' : ''
 endfunction
 
+function! GetFromList(list, end)
+    if a:end == 0
+        return [a:list[0]]
+    else
+        return a:list[0:a:end]
+    endif
+endfunction
+
+function! IsUniqueVisibleWindow(full, short)
+    let l:path_except_file = fnamemodify(a:full, ":h")
+    let l:dir = fnamemodify(a:full, ":h:t")
+    let l:other_files = []
+    " https://vi.stackexchange.com/a/30915
+    " Find all visible buffers that have same filename but different paths
+    " e.g. test/foo/same/test.txt | test/bar/same/test.txt
+    for buf in filter(getbufinfo({'bufloaded':1}), {v -> len(v:val['windows'])})
+        if a:short == fnamemodify(buf.name, ":t") && a:full != fnamemodify(buf.name, ":.")
+            let l:other_files = add(l:other_files, fnamemodify(buf.name, ":."))
+        endif
+    endfor
+
+    if len(l:other_files) == 0
+        return ''
+    endif
+
+    " Our current file was added to the end, we are going to eventually return
+    " it.
+    let l:all_files = add(l:other_files, a:full)
+
+    " Split each on / and reverse
+    " test/foo/same/test.txt -> ["same", "foo", "test"]
+    let l:all_files = map(l:all_files, {_, val -> reverse(split(fnamemodify(v:val, ':h'), '/'))} )
+
+    let l:desired_length = len(l:all_files)
+    " Initially set to all "" so it is all the same
+    let l:transformed = repeat([""], len(l:all_files))
+    let my_count = 0
+
+    " Take count paths from each list, reverse, join them and stop when all are unique
+    " Example:
+    " test/foo/same/test.txt | test/bar/same/test.txt
+    " After first iteration, we have "same" for both, need to keep going
+    " After second iteration, we have "foo/same" and "bar/same", we are done.
+    " Once all files are unqiue, we are done.
+    " Our file was added at the end, so we return that.
+    while len(uniq(copy(l:transformed))) != l:desired_length
+        let l:transformed = map(copy(l:all_files), {_, val -> join(reverse(GetFromList(val, my_count)), '/') })
+        let my_count = my_count + 1
+    endwhile
+
+    return l:transformed[-1]
+endfunction
+
+" Inspired by https://www.reddit.com/r/vim/comments/7a2apl/comment/dp77a0i/?utm_source=share&utm_medium=web2x&context=3
 function! StatusFilename()
     let l:pre = ''
     let l:pat = '://'
@@ -984,7 +1038,12 @@ function! StatusFilename()
     if l:ratio <= 2 && l:ratio > 1
         let l:name = pathshorten(l:name)
     elseif l:ratio <= 1
-        let l:name = fnamemodify(l:name, ':t')
+        let l:unique_part = IsUniqueVisibleWindow(l:name, fnamemodify(l:name, ':t'))
+        if empty(l:unique_part)
+            let l:name = fnamemodify(l:name, ':t')
+        else
+            let l:name = fnamemodify(l:name, ':t') . "<" . l:unique_part . ">"
+        endif
     endif
     return l:pre  . l:name
 endfunction
