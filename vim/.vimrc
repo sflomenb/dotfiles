@@ -977,7 +977,7 @@ function! GetFromList(list, end)
     endif
 endfunction
 
-function! IsUniqueVisibleWindow(full, short)
+function! GetUniqueDirPartFromVisible(full, short)
     let l:path_except_file = fnamemodify(a:full, ":h")
     let l:dir = fnamemodify(a:full, ":h:t")
     let l:other_files = []
@@ -1038,7 +1038,7 @@ function! StatusFilename()
     if l:ratio <= 2 && l:ratio > 1
         let l:name = pathshorten(l:name)
     elseif l:ratio <= 1
-        let l:unique_part = IsUniqueVisibleWindow(l:name, fnamemodify(l:name, ':t'))
+        let l:unique_part = GetUniqueDirPartFromVisible(l:name, fnamemodify(l:name, ':t'))
         if empty(l:unique_part)
             let l:name = fnamemodify(l:name, ':t')
         else
