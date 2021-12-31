@@ -1373,3 +1373,17 @@ if !has('nvim')
 
     command! ChangeCase call ChangeCase()
 endif
+
+" auto make dir on save
+" https://stackoverflow.com/a/42872275/5521899
+augroup vimrc-auto-mkdir
+  autocmd!
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:auto_mkdir(dir, force)
+    if !isdirectory(a:dir)
+          \   && (a:force
+          \       || confirm("'" . a:dir . "' does not exist. Create?", "&Yes\n&No") == 1)
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
+augroup END
