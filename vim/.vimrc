@@ -1387,3 +1387,34 @@ augroup vimrc-auto-mkdir
     endif
   endfunction
 augroup END
+
+let g:follow = 0
+
+function! FollowSplit()
+    if g:follow
+        norm zt
+        set nowrap
+        exe 'bel vsp'
+        set noscb
+        norm zt
+        set nowrap
+        norm z+
+        windo set scb
+    endif
+endfunction
+
+command! FollowSplit call FollowSplit()
+
+function! Follow()
+    if g:follow
+        let g:follow = 0
+        windo set noscb
+        windo set wrap
+        wincmd o
+    else
+        let g:follow = 1
+        call FollowSplit()
+    endif
+endfunction
+
+command! Follow call Follow()
