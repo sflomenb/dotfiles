@@ -513,9 +513,20 @@ endfu
 
 nnoremap <Leader><Leader>s :call EnableAndSaveSession()<CR>
 
+fu! SaveSessionFromTimer(id)
+    call SaveSession()
+endfu
+
+let g:session_timer_interval = 10000 " 10 seconds
+
+fu! SaveSessionDelayed(...)
+    call timer_start(g:session_timer_interval, "SaveSessionFromTimer")
+endfu
+
 augroup session
     autocmd!
     autocmd VimLeavePre * call SaveSession()
+    autocmd CursorHold * call SaveSessionDelayed()
 augroup END
 
 command! SS :setlocal spell! spelllang=en_us
