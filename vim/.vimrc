@@ -1090,6 +1090,13 @@ let g:currentmode={
        \ 't'  : 'Terminal ',
        \}
 
+function! SessionStatusline()
+    if exists("g:Save_session_name")
+        return g:Save_session_name
+    endif
+    return "No session"
+endfunction
+
 function! ActiveStatus()
     let statusline="\ "
     let statusline.="%#WildMenu#"
@@ -1107,6 +1114,7 @@ function! ActiveStatus()
     if exists(":ALEInfo")
         let statusline.="\ %{LinterStatus()}"
     endif
+    let statusline.="\ %{SessionStatusline()}"
     let statusline.="\ %y"
     let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
     let statusline.="\ [%{&fileformat}\]"
