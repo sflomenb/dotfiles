@@ -489,20 +489,34 @@ noremap <M-d> "_d
 
 ":normal <CR>
 
-fu! SaveSessionAndExit(...)
-    set sessionoptions+=globals
-    if a:0 && exists("a:1")
-        silent call system("rm !/.vim/sessions/" . g:Save_session_name . ".vim")
-        let g:Save_session_name = a:1
-    elseif !exists("g:Save_session_name")
-        call inputsave()
-        let g:Save_session_name = input('Enter session name: ')
-        call inputrestore()
+let g:Has_session = 0
+
+fu! SaveSession(...)
+    if g:Has_session
+        set sessionoptions+=globals
+        if a:0 && exists("a:1")
+            silent call system("rm ~/.vim/sessions/" . g:Save_session_name . ".vim")
+            let g:Save_session_name = a:1
+        elseif !exists("g:Save_session_name")
+            call inputsave()
+            let g:Save_session_name = input('Enter session name: ')
+            call inputrestore()
+        endif
+        exe 'mks! ~/.vim/sessions/' . g:Save_session_name . '.vim'
     endif
-    exe 'mks! ~/.vim/sessions/' . g:Save_session_name . '.vim'
-    qa
 endfu
-nnoremap <Leader><Leader>s :call SaveSessionAndExit()<CR>
+
+fu! EnableAndSaveSession(...)
+    let g:Has_session = 1
+    call call("SaveSession", a:000)
+endfu
+
+nnoremap <Leader><Leader>s :call EnableAndSaveSession()<CR>
+
+augroup session
+    autocmd!
+    autocmd VimLeavePre * call SaveSession()
+augroup END
 
 command! SS :setlocal spell! spelllang=en_us
 
