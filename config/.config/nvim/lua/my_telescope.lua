@@ -1,4 +1,9 @@
 local action_set = require("telescope.actions.set")
+local pickers = require("telescope.pickers")
+local finders = require("telescope.finders")
+local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
+local conf = require("telescope.config").values
 
 local function set_keymap(...)
 	vim.api.nvim_set_keymap(...)
@@ -52,6 +57,28 @@ set_keymap(
 	"<cmd>lua require('telescope').extensions['todo-comments']['todo']({ cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
+
+function _G.select_session(opts)
+	opts = opts or {}
+	pickers.new(opts, {
+		prompt_title = "Find session",
+		preview = false,
+		finder = finders.new_oneshot_job({ "rg", "--files", "--hidden" }, { cwd = vim.fn.expand("~/.vim/sessions") }),
+		sorter = conf.file_sorter(opts),
+		attach_mappings = function(prompt_bufnr, map)
+			actions.select_default:replace(function()
+				local selection = action_state.get_selected_entry()
+				if selection ~= nil then
+					actions.close(prompt_bufnr)
+					vim.api.nvim_command("source ~/.vim/sessions/" .. selection[1])
+				end
+			end)
+			return true
+		end,
+	}):find()
+end
+
+vim.api.nvim_exec([[command! SelectSession :lua select_session()]], false)
 
 -- Custom splitting to split in any direction.
 -- Inspired by builtin actions and code from telescope.
