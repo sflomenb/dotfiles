@@ -1224,18 +1224,18 @@ command! FoldGoErrs :call FoldGoErrs()
 
 function! SetBackgroundMode(...)
     let l:new_bg = "light"
-    silent if system('uname') =~? "Darwin" && filereadable(expand("~/light-dark.scpt"))
+    if has_key(environ(), "VIM_BACKGROUND")
+        if $VIM_BACKGROUND ==? "light"
+            let l:new_bg = "light"
+        else
+            let l:new_bg = "dark"
+        endif
+    silent elseif system('uname') =~? "Darwin" && filereadable(expand("~/light-dark.scpt"))
         silent let l:cur_bg = system("osascript ~/light-dark.scpt")
         if l:cur_bg =~? "dark"
             let l:new_bg = "dark"
         elseif l:cur_bg =~? "light"
             let l:new_bg = "light"
-        endif
-    elseif !empty($VIM_BACKGROUND)
-        if $VIM_BACKGROUND ==? "light"
-            let l:new_bg = "light"
-        else
-            let l:new_bg = "dark"
         endif
     else
         " ['Mon', 'Dec', '6', '07:01:44', '2021', 'EST']
