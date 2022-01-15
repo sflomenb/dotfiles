@@ -125,9 +125,9 @@ nvim_lsp.tsserver.setup({
 
 		-- no default maps, so you may want to define some here
 		local opts = { noremap = true, silent = true }
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", opts)
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", ":TSLspImportAll<CR>", opts)
+		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>o", ":TSLspOrganize<CR>", opts)
+		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>r", ":TSLspRenameFile<CR>", opts)
+		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>i", ":TSLspImportAll<CR>", opts)
 
 		client.resolved_capabilities.document_formatting = false
 		client.resolved_capabilities.document_range_formatting = false
