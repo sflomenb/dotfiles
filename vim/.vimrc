@@ -174,6 +174,7 @@ elseif &loadplugins
         Plug 'nvim-treesitter/playground'
         Plug 'jose-elias-alvarez/null-ls.nvim'
         Plug 'nvim-telescope/telescope-ui-select.nvim'
+        Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
