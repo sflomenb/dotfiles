@@ -148,6 +148,7 @@ elseif &loadplugins
     Plug 'mileszs/ack.vim'
     Plug 'luochen1990/rainbow'
     Plug 'tpope/vim-commentary'
+    Plug 'jeetsukumaran/vim-indentwise'
 
     " nvim exclusive
     if has('nvim')
