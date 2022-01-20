@@ -14,6 +14,7 @@ bin:
 .PHONY: dotfiles
 dotfiles:
 	stow -t $(HOME) bash
+	stow -t $(HOME) config
 	stow -t $(HOME) --ignore='test.el' emacs
 	stow -t $(HOME) flake8
 	stow -t $(HOME) git
@@ -26,6 +27,7 @@ dotfiles:
 .PHONY: uninstall
 uninstall:
 	stow -t $(HOME) -D bash
+	stow -t $(HOME) -D config
 	stow -t $(HOME) --ignore='test.el' -D emacs
 	stow -t $(HOME) -D flake8
 	stow -t $(HOME) -D git
