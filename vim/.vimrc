@@ -97,7 +97,7 @@ set directory=~/.vim/.swp//
 
 "set laststatus=2
 
-inoremap <C-_> <C-o>O
+inoremap <F1>11 <C-o>O
 
 function! FileMatchesRegex(filename, regex)
     if filereadable(a:filename)
