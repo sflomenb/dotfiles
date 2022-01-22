@@ -11,6 +11,7 @@ end
 
 local opts = { noremap = true, silent = true }
 
+-- TODO: Change these to use vim.api.nvim_set_keymap
 set_keymap("n", "<Leader>f", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", opts)
 set_keymap(
 	"n",
@@ -57,6 +58,7 @@ set_keymap(
 	"<cmd>lua require('telescope').extensions['todo-comments']['todo']({ cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
+vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { noremap = true })
 
 function _G.select_session(opts)
 	opts = opts or {}
@@ -130,3 +132,4 @@ require("telescope").setup({
 require("telescope").load_extension("ui-select")
 require("telescope").load_extension("todo-comments")
 require("telescope").load_extension("fzf")
+require("telescope").load_extension("file_browser")
