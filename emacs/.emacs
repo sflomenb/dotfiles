@@ -983,6 +983,22 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :straight (:host github :repo "Somelauw/evil-org-mode")
   :hook ((org-mode . evil-org-mode)))
 
+(use-package org-roam
+  :custom
+  (org-roam-directory "~/Documents/org-roam")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup)
+  ;; https://www.orgroam.com/manual.html#Configuring-the-Org_002droam-buffer-display
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+		 (display-buffer-in-direction)
+		 (direction . right)
+		 (window-width . 0.33)
+		 (window-height . fit-window-to-buffer))))
+
 (when
     (executable-find "fzf")
   (use-package fzf
