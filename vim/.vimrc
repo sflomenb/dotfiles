@@ -659,31 +659,31 @@ augroup configgroup
     autocmd FileType python nnoremap <buffer> <Leader><Leader>m :exec '!python3' shellescape(@%, 1)<CR>
 
     " python logging
-    autocmd FileType python inoremap <expr> <M-l> PythonLogging('', '<Esc>F(a')
-    autocmd FileType python nnoremap <expr> <M-l> PythonLogging('yiwo', "<Esc>F(a'<Esc>pa: %s', str()<Esc>P")
-    autocmd FileType python vnoremap <expr> <M-l> PythonLogging('yo', "<Esc>F(a'<Esc>pa: %s', str()<Esc>P")
+    autocmd FileType python inoremap <buffer> <expr> <M-l> PythonLogging('', '<Esc>F(a')
+    autocmd FileType python nnoremap <buffer> <expr> <M-l> PythonLogging('yiwo', "<Esc>F(a'<Esc>pa: %s', str()<Esc>P")
+    autocmd FileType python vnoremap <buffer> <expr> <M-l> PythonLogging('yo', "<Esc>F(a'<Esc>pa: %s', str()<Esc>P")
     " python debugging
-    autocmd FileType python nnoremap <M-d> oimport pdb; pdb.set_trace()<Esc>
-    autocmd FileType python inoremap <M-d> <Esc>oimport pdb; pdb.set_trace()A
+    autocmd FileType python nnoremap <buffer> <M-d> oimport pdb; pdb.set_trace()<Esc>
+    autocmd FileType python inoremap <buffer> <M-d> <Esc>oimport pdb; pdb.set_trace()A
     " java logging
-    autocmd FileType java inoremap <M-l> System.out.println();<Esc>F(a
-    autocmd FileType java nnoremap <M-l> yiwoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
-    autocmd FileType java vnoremap <M-l> yoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
+    autocmd FileType java inoremap <buffer> <M-l> System.out.println();<Esc>F(a
+    autocmd FileType java nnoremap <buffer> <M-l> yiwoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
+    autocmd FileType java vnoremap <buffer> <M-l> yoSystem.out.println()<Esc>F(a"<Esc>pa: " + <Esc>pA;<Esc>
     " javascript logging
-    autocmd FileType javascript,typescript,vue inoremap <M-l> console.log()<Esc>F(a
-    autocmd FileType javascript,typescript,vue nnoremap <M-l> yiwoconsole.log()<Esc>F(a'<Esc>pa: ', <Esc>pA<Esc>
-    autocmd FileType javascript,typescript,vue vnoremap <M-l> yoconsole.log()<Esc>F(a'<Esc>pa: ', <Esc>pA<Esc>
+    autocmd FileType javascript,typescript,vue inoremap <buffer> <M-l> console.log()<Esc>F(a
+    autocmd FileType javascript,typescript,vue nnoremap <buffer> <M-l> yiwoconsole.log()<Esc>F(a'<Esc>pa: ', <Esc>pA<Esc>
+    autocmd FileType javascript,typescript,vue vnoremap <buffer> <M-l> yoconsole.log()<Esc>F(a'<Esc>pa: ', <Esc>pA<Esc>
     " javascript debugging
-    autocmd FileType javascript nnoremap <M-d> odebugger;<Esc>
-    autocmd FileType javascript inoremap <M-d> <Esc>odebugger;A
+    autocmd FileType javascript nnoremap <buffer> <M-d> odebugger;<Esc>
+    autocmd FileType javascript inoremap <buffer> <M-d> <Esc>odebugger;A
     " go logging
-    autocmd FileType go inoremap <M-l> fmt.Println()<Esc>F(a
-    autocmd FileType go nnoremap <M-l> yiwofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
-    autocmd FileType go vnoremap <M-l> yofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
+    autocmd FileType go inoremap <buffer> <M-l> fmt.Println()<Esc>F(a
+    autocmd FileType go nnoremap <buffer> <M-l> yiwofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
+    autocmd FileType go vnoremap <buffer> <M-l> yofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
     " rust logging
-    autocmd FileType rust inoremap <M-l> println!();<Esc>F(a
-    autocmd FileType rust nnoremap <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
-    autocmd FileType rust vnoremap <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
+    autocmd FileType rust inoremap <buffer> <M-l> println!();<Esc>F(a
+    autocmd FileType rust nnoremap <buffer> <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
+    autocmd FileType rust vnoremap <buffer> <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
 
     " fold settings by language
     autocmd FileType * setlocal foldmethod=syntax
