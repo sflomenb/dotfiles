@@ -149,6 +149,7 @@ elseif &loadplugins
     Plug 'luochen1990/rainbow'
     Plug 'tpope/vim-commentary'
     Plug 'jeetsukumaran/vim-indentwise'
+    Plug 'bfredl/nvim-miniyank'
 
     " nvim exclusive
     if has('nvim')
@@ -184,6 +185,12 @@ elseif &loadplugins
 
     call plug#end()
 
+    map p <Plug>(miniyank-autoput)
+    map P <Plug>(miniyank-autoPut)
+    map <leader>n <Plug>(miniyank-cycle)
+    map <leader>N <Plug>(miniyank-cycleback)
+    map <Leader>c <Plug>(miniyank-tochar)
+    map <Leader>l <Plug>(miniyank-toline)
 
     let g:go_gopls_enabled=0
 
