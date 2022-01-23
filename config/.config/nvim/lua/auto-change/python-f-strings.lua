@@ -30,13 +30,11 @@ function M.pythonFString()
 	if not isString then
 		return
 	end
-	print("in string:" .. node_text)
 	local hasCurlyBrace = string.find(node_text, "{")
 	local isFString = string.find(node_text, "^f")
 
 	if hasCurlyBrace and not isFString then
 		local sRow, sCol, _, _ = current_node:range()
-		print("adding f at " .. sRow .. ", " .. sCol)
 		utils.add_character_at_pos(sRow, sCol, "f")
 		vim.cmd([[normal l]])
 	elseif not hasCurlyBrace and isFString then
