@@ -18,6 +18,9 @@ function M.pythonFString()
 	end
 
 	local node_text = vim.treesitter.query.get_node_text(current_node, bufnr)
+	if not node_text then
+		return
+	end
 
 	-- HACK: Prevent multple f's from being inserted by checking last text
 	if node_text == LAST_TEXT then
