@@ -782,13 +782,14 @@ fu! VisualSearch()
         "let l:search_val = substitute(l:search_val, '\(/\|\.\|\[\|\]\)', '\\\0', 'g')
         let l:search_val = escape(l:search_val, '/\.*$[]')
         let @/ = l:search_val
+        norm! zzzv
     finally
         let @a = a_save
     endtry
 endfu
 
-vnoremap * :call VisualSearch()<CR>
-vnoremap ** :call VisualSearch()<CR>:%s///gn<CR>``
+vnoremap * :call VisualSearch()<CR>:normal n<CR>
+vnoremap ** :call VisualSearch()<CR>:set hls<CR>:%s///gn<CR>``
 
 fu! EscapeSearch()
     call inputsave()
