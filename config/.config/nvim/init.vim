@@ -16,6 +16,7 @@ augroup AutoChange
 augroup END
 
 lua << EOF
+require('crates').setup()
 require('lsp')
 require('ts')
 require('my_telescope')

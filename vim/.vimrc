@@ -178,6 +178,9 @@ elseif &loadplugins
         Plug 'nvim-treesitter/playground'
         Plug 'jose-elias-alvarez/null-ls.nvim'
         Plug 'nvim-telescope/telescope-ui-select.nvim'
+        if executable("cargo")
+            Plug 'Saecki/crates.nvim'
+        endif
         Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
         Plug 'nvim-telescope/telescope-file-browser.nvim'
     else
