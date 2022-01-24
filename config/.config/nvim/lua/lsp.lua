@@ -37,6 +37,8 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 	buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+	buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>", opts)
+	buf_set_keymap("n", "<space>o", "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>", opts)
 end
 
 local on_attach = function(client, bufnr)
