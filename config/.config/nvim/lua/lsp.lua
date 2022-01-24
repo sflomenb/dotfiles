@@ -187,6 +187,8 @@ cmp.setup({
 		end, { "i", "s" }),
 	},
 	sources = {
+		{ name = "path" },
+		{ name = "buffer" },
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
 		{ name = "crates" },
