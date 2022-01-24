@@ -135,7 +135,9 @@ elseif &loadplugins
     endif
     Plug 'hashivim/vim-terraform'
     Plug 'janko/vim-test'
-    Plug 'rust-lang/rust.vim'
+    if executable("cargo")
+        Plug 'rust-lang/rust.vim'
+    endif
     Plug 'posva/vim-vue'
     Plug 'fatih/vim-go'
     Plug 'tpope/vim-surround'
