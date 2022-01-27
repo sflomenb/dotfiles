@@ -170,6 +170,8 @@ elseif &loadplugins
         Plug 'nvim-lua/popup.nvim'
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
+
+        Plug 'RRethy/nvim-align'
         Plug 'APZelos/blamer.nvim'
         Plug 'windwp/nvim-autopairs'
         Plug 'p00f/nvim-ts-rainbow'
@@ -196,6 +198,8 @@ elseif &loadplugins
     map <leader>N <Plug>(miniyank-cycleback)
     map <Leader>c <Plug>(miniyank-tochar)
     map <Leader>l <Plug>(miniyank-toline)
+
+    command! -range=% -nargs=1 Align lua require'align'.align(<f-args>)
 
     let g:go_gopls_enabled=0
 
