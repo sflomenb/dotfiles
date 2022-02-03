@@ -3,6 +3,7 @@
 local nvim_lsp = require("lspconfig")
 local null_ls = require("null-ls")
 local luasnip = require("luasnip")
+local lsp_util = vim.lsp.util
 
 local function buf_set_keymap(...)
 	vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -247,3 +248,39 @@ null_ls.setup({
 		null_ls.builtins.code_actions.shellcheck,
 	},
 })
+
+local M = {}
+
+vim.fn.sign_define("code_action", { text = "A" })
+ACTION_SIGN_ID = 5
+
+-- https://github.com/neovim/nvim-lspconfig/wiki/Code-Actions
+function M.code_action_listener()
+	local timer = vim.loop.new_timer()
+	timer:start(
+		500,
+		0,
+		vim.schedule_wrap(function()
+			vim.fn.sign_unplace("my_signs", { id = ACTION_SIGN_ID, buffer = vim.fn.bufname("%") })
+			local context = { diagnostics = vim.lsp.diagnostic.get_line_diagnostics() }
+			local params = lsp_util.make_range_params()
+			params.context = context
+			vim.lsp.buf_request(0, "textDocument/codeAction", params, function(err, result, _)
+				if err then
+					return
+				end
+				if result and next(result) then
+					vim.fn.sign_place(
+						ACTION_SIGN_ID,
+						"my_signs",
+						"code_action",
+						vim.fn.bufname("%"),
+						{ lnum = vim.fn.line(".") }
+					)
+				end
+			end)
+		end)
+	)
+end
+
+return M
