@@ -185,6 +185,7 @@ elseif &loadplugins
         endif
         Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
         Plug 'nvim-telescope/telescope-file-browser.nvim'
+        Plug 'antoinemadec/FixCursorHold.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
