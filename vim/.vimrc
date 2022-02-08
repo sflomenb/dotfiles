@@ -143,7 +143,11 @@ elseif &loadplugins
     Plug 'tpope/vim-surround'
     Plug 'hynek/vim-python-pep8-indent'
     Plug 'chr4/nginx.vim'
-    Plug 'morhetz/gruvbox'
+    if has('nvim')
+        Plug 'ellisonleao/gruvbox.nvim'
+    else
+        Plug 'morhetz/gruvbox'
+    endif
     Plug 'pangloss/vim-javascript'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'

@@ -41,6 +41,19 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>", opts)
 	buf_set_keymap("n", "<space>o", "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>", opts)
 
+	if client.resolved_capabilities.document_highlight then
+		vim.api.nvim_exec(
+			[[
+			  augroup lsp_document_highlight
+				autocmd! * <buffer>
+				autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+				autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+			  augroup END
+			]],
+			false
+		)
+	end
+
 	if client.resolved_capabilities.code_action then
 		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
 	end
