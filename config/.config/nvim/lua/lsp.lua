@@ -40,10 +40,14 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 	buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>", opts)
 	buf_set_keymap("n", "<space>o", "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>", opts)
+
+	if client.resolved_capabilities.code_action then
+		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
+	end
 end
 
 local on_attach = function(client, bufnr)
-	default_on_attach()
+	default_on_attach(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -88,7 +92,7 @@ nvim_lsp.tsserver.setup({
 	init_options = require("nvim-lsp-ts-utils").init_options,
 	--
 	on_attach = function(client, bufnr)
-		default_on_attach()
+		default_on_attach(client, bufnr)
 		local ts_utils = require("nvim-lsp-ts-utils")
 
 		-- defaults

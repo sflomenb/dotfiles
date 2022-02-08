@@ -31,7 +31,4 @@ require('sort_object')
 require('change_case')
 require('prev_indent_level')
 require('snip')
-
-vim.cmd([[ autocmd CursorHold,CursorHoldI * lua require('lsp').code_action_listener() ]])
-
 EOF
