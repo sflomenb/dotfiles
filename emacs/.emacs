@@ -981,7 +981,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (use-package evil-org
   :after (evil org)
   :straight (:host github :repo "Somelauw/evil-org-mode")
-  :hook ((org-mode . evil-org-mode)))
+  :hook ((org-mode . evil-org-mode))
+  :config
+  (evil-define-key '(motion normal visual) 'evil-org-mode (kbd "g j") 'evil-next-visual-line)
+  (evil-define-key '(motion normal visual) 'evil-org-mode (kbd "g k") 'evil-previous-visual-line))
 
 (use-package org-roam
   :custom
