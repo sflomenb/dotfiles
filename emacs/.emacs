@@ -976,7 +976,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (setq org-goto-auto-isearch nil)
 
   (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate))
+  (org-clock-persistence-insinuate)
+
+  (setq org-M-RET-may-split-line '((item . nil))))
 
 (use-package evil-org
   :after (evil org)
