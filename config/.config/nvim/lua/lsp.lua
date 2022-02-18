@@ -40,6 +40,9 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 	buf_set_keymap("n", "<space>i", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>", opts)
 	buf_set_keymap("n", "<space>o", "<cmd>lua vim.lsp.buf.outgoing_calls()<CR>", opts)
+	buf_set_keymap("n", "<space>a", "v:lua.perform_code_action()", { noremap = true, expr = true })
+	buf_set_keymap("x", "<space>a", "v:lua.perform_code_action()", { noremap = true, expr = true })
+	buf_set_keymap("n", "<space>aa", "v:lua.perform_code_action() .. '_'", { noremap = true, expr = true })
 
 	if client.resolved_capabilities.document_highlight then
 		vim.api.nvim_exec(
@@ -298,6 +301,63 @@ function M.code_action_listener()
 			end)
 		end)
 	)
+end
+
+
+_G.perform_code_action = function(type)
+	if not type or type == "" then
+		vim.o.operatorfunc = "v:lua.perform_code_action"
+		return "g@"
+	end
+
+	local current_mode = vim.fn.mode()
+	local last_visual_mode = ""
+	local is_visual_mode = current_mode == "v" or current_mode == "V" or current_mode == ""
+
+	if not is_visual_mode then
+		last_visual_mode = vim.fn.visualmode()
+	end
+
+	local selection = vim.o.selection
+	vim.o.selection = "inclusive"
+	local reg = vim.fn.getreginfo('"')
+	local clipboard = vim.o.clipboard
+	vim.o.clipboard = ""
+	local visual_marks = {
+		vim.api.nvim_buf_get_mark(0, "<"),
+		vim.api.nvim_buf_get_mark(0, ">"),
+	}
+
+	-- Grab text so we can properly call the function.
+	if type == "line" then
+		vim.cmd([[ normal! '[V']y ]])
+	elseif type == "char" then
+		vim.cmd([[ normal! `[v`]y ]])
+	end
+
+	-- Save positions to use in function later.
+	local start_pos = vim.api.nvim_buf_get_mark(0, "[")
+	local end_pos = vim.api.nvim_buf_get_mark(0, "]")
+
+	-- Restore all the saved values before we call the function since we cannot
+	-- do this after.
+	vim.o.selection = selection
+	vim.fn.setreg('"', reg)
+	vim.o.clipboard = clipboard
+	-- Restore last visual mode type if we weren't already in visual mode by
+	-- switching to the normal mode temporarily.
+	-- NOTE: This must come before we restore the visual marks.
+	if last_visual_mode then
+		vim.cmd("normal! " .. last_visual_mode .. "")
+	end
+	vim.api.nvim_buf_set_mark(0, "<", visual_marks[1][1], visual_marks[1][2], {})
+	vim.api.nvim_buf_set_mark(0, ">", visual_marks[2][1], visual_marks[2][2], {})
+
+	-- Actually call the function with saved positions.
+	require("lsp").range_code_actions({
+		start_pos = start_pos,
+		end_pos = end_pos,
+	})
 end
 
 function M.range_code_actions(opts)
