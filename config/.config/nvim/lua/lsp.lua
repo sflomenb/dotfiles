@@ -31,7 +31,7 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 	buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	buf_set_keymap("n", "<space>ca", "<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>", opts)
-	buf_set_keymap("n", "<space>rca", "<cmd>'<,'>+1Telescope lsp_range_code_actions<cr>", opts)
+	buf_set_keymap("n", "<space>rca", "<cmd>lua require('lsp').range_code_actions()<cr>", opts)
 	buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 	buf_set_keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
@@ -298,6 +298,19 @@ function M.code_action_listener()
 			end)
 		end)
 	)
+end
+
+function M.range_code_actions(opts)
+	if not opts then
+		opts = {}
+	end
+	opts = {
+		params = vim.lsp.util.make_given_range_params(
+			opts.start_pos or vim.api.nvim_buf_get_mark(0, "<"),
+			opts.end_pos or vim.api.nvim_buf_get_mark(0, ">")
+		),
+	}
+	require("telescope.builtin").lsp_code_actions(opts)
 end
 
 return M
