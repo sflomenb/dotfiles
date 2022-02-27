@@ -111,7 +111,13 @@ function! FileMatchesRegex(filename, regex)
 endfunction
 
 function! ShouldShowIndentGuides()
-    return !empty(&ft) && &ft !~? 'man\|text'
+    if empty(&ft)
+        return 0
+    elseif &ft =~? 'man\|text'
+        return 0
+    endif
+
+    return 1
 endfunction
 
 " plugins
