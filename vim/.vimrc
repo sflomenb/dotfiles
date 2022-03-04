@@ -1033,14 +1033,14 @@ function! GetFromList(list, end)
     endif
 endfunction
 
-function! GetUniqueDirPartFromVisible(full, short)
+function! GetUniqueDirPart(full, short)
     let l:path_except_file = fnamemodify(a:full, ":h")
     let l:dir = fnamemodify(a:full, ":h:t")
     let l:other_files = []
     " https://vi.stackexchange.com/a/30915
     " Find all visible buffers that have same filename but different paths
     " e.g. test/foo/same/test.txt | test/bar/same/test.txt
-    for buf in filter(getbufinfo({'bufloaded':1}), {v -> len(v:val['windows'])})
+    for buf in getbufinfo({})
         if a:short == fnamemodify(buf.name, ":t") && a:full != fnamemodify(buf.name, ":.")
             let l:other_files = add(l:other_files, fnamemodify(buf.name, ":."))
         endif
@@ -1094,7 +1094,7 @@ function! StatusFilename()
     if l:ratio <= 2 && l:ratio > 1
         let l:name = pathshorten(l:name)
     elseif l:ratio <= 1
-        let l:unique_part = GetUniqueDirPartFromVisible(l:name, fnamemodify(l:name, ':t'))
+        let l:unique_part = GetUniqueDirPart(l:name, fnamemodify(l:name, ':t'))
         if empty(l:unique_part)
             let l:name = fnamemodify(l:name, ':t')
         else
