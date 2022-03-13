@@ -828,8 +828,10 @@ function! GetYamlIndent()
 endfunction
 
 " change cursor in indent mode
-let &t_SI = "\e[5 q"
-let &t_EI = "\e[2 q"
+if !has('nvim')
+    let &t_SI = "\e[5 q"
+    let &t_EI = "\e[2 q"
+endif
 
 augroup FastEscape
     autocmd!
