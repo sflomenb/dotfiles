@@ -4,6 +4,19 @@ local nvim_lsp = require("lspconfig")
 local null_ls = require("null-ls")
 local luasnip = require("luasnip")
 local lsp_util = vim.lsp.util
+local lsp_status = require("lsp-status")
+
+lsp_status.register_progress()
+lsp_status.config({
+	indicator_errors = "E",
+	indicator_warnings = "W",
+	indicator_info = "i",
+	indicator_hint = "?",
+	indicator_ok = "Ok",
+	kind_labels = {},
+	current_function = false,
+	indicator_separator = "|",
+})
 
 local function buf_set_keymap(...)
 	vim.api.nvim_buf_set_keymap(bufnr, ...)
@@ -60,14 +73,18 @@ local default_on_attach = function(client, bufnr)
 	if client.resolved_capabilities.code_action then
 		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
 	end
+
+	lsp_status.on_attach(client)
 end
 
 local on_attach = function(client, bufnr)
 	default_on_attach(client, bufnr)
 end
 
+-- Set default client capabilities plus window/workDoneProgress
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+capabilities = vim.tbl_extend("keep", capabilities or {}, lsp_status.capabilities)
 
 local servers_with_default_config = { "pyright", "gopls", "eslint", "terraform_lsp" }
 

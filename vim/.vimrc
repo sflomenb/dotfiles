@@ -196,6 +196,7 @@ elseif &loadplugins
         Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
         Plug 'nvim-telescope/telescope-file-browser.nvim'
         Plug 'antoinemadec/FixCursorHold.nvim'
+        Plug 'nvim-lua/lsp-status.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
@@ -1139,6 +1140,14 @@ function! SessionStatusline()
     return "No session"
 endfunction
 
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
+
 function! ActiveStatus()
     let statusline="\ "
     let statusline.="%#WildMenu#"
@@ -1158,6 +1167,9 @@ function! ActiveStatus()
     endif
     if exists(":ALEInfo")
         let statusline.="\ %{LinterStatus()}"
+    endif
+    if has('nvim')
+        let statusline.="\ %{LspStatus()}"
     endif
     let statusline.="\ %{SessionStatusline()}"
     let statusline.="\ %y"
