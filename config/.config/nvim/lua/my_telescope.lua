@@ -26,7 +26,7 @@ set_keymap(
 	"<cmd>lua require('telescope.builtin').git_files({ cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
-set_keymap("n", "<Leader>b", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
+set_keymap("n", "<Leader>b", "<cmd>lua require('my_telescope').my_buffers()<cr>", opts)
 set_keymap(
 	"n",
 	"<Leader>k",
@@ -86,7 +86,7 @@ vim.api.nvim_exec([[command! SelectSession :lua select_session()]], false)
 -- Inspired by builtin actions and code from telescope.
 local transform_mod = require("telescope.actions.mt").transform_mod
 
-local directions = {
+local edit_directions = {
 	["k"] = "new",
 	["j"] = "bel new",
 	["J"] = "bot bel new",
@@ -98,12 +98,41 @@ local directions = {
 	["t"] = "tabedit",
 }
 
+local split_directions = {
+	["k"] = "sp",
+	["j"] = "bel sp",
+	["h"] = "vert sp",
+	["l"] = "bel vert sp",
+	["J"] = "bot bel sp",
+	["K"] = "top abo sp",
+	["L"] = "bot bel vert sp",
+	["H"] = "top abo vert sp",
+	["t"] = "tab sp",
+}
+
 -- or create your custom action
 local split = transform_mod({
 	split_in_direction = function(prompt_bufnr)
 		local input = vim.fn.nr2char(vim.fn.getchar())
-		print("input was " .. input)
-		return action_set.edit(prompt_bufnr, directions[input] or "edit")
+		return action_set.edit(prompt_bufnr, edit_directions[input] or "edit")
+	end,
+	-- HACK: We need a second action just for opening a buffer in a split since
+	-- there is validation that only lets you execute certain commands to open
+	-- the buffer in a split. This doesn't seem to exist for the other commands.
+	buffer_split_in_direction = function(prompt_bufnr)
+		-- action_state.get_current_history():append(
+		-- 	action_state.get_current_line(),
+		-- 	action_state.get_current_picker(prompt_bufnr)
+		-- )
+		local input = vim.fn.nr2char(vim.fn.getchar())
+		local cmd = split_directions[input]
+		-- We have to close the popup, execute the command to split the current
+		-- buffer, then resume Telescope and perform the default action on what
+		-- we previously had selected.
+		require("telescope.actions").close(prompt_bufnr)
+		vim.cmd(cmd)
+		require("telescope.builtin").resume()
+		return action_set.edit(vim.fn.bufnr("%"), "edit")
 	end,
 })
 
@@ -133,3 +162,17 @@ require("telescope").load_extension("ui-select")
 require("telescope").load_extension("todo-comments")
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("file_browser")
+
+local function run_selection(prompt_bufnr, map)
+	map("i", "<c-s>", split.buffer_split_in_direction)
+	return true
+end
+
+local M = {}
+
+function M.my_buffers(opts)
+	opts = vim.tbl_extend("keep", { attach_mappings = run_selection }, opts or {})
+	require("telescope.builtin").buffers(opts)
+end
+
+return M
