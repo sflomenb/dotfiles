@@ -4,6 +4,7 @@ local finders = require("telescope.finders")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local conf = require("telescope.config").values
+local my_split_directions = require("split")
 
 local function set_keymap(...)
 	vim.api.nvim_set_keymap(...)
@@ -98,18 +99,6 @@ local edit_directions = {
 	["t"] = "tabedit",
 }
 
-local split_directions = {
-	["k"] = "sp",
-	["j"] = "bel sp",
-	["h"] = "vert sp",
-	["l"] = "bel vert sp",
-	["J"] = "bot bel sp",
-	["K"] = "top abo sp",
-	["L"] = "bot bel vert sp",
-	["H"] = "top abo vert sp",
-	["t"] = "tab sp",
-}
-
 -- or create your custom action
 local split = transform_mod({
 	split_in_direction = function(prompt_bufnr)
@@ -124,8 +113,7 @@ local split = transform_mod({
 		-- 	action_state.get_current_line(),
 		-- 	action_state.get_current_picker(prompt_bufnr)
 		-- )
-		local input = vim.fn.nr2char(vim.fn.getchar())
-		local cmd = split_directions[input]
+		local cmd = my_split_directions.get_split_direction_cmd()
 		-- We have to close the popup, execute the command to split the current
 		-- buffer, then resume Telescope and perform the default action on what
 		-- we previously had selected.

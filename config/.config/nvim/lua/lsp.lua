@@ -34,7 +34,7 @@ local default_on_attach = function(client, bufnr)
 
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	buf_set_keymap("n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<cr>", opts)
+	buf_set_keymap("n", "gd", "<cmd>lua require('lsp').my_goto_definition()<cr>", opts)
 	buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
@@ -388,6 +388,11 @@ function M.range_code_actions(opts)
 		),
 	}
 	require("telescope.builtin").lsp_code_actions(opts)
+end
+
+function M.my_goto_definition(opts)
+	require("split").split_in_direction()
+	require("telescope.builtin").lsp_definitions(opts or {})
 end
 
 return M
