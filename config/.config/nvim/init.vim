@@ -20,7 +20,7 @@ require('crates').setup()
 require('lsp')
 require('ts')
 require('my_telescope')
-require('nvim-autopairs').setup{}
+require('npairs')
 require("todo-comments").setup({
 	keywords = {
 		NOTE = { alt = { "INFO", "ASSUMPTION" } },
