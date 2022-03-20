@@ -23,7 +23,7 @@ require('my_telescope')
 require('npairs')
 require("todo-comments").setup({
 	keywords = {
-		NOTE = { alt = { "INFO", "ASSUMPTION" } },
+		NOTE = { alt = { "INFO", "ASSUMPTION", "NB" } },
 	},
 })
 require("trouble").setup {}
