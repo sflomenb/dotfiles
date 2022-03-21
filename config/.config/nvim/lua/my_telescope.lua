@@ -13,6 +13,7 @@ end
 local opts = { noremap = true, silent = true }
 
 -- TODO: Change these to use vim.api.nvim_set_keymap
+set_keymap("n", "<Leader>tr", "<cmd>lua require('telescope.builtin').resume({ hidden = true })<cr>", opts)
 set_keymap("n", "<Leader>f", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", opts)
 set_keymap(
 	"n",
