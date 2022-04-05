@@ -202,6 +202,8 @@ elseif &loadplugins
         Plug 'dense-analysis/ale'
     endif
 
+    Plug 'ojroques/vim-oscyank', {'branch': 'main'}
+
     call plug#end()
 
     map p <Plug>(miniyank-autoput)
@@ -212,6 +214,8 @@ elseif &loadplugins
     map <Leader>l <Plug>(miniyank-toline)
 
     command! -range=% -nargs=1 Align lua require'align'.align(<f-args>)
+
+    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
 
     let g:go_gopls_enabled=0
 
