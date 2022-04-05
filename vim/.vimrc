@@ -168,7 +168,7 @@ elseif &loadplugins
         Plug 'lukas-reineke/indent-blankline.nvim'
         Plug 'neovim/nvim-lspconfig'
         Plug 'simrat39/rust-tools.nvim'
-        Plug 'nvim-treesitter/nvim-treesitter'
+        Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
         Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client
         Plug 'hrsh7th/nvim-cmp' " Autocompletion plugin
