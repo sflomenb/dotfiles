@@ -716,6 +716,10 @@ augroup configgroup
     autocmd FileType rust inoremap <buffer> <M-l> println!();<Esc>F(a
     autocmd FileType rust nnoremap <buffer> <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
     autocmd FileType rust vnoremap <buffer> <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
+    " lua logging
+    autocmd FileType lua inoremap <buffer> <M-l> print()<Esc>F(a
+    autocmd FileType lua nnoremap <buffer> <M-l> yiwoprint()<Esc>F(a"<Esc>pa: " .. ( or "")<Esc>F(p<Esc>
+    autocmd FileType lua vnoremap <buffer> <M-l> yoprint()<Esc>F(a"<Esc>pa: " .. ( or "")<Esc>F(p<Esc>
 
     " fold settings by language
     autocmd FileType * setlocal foldmethod=syntax
