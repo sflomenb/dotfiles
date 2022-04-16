@@ -1250,6 +1250,34 @@ endfu
 
 command! FoldBlockComments :call FoldBlockComments()
 
+fu! CommentFolds()
+    let l:thisline  = getline(v:lnum)
+    if match(l:thisline, '\/\/') >= 0
+        return "1"
+    " if empty(l:thisline) && foldlevel(v:lnum-1) == "1"
+    "     return "1"
+    else
+        return "0"
+    endif
+endfu
+
+fu! FoldComments()
+    if &foldmethod != 'expr'
+        let b:last_fold_method = &foldmethod
+        setl foldmethod=expr
+        setl foldexpr=CommentFolds()
+        norm zM
+    else
+        let &l:foldmethod = b:last_fold_method
+        setl foldexpr<
+        norm zR
+    endif
+    set foldmethod?
+    set foldexpr?
+endfu
+
+command! FoldComments :call FoldComments()
+
 set updatetime=300
 
 fu! GoErrFolds()
