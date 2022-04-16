@@ -1161,7 +1161,7 @@ endfunction
 function! ActiveStatus()
     let statusline="\ "
     let statusline.="%#WildMenu#"
-    let statusline.="%{toupper(g:currentmode[mode()])}"
+    let statusline.="%{toupper(get(g:currentmode, mode(), 'UNKNOWN '))}"
     let statusline.="%*"
     let statusline.="%{StatusFilename()}"
     " FIX: this causes the cursor to flicker in neovim
