@@ -1232,13 +1232,15 @@ fu! BlockCommentFolds()
     endif
 endfu
 
+let b:last_fold_method = ''
 fu! FoldBlockComments()
     if &foldmethod != 'expr'
+        let b:last_fold_method = &foldmethod
         setl foldmethod=expr
         setl foldexpr=BlockCommentFolds()
         norm zM
     else
-        set foldmethod<
+        let &l:foldmethod = b:last_fold_method
         set foldexpr<
         norm zR
     endif
