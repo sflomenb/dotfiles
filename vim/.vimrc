@@ -18,6 +18,13 @@ set hls
 execute "set <M-h>=˙"
 nnoremap <M-h> :noh<CR>
 
+" <F1>9 = <C-;>
+inoremap <F1>9 <NOP>
+snoremap <F1>9 <NOP>
+" <F1>10 = <C-.>
+inoremap <F1>10 <NOP>
+snoremap <F1>10 <NOP>
+
 " insert literal tab
 inoremap <S-Tab> <C-V><Tab>
 

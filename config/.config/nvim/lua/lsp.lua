@@ -241,6 +241,21 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
+
+		["<F1>9"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif has_words_before() then
+				cmp.complete()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<F1>10"] = cmp.mapping(function()
+			if luasnip.expand_or_jumpable() then
+				luasnip.expand_or_jump()
+			end
+		end, { "i", "s" }),
 	},
 	sources = {
 		{ name = "path" },
