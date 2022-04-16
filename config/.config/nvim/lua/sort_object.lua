@@ -15,7 +15,7 @@ local function replace_node(node, text)
 
 	local sRow, sCol, eRow, eCol = node:range()
 
-	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, { text })
+	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, vim.fn.split(text, "\n"))
 end
 
 local function sort(current_node)
@@ -97,14 +97,7 @@ function M.sort_object()
 		end
 	end
 
-	-- join object into one line
-	local sRow, _, eRow, _ = current_node:range()
-
 	local orig = vim.api.nvim_win_get_cursor(0)
-	-- HACK: join all lines since we cannot get node text for multi-line nodes
-	for _ = 1, eRow - sRow + 1 do
-		vim.cmd("join!")
-	end
 
 	vim.api.nvim_win_set_cursor(0, orig)
 
@@ -114,8 +107,6 @@ function M.sort_object()
 	sort(current_node)
 
 	vim.api.nvim_win_set_cursor(0, orig)
-	-- Add newlines after { so they are auto-formatted properly
-	vim.cmd("keeppattern s/{\\zs/\\r/g")
 end
 
 function M.goto_top_object()
