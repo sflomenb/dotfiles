@@ -82,6 +82,14 @@ local default_on_attach = function(client, bufnr)
 		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
 	end
 
+	-- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/436#issuecomment-993855498
+	local name = client.name
+	local is_null = name == "null-ls"
+	if not is_null then
+		client.resolved_capabilities.document_formatting = false
+		client.resolved_capabilities.document_range_formatting = false
+	end
+
 	lsp_status.on_attach(client)
 end
 
