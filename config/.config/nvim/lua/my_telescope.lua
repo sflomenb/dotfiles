@@ -14,11 +14,16 @@ local opts = { noremap = true, silent = true }
 
 -- TODO: Change these to use vim.api.nvim_set_keymap
 set_keymap("n", "<Leader>tr", "<cmd>lua require('telescope.builtin').resume({ hidden = true })<cr>", opts)
-set_keymap("n", "<Leader>f", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", opts)
+set_keymap(
+	"n",
+	"<Leader>f",
+	"<cmd>lua require('telescope.builtin').find_files({ hidden = true, find_command = { 'rg', '--files', '--glob', '!.git' } })<cr>",
+	opts
+)
 set_keymap(
 	"n",
 	"<Leader>F",
-	"<cmd>lua require('telescope.builtin').find_files({ hidden = true, cwd = vim.fn.expand('%:h') })<cr>",
+	"<cmd>lua require('telescope.builtin').find_files({ hidden = true, cwd = vim.fn.expand('%:h'), find_command = { 'rg', '--files', '--glob', '!.git' } })<cr>",
 	opts
 )
 set_keymap("n", "<Leader>g", "<cmd>lua require('telescope.builtin').git_files()<cr>", opts)
