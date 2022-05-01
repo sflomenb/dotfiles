@@ -641,9 +641,9 @@ nnoremap <Leader>sc :SyntasticCheck<CR>
 nnoremap <Leader>sr :SyntasticReset<CR>
 
 
-nnoremap <Leader>cf : call system('pbcopy', @%)<CR>
-nnoremap <Leader>cft : call system('pbcopy', expand('%:t'))<CR>
-nnoremap <Leader>cftr : call system('pbcopy', expand('%:t:r'))<CR>
+nnoremap <space>cf : call system('pbcopy', @%)<CR>
+nnoremap <space>cft : call system('pbcopy', expand('%:t'))<CR>
+nnoremap <space>cftr : call system('pbcopy', expand('%:t:r'))<CR>
 
 " get current line number
 cnoremap <Leader>l =line('.')<CR>
