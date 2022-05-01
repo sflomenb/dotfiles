@@ -1544,3 +1544,6 @@ function! Follow()
 endfunction
 
 command! Follow call Follow()
+
+nnoremap <C-w>t :tab sp<CR>
+
