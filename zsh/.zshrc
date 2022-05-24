@@ -97,11 +97,15 @@ function edit() {
 
 [[ "${TERM_PROGRAM:l}" == 'apple_terminal' ]] && test -x "$HOME/.vim/plugged/gruvbox/gruvbox_256palette.sh" && source $_
 
-export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
-    vim -R -c 'set ft=man nomod nolist nonumber norelativenumber' -c 'map q :q<CR>' \
-    -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
-    -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' \
-    -c 'call clearmatches()' -\""
+if [[ -x "$(command -v nvim)" ]]; then
+    export MANPAGER='nvim +Man!'
+else
+    export PAGER="/bin/sh -c \"unset PAGER;col -b -x | \
+        vim -R -c 'set ft=man nomod nolist nonumber norelativenumber' -c 'map q :q<CR>' \
+        -c 'map <SPACE> <C-D>' -c 'map b <C-U>' \
+        -c 'nmap K :Man <C-R>=expand(\\\"<cword>\\\")<CR><CR>' \
+        -c 'call clearmatches()' -\""
+fi
 
 [[ -e "$HOME/.asdf/asdf.sh" ]] && . $HOME/.asdf/asdf.sh
 
