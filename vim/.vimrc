@@ -571,6 +571,14 @@ augroup session
     autocmd CursorHold * call SaveSessionDelayed()
 augroup END
 
+function! StopSession()
+    call SaveSession()
+    let g:Has_session = 0
+    unlet g:Save_session_name
+endfunction
+
+command! StopSession :call StopSession()
+
 command! SS :setlocal spell! spelllang=en_us
 
 nnoremap ** *<C-O>:%s///gn<CR>``
