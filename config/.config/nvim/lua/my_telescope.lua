@@ -37,25 +37,25 @@ set_keymap("n", "<Leader>b", "<cmd>lua require('my_telescope').my_buffers()<cr>"
 set_keymap(
 	"n",
 	"<Leader>k",
-	"<cmd>lua require('telescope.builtin').grep_string({ hidden = true, use_regex = true })<cr>",
+	"<cmd>lua require('telescope.builtin').grep_string({ hidden = true, use_regex = true, additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end })<cr>",
 	opts
 )
 set_keymap(
 	"n",
 	"<Leader>K",
-	"<cmd>lua require('telescope.builtin').grep_string({ hidden = true, use_regex = true, cwd = vim.fn.expand('%:h') })<cr>",
+	"<cmd>lua require('telescope.builtin').grep_string({ hidden = true, use_regex = true, cwd = vim.fn.expand('%:h'), additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end })<cr>",
 	opts
 )
 set_keymap(
 	"n",
 	"<Leader>e",
-	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden'} end })<cr>",
+	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end })<cr>",
 	opts
 )
 set_keymap(
 	"n",
 	"<Leader>E",
-	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden'} end, cwd = vim.fn.expand('%:h') })<cr>",
+	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end }, cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
 set_keymap("n", "<Leader>o", "<cmd>lua require('telescope').extensions['todo-comments']['todo']()<cr>", opts)
