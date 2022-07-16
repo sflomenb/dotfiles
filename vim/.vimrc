@@ -1291,6 +1291,20 @@ endfu
 
 command! FoldComments :call FoldComments()
 
+fu! FoldToIndentation()
+    if &foldmethod != 'indent'
+        let b:last_fold_method = &foldmethod
+        setl foldmethod=indent
+        let &l:foldlevel = indent(".") / &shiftwidth
+    else
+        let &l:foldmethod = b:last_fold_method
+        setl foldexpr<
+        norm zR
+    endif
+endfu
+
+command! FoldToIndentation :call FoldToIndentation()
+
 set updatetime=300
 
 fu! GoErrFolds()
