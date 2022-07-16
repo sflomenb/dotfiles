@@ -1287,8 +1287,6 @@ fu! FoldComments()
         setl foldexpr<
         norm zR
     endif
-    set foldmethod?
-    set foldexpr?
 endfu
 
 command! FoldComments :call FoldComments()
