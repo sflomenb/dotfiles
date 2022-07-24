@@ -327,6 +327,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.rustfmt,
 		null_ls.builtins.formatting.terraform_fmt,
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.jq,
 
 		null_ls.builtins.diagnostics.shellcheck,
 		null_ls.builtins.diagnostics.mypy,
