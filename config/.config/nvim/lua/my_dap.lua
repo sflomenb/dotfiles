@@ -1,3 +1,11 @@
+local dap = require("dap")
+
+dap.adapters.lldb = {
+	type = "executable",
+	command = "",
+	name = "lldb",
+}
+
 require("dapui").setup()
 
 require("which-key").register({

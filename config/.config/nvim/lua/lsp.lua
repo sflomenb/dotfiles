@@ -115,6 +115,22 @@ for _, lsp in ipairs(servers_with_default_config) do
 	nvim_lsp[lsp].setup(myopts)
 end
 
+local extension_path = vim.env.HOME .. "/Downloads/debug-extension-2/extension/"
+local rust_dap_config
+
+if vim.fn.filereadable(extension_path) then
+	local codelldb_path = extension_path .. "adapter/codelldb"
+	local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
+
+	if vim.fn.filereadable(codelldb_path) and vim.fn.filereadable(liblldb_path) then
+		rust_dap_config = {
+			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+		}
+	else
+		rust_dap_config = {}
+	end
+end
+
 require("rust-tools").setup({
 	server = {
 		on_attach = function(client, bufnr)
@@ -133,6 +149,7 @@ require("rust-tools").setup({
 			use_telescope = true,
 		},
 	},
+	dap = rust_dap_config,
 })
 
 nvim_lsp.tsserver.setup({
