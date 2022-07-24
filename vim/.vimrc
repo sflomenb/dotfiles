@@ -136,9 +136,7 @@ elseif &loadplugins
     call plug#begin('~/.vim/plugged')
 
     Plug 'airblade/vim-gitgutter'
-    Plug 'easymotion/vim-easymotion'
     Plug 'tpope/vim-fugitive'
-    Plug 'altercation/vim-colors-solarized'
     Plug 'mattn/emmet-vim'
     Plug 'chrisbra/colorizer'
     Plug 'wavded/vim-stylus'
@@ -162,10 +160,6 @@ elseif &loadplugins
         Plug 'morhetz/gruvbox'
     endif
     Plug 'pangloss/vim-javascript'
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim'
-    Plug 'mileszs/ack.vim'
-    Plug 'luochen1990/rainbow'
     Plug 'tpope/vim-commentary'
     Plug 'jeetsukumaran/vim-indentwise'
     Plug 'bfredl/nvim-miniyank'
