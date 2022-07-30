@@ -45,52 +45,50 @@ end
 
 ls.filetype_extend("all", { "_" })
 
-require("luasnip.loaders.from_snipmate").lazy_load() -- Lazy loading
+-- require("luasnip.loaders.from_snipmate").lazy_load() -- Lazy loading
 
-ls.snippets = {
-	typescript = {
-		s("desc", {
+ls.add_snippets("typescript", {
+	s("desc", {
+		t({ "describe('" }),
+		i(1),
+		t({ "', async function() {" }),
+		t({ "", "  " }),
+		i(0),
+		t({ "", "});" }),
+	}),
+	s("it", {
+		c(1, {
+			t("it"),
+		}, {}),
+		t({ "('" }),
+		i(2),
+		t({ "', async function() {" }),
+		t({ "", "  " }),
+		i(0),
+		t({ "", "});" }),
+	}),
+	s("inittest", {
+		t({ "import nock from 'nock';", "", "" }),
+		sn(1, {
 			t({ "describe('" }),
 			i(1),
-			t({ "', async function() {" }),
-			t({ "", "  " }),
-			i(0),
-			t({ "", "});" }),
-		}),
-		s("it", {
-			c(1, {
-				t("it"),
-			}, {}),
-			t({ "('" }),
-			i(2),
-			t({ "', async function() {" }),
-			t({ "", "  " }),
-			i(0),
-			t({ "", "});" }),
-		}),
-		s("inittest", {
-			t({ "import nock from 'nock';", "", "" }),
-			sn(1, {
-				t({ "describe('" }),
-				i(1),
-				t({
-					"', async function() {",
-					"  before(async function() {",
-					"    nock.disableNetConnect();",
-					"});",
-					"",
-					"  after(async function() {",
-					"    nock.enableNetConnect();",
-					"});",
-					"",
-				}),
-				t({ "", "  " }),
-				i(2),
-				t({ "", "});" }),
+			t({
+				"', async function() {",
+				"  before(async function() {",
+				"    nock.disableNetConnect();",
+				"});",
+				"",
+				"  after(async function() {",
+				"    nock.enableNetConnect();",
+				"});",
+				"",
 			}),
+			t({ "", "  " }),
+			i(2),
+			t({ "", "});" }),
 		}),
-	},
-}
+	}),
+}, { key = "typescript" })
 
 -- autotriggered snippets have to be defined in a separate table, luasnip.autosnippets.
 ls.autosnippets = {
