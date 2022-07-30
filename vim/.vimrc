@@ -1563,3 +1563,13 @@ command! Follow call Follow()
 
 nnoremap <C-w>t :tab sp<CR>
 
+function! ShrinkSplit()
+    let l:num_lines_in_file = line('$')
+    let l:num_lines_visible = winheight(0)
+    if l:num_lines_visible > l:num_lines_in_file
+        exec 'resize ' . l:num_lines_in_file
+    endif
+endfunction
+
+nnoremap <C-w>m :call ShrinkSplit()<CR>
+
