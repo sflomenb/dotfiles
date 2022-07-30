@@ -18,6 +18,7 @@ augroup END
 lua << EOF
 require('crates').setup()
 require('lsp')
+require('my_dap')
 require('ts')
 require('my_telescope')
 require('npairs')
