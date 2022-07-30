@@ -4,8 +4,10 @@ local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
 local i = ls.insert_node
+local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
+local fmt = require("luasnip.extras.fmt").fmt
 local types = require("luasnip.util.types")
 
 -- If you're reading this file for the first time, best skip to around line 190
@@ -89,6 +91,33 @@ ls.add_snippets("typescript", {
 		}),
 	}),
 }, { key = "typescript" })
+
+ls.add_snippets("python", {
+	s(
+		"def",
+		fmt(
+			[[
+              def {}{}{}{}{}
+                  {}
+    ]],
+			{
+				i(1),
+				t({ "(" }),
+				f(function(_, _, _)
+					local inside = require("python.inside-class").inside_class()
+					if inside then
+						return { "self, " }
+					else
+						return { "" }
+					end
+				end, {}),
+				i(2),
+				t({ "):" }),
+				i(0),
+			}
+		)
+	),
+}, { key = "python" })
 
 -- autotriggered snippets have to be defined in a separate table, luasnip.autosnippets.
 ls.autosnippets = {
