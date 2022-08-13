@@ -187,7 +187,7 @@ elseif &loadplugins
         Plug 'nvim-lua/plenary.nvim'
         Plug 'nvim-telescope/telescope.nvim'
 
-        Plug 'RRethy/nvim-align'
+        Plug 'kg8m/vim-simple-align'
         Plug 'APZelos/blamer.nvim'
         Plug 'windwp/nvim-autopairs'
         Plug 'p00f/nvim-ts-rainbow'
