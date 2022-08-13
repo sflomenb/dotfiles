@@ -51,7 +51,9 @@ function git_find_merge() {
 export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
+alias less='less -I'
 alias magit='emacs -f magit-status -f delete-other-windows'
+
 if uname -a | grep -q Darwin; then
     alias copy_last_command='fc -ln -1 | tr -d '"'"'\n'"'"' | pbcopy'
     alias copy_git_branch='git rev-parse --abbrev-ref HEAD | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
