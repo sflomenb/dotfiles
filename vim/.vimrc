@@ -1062,7 +1062,7 @@ function! GetUniqueDirPart(full, short)
     " https://vi.stackexchange.com/a/30915
     " Find all visible buffers that have same filename but different paths
     " e.g. test/foo/same/test.txt | test/bar/same/test.txt
-    for buf in getbufinfo({})
+    for buf in getbufinfo({'buflisted':1})
         if a:short == fnamemodify(buf.name, ":t") && a:full != fnamemodify(buf.name, ":.")
             let l:other_files = add(l:other_files, fnamemodify(buf.name, ":."))
         endif
