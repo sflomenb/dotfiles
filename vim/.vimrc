@@ -152,7 +152,9 @@ elseif &loadplugins
     Plug 'posva/vim-vue'
     Plug 'fatih/vim-go'
     Plug 'tpope/vim-surround'
-    Plug 'hynek/vim-python-pep8-indent'
+    if !has('nvim')
+        Plug 'hynek/vim-python-pep8-indent'
+    endif
     Plug 'chr4/nginx.vim'
     if has('nvim')
         Plug 'ellisonleao/gruvbox.nvim'
