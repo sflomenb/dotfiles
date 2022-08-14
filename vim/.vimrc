@@ -219,8 +219,6 @@ elseif &loadplugins
     map <Leader>c <Plug>(miniyank-tochar)
     map <Leader>l <Plug>(miniyank-toline)
 
-    command! -range=% -nargs=1 Align lua require'align'.align(<f-args>)
-
     autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
 
     let g:go_gopls_enabled=0
