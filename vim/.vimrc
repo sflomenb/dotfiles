@@ -1586,5 +1586,5 @@ nnoremap <C-w>m :call ShrinkSplit()<CR>
 
 " Delete without closing split
 " https://stackoverflow.com/a/4468491/5521899
-command! Bd :bp | bd #
+command! -bang Bd :bp | bd<bang> #
 
