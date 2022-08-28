@@ -163,6 +163,7 @@ elseif &loadplugins
     endif
     Plug 'pangloss/vim-javascript'
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-dadbod'
     Plug 'jeetsukumaran/vim-indentwise'
     Plug 'bfredl/nvim-miniyank'
 
@@ -211,6 +212,15 @@ elseif &loadplugins
     Plug 'ojroques/vim-oscyank', {'branch': 'main'}
 
     call plug#end()
+
+    xnoremap <expr> <Plug>(DBExe)     db#op_exec()
+    nnoremap <expr> <Plug>(DBExe)     db#op_exec()
+    nnoremap <expr> <Plug>(DBExeLine) db#op_exec() . '_'
+
+    xmap <leader>db  <Plug>(DBExe)
+    nmap <leader>db  <Plug>(DBExe)
+    omap <leader>db  <Plug>(DBExe)
+    nmap <leader>dbb <Plug>(DBExeLine)
 
     map p <Plug>(miniyank-autoput)
     map P <Plug>(miniyank-autoPut)
