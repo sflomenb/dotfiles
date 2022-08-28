@@ -131,7 +131,8 @@ local split = transform_mod({
 		require("telescope.actions").close(prompt_bufnr)
 		vim.cmd(cmd)
 		require("telescope.builtin").resume()
-		return action_set.edit(vim.fn.bufnr("%"), "edit")
+		action_set.edit(vim.fn.bufnr("%"), "edit")
+		vim.fn.feedkeys("")
 	end,
 })
 
