@@ -230,6 +230,8 @@ elseif &loadplugins
     map <Leader>l <Plug>(miniyank-toline)
 
     autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
+    let g:oscyank_term = 'default'
+    let g:oscyank_silent = v:true
 
     let g:go_gopls_enabled=0
 
