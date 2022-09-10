@@ -166,6 +166,10 @@ require("rust-tools").setup({
 		runnables = {
 			use_telescope = true,
 		},
+		inlay_hints = {
+			-- disabled due to lsp-inlayhints
+			auto = false,
+		},
 	},
 	dap = rust_dap_config,
 })
