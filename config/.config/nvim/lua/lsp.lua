@@ -5,6 +5,7 @@ local null_ls = require("null-ls")
 local luasnip = require("luasnip")
 local lsp_util = vim.lsp.util
 local lsp_status = require("lsp-status")
+local lsp_inlay_hints = require("lsp-inlayhints")
 
 lsp_status.register_progress()
 lsp_status.config({
@@ -91,6 +92,10 @@ local default_on_attach = function(client, bufnr)
 	end
 
 	lsp_status.on_attach(client)
+
+	lsp_inlay_hints.setup()
+
+	lsp_inlay_hints.on_attach(client, bufnr)
 end
 
 local on_attach = function(client, bufnr)
@@ -102,7 +107,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities = vim.tbl_extend("keep", capabilities or {}, lsp_status.capabilities)
 
-local servers_with_default_config = { "pyright", "gopls", "eslint", "terraform_lsp" }
+local servers_with_default_config = { "pyright", "eslint", "terraform_lsp" }
 
 local myopts = {
 	on_attach = on_attach,
@@ -114,6 +119,19 @@ local myopts = {
 for _, lsp in ipairs(servers_with_default_config) do
 	nvim_lsp[lsp].setup(myopts)
 end
+
+nvim_lsp.gopls.setup(vim.tbl_extend("keep", {
+	init_options = {
+		hints = {
+			assignVariableTypes = true,
+			compositeLiteralFields = true,
+			constantValues = true,
+			functionTypeParameters = true,
+			parameterNames = true,
+			rangeVariableTypes = true,
+		},
+	},
+}, myopts))
 
 local extension_path = vim.env.HOME .. "/Downloads/debug-extension-2/extension/"
 local rust_dap_config

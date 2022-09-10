@@ -205,6 +205,7 @@ elseif &loadplugins
         Plug 'nvim-telescope/telescope-file-browser.nvim'
         Plug 'antoinemadec/FixCursorHold.nvim'
         Plug 'nvim-lua/lsp-status.nvim'
+        Plug 'lvimuser/lsp-inlayhints.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
