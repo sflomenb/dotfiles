@@ -182,6 +182,7 @@ elseif &loadplugins
         Plug 'L3MON4D3/LuaSnip' " Snippets plugin
         Plug 'mfussenegger/nvim-dap'
         Plug 'rcarriga/nvim-dap-ui'
+        Plug 'HiPhish/debugpy.nvim'
 
         " Optional dependencies
         Plug 'nvim-lua/popup.nvim'
