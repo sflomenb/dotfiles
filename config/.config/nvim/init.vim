@@ -16,6 +16,8 @@ augroup AutoChange
 augroup END
 
 lua << EOF
+-- color has to be first for some reason
+require('color')
 require('crates').setup()
 require('lsp')
 require('my_dap')

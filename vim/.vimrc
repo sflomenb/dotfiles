@@ -158,6 +158,7 @@ elseif &loadplugins
     Plug 'chr4/nginx.vim'
     if has('nvim')
         Plug 'ellisonleao/gruvbox.nvim'
+        Plug 'catppuccin/nvim', {'as': 'catppuccin'}
     else
         Plug 'morhetz/gruvbox'
     endif
@@ -512,14 +513,12 @@ elseif &loadplugins
 endif
 
 try
-    if $TERM_PROGRAM !=? 'apple_terminal'
-        if $TERM_PROGRAM ==# 'iTerm.app'
-            let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-            let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-        endif
+    if !has('nvim')
+        let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
         set termguicolors
+        colorscheme gruvbox
     endif
-    colorscheme gruvbox
 catch /E185/
 endtry
 
@@ -1386,8 +1385,14 @@ function! SetBackgroundMode(...)
         let &background = l:new_bg
     endif
 endfunction
-call SetBackgroundMode()
-call timer_start(3000, "SetBackgroundMode", {"repeat": -1})
+if !has('nvim')
+    call SetBackgroundMode()
+endif
+call timer_start(300000, "SetBackgroundMode", {"repeat": -1})
+augroup setbackground
+    autocmd!
+    autocmd FocusGained * :call SetBackgroundMode()
+augroup END
 
 " writing mode
 function! ToggleWriting(...)

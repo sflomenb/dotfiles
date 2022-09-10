@@ -5,7 +5,7 @@ import iterm2
 
 
 async def main(connection):
-    PROFILE_NAME = subprocess.check_output(
+    LIGHT_OR_DARK = subprocess.check_output(
         [
             "osascript",
             "/Users/sflomenb/Library/Mobile Documents/com~apple~ScriptEditor2/Documents/Light-Dark Terminal.scpt",
@@ -13,12 +13,13 @@ async def main(connection):
         stderr=subprocess.STDOUT,
     )
 
-    if not PROFILE_NAME:
+    if not LIGHT_OR_DARK:
         return
-    PROFILE_NAME = bytes.decode(PROFILE_NAME).strip()
-    if PROFILE_NAME not in ["Gruvbox Light", "Gruvbox Dark"]:
-        return
+    LIGHT_OR_DARK = bytes.decode(LIGHT_OR_DARK).strip()
 
+    PROFILE_NAME = f"Catppuccin {LIGHT_OR_DARK}"
+
+    print(f"found profile name {PROFILE_NAME}")
     app = await iterm2.async_get_app(connection)
 
     all_profiles = await iterm2.PartialProfile.async_query(connection)
