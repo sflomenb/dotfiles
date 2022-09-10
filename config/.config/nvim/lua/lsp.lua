@@ -327,6 +327,10 @@ nvim_lsp.sumneko_lua.setup({
 			telemetry = {
 				enable = false,
 			},
+			hint = {
+				enable = true,
+				setType = true,
+			},
 		},
 	},
 })
