@@ -206,8 +206,7 @@ nvim_lsp.tsserver.setup({
 			filter_out_diagnostics_by_code = {},
 
 			-- inlay hints
-			auto_inlay_hints = true,
-			inlay_hints_highlight = "Comment",
+			auto_inlay_hints = false,
 
 			-- update imports on file move
 			update_imports_on_move = false,
