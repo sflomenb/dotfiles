@@ -66,7 +66,7 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap(bufnr, "x", "<space>a", "v:lua.perform_code_action()", { noremap = true, expr = true })
 	buf_set_keymap(bufnr, "n", "<space>aa", "v:lua.perform_code_action() .. '_'", { noremap = true, expr = true })
 
-	if client.resolved_capabilities.document_highlight then
+	if client.server_capabilities.document_highlight then
 		vim.api.nvim_exec(
 			[[
 			  augroup lsp_document_highlight
@@ -79,7 +79,7 @@ local default_on_attach = function(client, bufnr)
 		)
 	end
 
-	if client.resolved_capabilities.code_action then
+	if client.server_capabilities.code_action then
 		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
 	end
 
@@ -87,8 +87,8 @@ local default_on_attach = function(client, bufnr)
 	local name = client.name
 	local is_null = name == "null-ls"
 	if not is_null then
-		client.resolved_capabilities.document_formatting = false
-		client.resolved_capabilities.document_range_formatting = false
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.ocumentRangeFormattingProvider = false
 	end
 
 	lsp_status.on_attach(client)
@@ -154,8 +154,8 @@ require("rust-tools").setup({
 		on_attach = function(client, bufnr)
 			default_on_attach(client, bufnr)
 
-			client.resolved_capabilities.document_formatting = false
-			client.resolved_capabilities.document_range_formatting = false
+			client.server_capabilities.document_formatting = false
+			client.server_capabilities.document_range_formatting = false
 		end,
 		flags = {
 			debounce_text_changes = 150,
@@ -223,8 +223,8 @@ nvim_lsp.tsserver.setup({
 		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>r", ":TSLspRenameFile<CR>", opts)
 		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>i", ":TSLspImportAll<CR>", opts)
 
-		client.resolved_capabilities.document_formatting = false
-		client.resolved_capabilities.document_range_formatting = false
+		client.server_capabilities.document_formatting = false
+		client.server_capabilities.document_range_formatting = false
 	end,
 	flags = {
 		debounce_text_changes = 150,
@@ -340,7 +340,7 @@ nvim_lsp.sumneko_lua.setup({
 
 null_ls.setup({
 	on_attach = function(client)
-		if client.resolved_capabilities.document_formatting then
+		if client.server_capabilities.documentFormattingProvider then
 			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
 		end
 	end,
