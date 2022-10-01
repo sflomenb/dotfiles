@@ -1,5 +1,5 @@
 local Job = require("plenary.job")
-local uv = require("luv")
+local a = require("plenary.async")
 
 vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 
@@ -7,45 +7,46 @@ local function set_color_via_macos_theme(callback)
 	local script_path =
 		"/Users/sflomenb/Library/Mobile Documents/com~apple~ScriptEditor2/Documents/Light-Dark Terminal.scpt"
 
-	uv.fs_stat(script_path, function(err, stat)
-		if err then
-			print("err: " .. (vim.inspect(err) or ""))
-			callback()
-		end
+	local err, stat = a.uv.fs_stat(script_path)
+	if err then
+		print("err: " .. (vim.inspect(err) or ""))
+		callback()
+	end
 
-		local results = {}
+	local results = {}
 
-		Job:new({
-			command = "osascript",
-			args = {
-				script_path,
-			},
-			on_stdout = function(_, line)
-				table.insert(results, line)
-			end,
-			on_stderr = function(_, line)
-				table.insert(results, line)
-			end,
-			on_exit = function(_, _)
-				for _, v in pairs(results) do
-					if string.lower(v) == "light" then
-						vim.g.catppuccin_flavour = "latte" -- latte, frappe, macchiato, mocha
-						break
-					elseif string.lower(v) == "dark" then
-						vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
-						break
-					end
+	Job:new({
+		command = "osascript",
+		args = {
+			script_path,
+		},
+		on_stdout = function(_, line)
+			table.insert(results, line)
+		end,
+		on_stderr = function(_, line)
+			table.insert(results, line)
+		end,
+		on_exit = function(_, _)
+			for _, v in pairs(results) do
+				if string.lower(v) == "light" then
+					vim.g.catppuccin_flavour = "latte" -- latte, frappe, macchiato, mocha
+					break
+				elseif string.lower(v) == "dark" then
+					vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
+					break
 				end
-				callback()
-			end,
-		}):start()
-	end)
+			end
+			callback()
+		end,
+	}):start()
 end
 
-set_color_via_macos_theme(function()
-	vim.schedule(function()
-		require("catppuccin").setup()
-		vim.cmd([[colorscheme catppuccin]])
+a.run(function()
+	set_color_via_macos_theme(function()
+		vim.schedule(function()
+			require("catppuccin").setup()
+			vim.cmd([[colorscheme catppuccin]])
+		end)
 	end)
 end)
 
