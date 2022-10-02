@@ -1345,54 +1345,59 @@ endfu
 command! FoldBlockComments :call FoldBlockComments()
 command! FoldGoErrs :call FoldGoErrs()
 
-function! SetBackgroundMode(...)
-    let l:new_bg = "light"
-    if has_key(environ(), "VIM_BACKGROUND")
-        if $VIM_BACKGROUND ==? "light"
-            let l:new_bg = "light"
-        else
-            let l:new_bg = "dark"
-        endif
-    silent elseif system('uname') =~? "Darwin" && filereadable(expand("~/light-dark.scpt"))
-        silent let l:cur_bg = system("osascript ~/light-dark.scpt")
-        if l:cur_bg =~? "dark"
-            let l:new_bg = "dark"
-        elseif l:cur_bg =~? "light"
-            let l:new_bg = "light"
-        endif
-    else
-        " ['Mon', 'Dec', '6', '07:01:44', '2021', 'EST']
-        let l:current_time = split(strftime('%c %Z'), '\s\+')
-        let l:current_hour = split(l:current_time[3], ':')[0]
-        let l:current_time_zone = l:current_time[5]
-        let l:start_hour = 0
-        let l:end_hour = 0
-        " Use different hours for standard time
-        if l:current_time_zone =~? 'st$'
-            let l:start_hour = 6
-            let l:end_hour = 17
-        else
-            let l:start_hour = 6
-            let l:end_hour = 19
-        endif
-        if index(range(l:start_hour, l:end_hour), str2nr(l:current_hour)) != -1
-            let l:new_bg = "light"
-        else
-            let l:new_bg = "dark"
-        endif
-    endif
-    if &background !=? l:new_bg
-        let &background = l:new_bg
-    endif
-endfunction
 if !has('nvim')
+    function! SetBackgroundMode(...)
+        let l:new_bg = "light"
+        if has_key(environ(), "VIM_BACKGROUND")
+            if $VIM_BACKGROUND ==? "light"
+                let l:new_bg = "light"
+            else
+                let l:new_bg = "dark"
+            endif
+        silent elseif system('uname') =~? "Darwin" && filereadable(expand("~/light-dark.scpt"))
+            silent let l:cur_bg = system("osascript ~/light-dark.scpt")
+            if l:cur_bg =~? "dark"
+                let l:new_bg = "dark"
+            elseif l:cur_bg =~? "light"
+                let l:new_bg = "light"
+            endif
+            let l:iterm2_python_path = expand("~/Library/ApplicationSupport/iTerm2/iterm2env/versions/3.8.6/bin/python3")
+            let l:toggle_script_path = expand("~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py")
+            if filereadable(l:iterm2_python_path) && filereadable(l:toggle_script_path)
+                call system(printf("%s %s", l:iterm2_python_path, l:toggle_script_path))
+            endif
+        else
+            " ['Mon', 'Dec', '6', '07:01:44', '2021', 'EST']
+            let l:current_time = split(strftime('%c %Z'), '\s\+')
+            let l:current_hour = split(l:current_time[3], ':')[0]
+            let l:current_time_zone = l:current_time[5]
+            let l:start_hour = 0
+            let l:end_hour = 0
+            " Use different hours for standard time
+            if l:current_time_zone =~? 'st$'
+                let l:start_hour = 6
+                let l:end_hour = 17
+            else
+                let l:start_hour = 6
+                let l:end_hour = 19
+            endif
+            if index(range(l:start_hour, l:end_hour), str2nr(l:current_hour)) != -1
+                let l:new_bg = "light"
+            else
+                let l:new_bg = "dark"
+            endif
+        endif
+        if &background !=? l:new_bg
+            let &background = l:new_bg
+        endif
+    endfunction
     call SetBackgroundMode()
+    call timer_start(300000, "SetBackgroundMode", {"repeat": -1})
+    augroup setbackground
+        autocmd!
+        autocmd FocusGained * :call SetBackgroundMode()
+    augroup END
 endif
-call timer_start(300000, "SetBackgroundMode", {"repeat": -1})
-augroup setbackground
-    autocmd!
-    autocmd FocusGained * :call SetBackgroundMode()
-augroup END
 
 " writing mode
 function! ToggleWriting(...)
