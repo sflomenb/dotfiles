@@ -95,6 +95,7 @@ local function set_background_mode(callback)
 			vim.schedule(function()
 				if vim.opt.background:get() ~= bg then
 					vim.o.background = bg
+					vim.cmd([[colorscheme catppuccin]])
 				end
 			end)
 		end
