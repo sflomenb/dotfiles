@@ -51,6 +51,8 @@ function validate {
     done
 }
 
+[[ $(pwd) == *dotfiles* ]] && echo "Skipping checks on dotfiles" && exit 0
+
 IS_AMEND="$(ps -ocommand= -p "${PPID}" | grep -- 'git commit --amend')"
 NOT_FIRST_COMMIT="$(git rev-parse --verify HEAD >/dev/null 2>&1; echo $?)"
 if ! [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]] \
