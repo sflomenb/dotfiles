@@ -591,7 +591,7 @@ command! StopSession :call StopSession()
 
 command! SS :setlocal spell! spelllang=en_us
 
-nnoremap ** *<C-O>:%s///gn<CR>``
+noremap <leader>* *<C-O>:%s///gn<CR>|norm! ``
 
 let g:netrw_liststyle=3
 let g:netrw_banner=0
@@ -838,7 +838,7 @@ fu! VisualSearch()
 endfu
 
 vnoremap * :call VisualSearch()<CR>:normal n<CR>
-vnoremap ** :call VisualSearch()<CR>:set hls<CR>:%s///gn<CR>``
+vnoremap <leader>* :call VisualSearch()<CR>:set hls<CR>:%s///gn<CR>``
 
 fu! EscapeSearch()
     call inputsave()
