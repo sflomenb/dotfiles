@@ -149,3 +149,14 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 		timer:close()
 	end,
 })
+
+vim.api.nvim_create_autocmd("FocusGained", {
+	pattern = "*",
+	callback = function()
+		vim.schedule(function()
+			a.run(function()
+				set_background_mode()
+			end)
+		end)
+	end,
+})
