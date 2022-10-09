@@ -77,13 +77,17 @@ local function should_use_macos_theme()
 	--  https://www.reddit.com/r/neovim/comments/pc7in0/comment/hakuhzn/?utm_source=reddit&utm_medium=web2x&context=3
 	local is_macos = vim.loop.os_uname().sysname == "Darwin"
 
+	if not is_macos then
+		return false
+	end
+
 	local err, stat = a.uv.fs_stat(script_path)
 	if err or not stat then
 		print("err: " .. (vim.inspect(err) or ""))
 		return false
 	end
 
-	return is_macos and stat
+	return true
 end
 
 local function set_background_mode(callback)
