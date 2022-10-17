@@ -96,11 +96,12 @@
   (undohist-initialize)
   (setq undohist-ignored-files (list "COMMIT_EDITMSG")))
 
-(use-package gruvbox-theme
+(use-package gruvbox-theme)
+
+(use-package catppuccin-theme
   :config
-  (if (= (display-color-cells) 16777216)
-      (load-theme 'gruvbox-light-medium t)
-    (load-theme 'gruvbox t)))
+  (setq catppuccin-height-title1 1.5)
+  (load-theme 'catppuccin-macchiato t))
 
 ;; auto switch theme by time of day
 ;; https://stackoverflow.com/questions/14760567/emacs-auto-load-color-theme-by-time
@@ -116,9 +117,9 @@
 				 (let ((result (shell-command-to-string (format "osascript %s" light-dark-script)))
 				       (case-fold-search t))
 				   (if (string-match-p "light" result)
-				       'gruvbox-light-medium 'gruvbox))
+				       'catppuccin-latte 'catppuccin-macchiato))
 			       (if (member hour (number-sequence 6 19))
-				   'gruvbox-light-medium 'gruvbox))))
+				   'catppuccin-latte 'catppuccin-macchiato))))
     (when (not (string= theme-to-change-to current-theme))
       (setq current-theme theme-to-change-to)
       (load-theme theme-to-change-to t))
