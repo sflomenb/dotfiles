@@ -50,6 +50,7 @@ require("which-key").register({
 		},
 		c = { "<cmd>lua require('dap.ui.variables').scopes()<CR>", "Scopes" },
 		i = { "<cmd>lua require('dapui').toggle()<CR>", "Toggle" },
+		I = { "<cmd>lua require('dapui').toggle({reset=true})<CR>", "Toggle and reset layout" },
 		t = { "<cmd>lua require('dap').terminate()<CR>", "Terminate" },
 	},
 }, { prefix = "<space>" })
