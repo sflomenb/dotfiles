@@ -181,6 +181,8 @@ elseif &loadplugins
         Plug 'hrsh7th/cmp-nvim-lsp' " LSP source for nvim-cmp
         Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
         Plug 'L3MON4D3/LuaSnip' " Snippets plugin
+        Plug 'hrsh7th/cmp-buffer'
+        Plug 'hrsh7th/cmp-path'
         Plug 'mfussenegger/nvim-dap'
         Plug 'rcarriga/nvim-dap-ui'
         Plug 'HiPhish/debugpy.nvim'
