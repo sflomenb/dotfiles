@@ -58,6 +58,12 @@ set_keymap(
 	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end }, cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
+set_keymap(
+	"n",
+	"<Leader>B",
+	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end, grep_open_files = true })<cr>",
+	opts
+)
 set_keymap("n", "<Leader>o", "<cmd>lua require('telescope').extensions['todo-comments']['todo']()<cr>", opts)
 set_keymap(
 	"n",
