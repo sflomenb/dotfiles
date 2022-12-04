@@ -52,7 +52,6 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 	buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-	buf_set_keymap(bufnr, "n", "<space>rca", "<cmd>lua require('lsp').range_code_actions()<cr>", opts)
 	buf_set_keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<cr>", opts)
 	buf_set_keymap(bufnr, "n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
@@ -456,7 +455,7 @@ end
 function M.range_code_actions(opts)
 	local start_pos = opts.start_pos or vim.api.nvim_buf_get_mark(0, "<")
 	local end_pos = opts.end_pos or vim.api.nvim_buf_get_mark(0, ">")
-	vim.lsp.buf.range_code_action(nil, start_pos, end_pos)
+	vim.lsp.buf.code_action({ range = { start = start_pos, ["end"] = end_pos } })
 end
 
 function M.my_goto_definition(opts)
