@@ -338,9 +338,9 @@ nvim_lsp.sumneko_lua.setup({
 })
 
 null_ls.setup({
-	on_attach = function(client)
+	on_attach = function(client, bufnr)
 		if client.server_capabilities.documentFormattingProvider then
-			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({bufnr=bufnr, async=false})")
 		end
 	end,
 	sources = {
