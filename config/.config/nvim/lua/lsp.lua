@@ -63,7 +63,7 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap(bufnr, "n", "<space>s", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", opts)
 	buf_set_keymap(bufnr, "n", "<space>a", "v:lua.perform_code_action()", { noremap = true, expr = true })
 	buf_set_keymap(bufnr, "x", "<space>a", "v:lua.perform_code_action()", { noremap = true, expr = true })
-	buf_set_keymap(bufnr, "n", "<space>aa", "v:lua.perform_code_action() .. '_'", { noremap = true, expr = true })
+	buf_set_keymap(bufnr, "n", "<space>al", "v:lua.perform_code_action() .. '_'", { noremap = true, expr = true })
 
 	if client.server_capabilities.document_highlight then
 		vim.api.nvim_exec(
