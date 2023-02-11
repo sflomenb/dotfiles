@@ -4,8 +4,6 @@ local a = require("plenary.async")
 vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 
 local script_path = vim.fn.expand("~/light-dark.scpt")
-local iterm2_python_path = vim.fn.expand("~/Library/ApplicationSupport/iTerm2/iterm2env/versions/3.8.6/bin/python3")
-local toggle_script_path = vim.fn.expand("~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py")
 
 local function set_color_via_macos_theme(callback)
 	local err, _ = a.uv.fs_stat(script_path)
@@ -52,24 +50,29 @@ vim.api.nvim_create_autocmd("OptionSet", {
 	end,
 })
 
+local toggle_script_path = vim.fn.expand("~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py")
 local function set_iterm_theme()
-	local err, stat = a.uv.fs_stat(iterm2_python_path)
-	if err or not stat then
-		print("err: " .. (vim.inspect(err) or ""))
-		return
-	end
-
-	err, stat = a.uv.fs_stat(toggle_script_path)
+	local err, stat = a.uv.fs_stat(toggle_script_path)
 	if err or not stat then
 		print("err: " .. (vim.inspect(err) or ""))
 		return
 	end
 
 	Job:new({
-		command = iterm2_python_path,
+		command = "osascript",
 		args = {
-			toggle_script_path,
+			"-e",
+			[[tell application "iTerm"
+        launch API script named "iterm2-light-dark-toggle"
+end tell]],
 		},
+		on_exit = function(j, return_val)
+			if return_val ~= 0 then
+				print("on exit")
+				print(return_val)
+				print("j:result(): " .. (vim.inspect(j:result()) or ""))
+			end
+		end,
 	}):start()
 end
 

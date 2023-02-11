@@ -125,10 +125,10 @@
       (load-theme theme-to-change-to t))
     ;; Change iTerm2 theme if on Mac
     (when is-darwin
-      (let ((iterm2-python-path "~/Library/ApplicationSupport/iTerm2/iterm2env/versions/3.8.6/bin/python3")
-	    (toggle-script-path "~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py"))
-	(when (seq-every-p #'file-exists-p (list iterm2-python-path toggle-script-path))
-	  (shell-command (format "%s %s" iterm2-python-path toggle-script-path)))))))
+      (let ((toggle-script-path "~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py"))
+	(when (file-exists-p toggle-script-path)
+	  (shell-command "osascript -e 'tell application \"iTerm\" \nlaunch API script named \"iterm2-light-dark-toggle\" \nend tell"))))
+    ))
 
 (when (= (display-color-cells) 16777216)
   (progn
