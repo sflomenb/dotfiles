@@ -302,7 +302,7 @@ cmp.setup({
 	},
 })
 
-nvim_lsp.sumneko_lua.setup({
+nvim_lsp.lua_ls.setup({
 	on_attach = on_attach,
 	flags = {
 		debounce_text_changes = 150,
@@ -332,6 +332,9 @@ nvim_lsp.sumneko_lua.setup({
 			hint = {
 				enable = true,
 				setType = true,
+			},
+			format = {
+				enable = false,
 			},
 		},
 	},
