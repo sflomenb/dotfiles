@@ -65,7 +65,7 @@ local default_on_attach = function(client, bufnr)
 	buf_set_keymap(bufnr, "x", "<space>a", "v:lua.perform_code_action()", { noremap = true, expr = true })
 	buf_set_keymap(bufnr, "n", "<space>al", "v:lua.perform_code_action() .. '_'", { noremap = true, expr = true })
 
-	if client.server_capabilities.document_highlight then
+	if client.server_capabilities.documentHighlightProvider then
 		vim.api.nvim_exec(
 			[[
 			  augroup lsp_document_highlight
@@ -78,7 +78,7 @@ local default_on_attach = function(client, bufnr)
 		)
 	end
 
-	if client.server_capabilities.code_action then
+	if client.server_capabilities.codeActionProvider then
 		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
 	end
 
@@ -87,14 +87,14 @@ local default_on_attach = function(client, bufnr)
 	local is_null = name == "null-ls"
 	if not is_null then
 		client.server_capabilities.documentFormattingProvider = false
-		client.server_capabilities.ocumentRangeFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
 	end
 
 	lsp_status.on_attach(client)
 
 	lsp_inlay_hints.setup()
 
-	lsp_inlay_hints.on_attach(client, bufnr)
+	lsp_inlay_hints.on_attach(client, bufnr, false)
 end
 
 local on_attach = function(client, bufnr)
@@ -152,8 +152,8 @@ require("rust-tools").setup({
 		on_attach = function(client, bufnr)
 			default_on_attach(client, bufnr)
 
-			client.server_capabilities.document_formatting = false
-			client.server_capabilities.document_range_formatting = false
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentRangeFormattingProvider = false
 		end,
 		flags = {
 			debounce_text_changes = 150,
