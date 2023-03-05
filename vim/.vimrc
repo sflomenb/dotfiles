@@ -681,7 +681,11 @@ function! PythonLogging(first_part, second_part)
     let l:to_insert = ''
     let l:second_part = a:second_part
     if search('import logging', 'nw')
-        let l:to_insert = 'logging.debug()'
+        if v:lua.has_python_logger_var()
+            let l:to_insert = 'logger.debug()'
+        else
+            let l:to_insert = 'logging.debug()'
+        endif
     else
         let l:to_insert = 'print()'
         let l:second_part = substitute(l:second_part, "%s',", "' +", '')

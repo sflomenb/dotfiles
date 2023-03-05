@@ -35,4 +35,5 @@ require('change_case')
 require('prev_indent_level')
 require('snip')
 require('optional_chaining')
+require('has_logger_var')
 EOF
