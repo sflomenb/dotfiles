@@ -2,6 +2,9 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 
+" disable mouse
+set mouse=
+
 let g:blamer_enabled = 0
 let g:blamer_date_format = '%m/%m/%y %H:%M'
 let g:blamer_relative_time = 1
