@@ -209,6 +209,7 @@ elseif &loadplugins
         Plug 'antoinemadec/FixCursorHold.nvim'
         Plug 'nvim-lua/lsp-status.nvim'
         Plug 'lvimuser/lsp-inlayhints.nvim'
+        Plug 'ThePrimeagen/harpoon'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
@@ -531,7 +532,7 @@ endfu
 noremap <Leader>w :call CommentWord("<c-r>=expand("<cword>")<cr>")<CR>
 
 command! FindMergeMarkers /\v(\<{3,}|\={3,}|\>{3,})
-noremap <Leader>s :windo set scb!<CR>
+command! SCB :windo set scb!
 command! DT :windo diffthis
 command! DO :windo diffoff
 
