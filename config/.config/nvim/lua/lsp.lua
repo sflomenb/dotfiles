@@ -2,6 +2,7 @@
 -- vim.lsp.set_log_level('debug')
 local nvim_lsp = require("lspconfig")
 local null_ls = require("null-ls")
+local command_resolver = require("null-ls.helpers.command_resolver")
 local luasnip = require("luasnip")
 local lsp_util = vim.lsp.util
 local lsp_status = require("lsp-status")
@@ -347,7 +348,17 @@ null_ls.setup({
 		end
 	end,
 	sources = {
-		null_ls.builtins.formatting.prettier,
+		null_ls.builtins.formatting.prettier.with({
+			dynamic_command = command_resolver.from_yarn_pnp(),
+			conditions = function(utils)
+				return utils.root_has_file({ ".pnp.cjs" })
+			end,
+		}),
+		null_ls.builtins.formatting.prettier.with({
+			conditions = function(utils)
+				return not utils.root_has_file({ ".pnp.cjs" })
+			end,
+		}),
 		null_ls.builtins.formatting.black,
 		null_ls.builtins.formatting.gofmt,
 		null_ls.builtins.formatting.goimports,
