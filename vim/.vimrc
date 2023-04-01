@@ -165,6 +165,7 @@ elseif &loadplugins
     Plug 'pangloss/vim-javascript'
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-dadbod'
+    Plug 'folke/which-key.nvim'
     Plug 'jeetsukumaran/vim-indentwise'
     Plug 'bfredl/nvim-miniyank'
 
