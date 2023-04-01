@@ -32,7 +32,6 @@ require('lsp')
 require('my_dap')
 require('ts')
 require('my_telescope')
-require('npairs')
 require("todo-comments").setup({
 	keywords = {
 		NOTE = { alt = { "INFO", "ASSUMPTION", "NB" } },
