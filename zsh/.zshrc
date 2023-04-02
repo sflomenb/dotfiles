@@ -114,7 +114,7 @@ fi
 
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
-export PROJECT_DIR="${HOME}/Desktop/Projects"
+export PROJECT_DIR="${HOME}/Desktop/Projects ${HOME}/projects"
 tmux setenv -g PROJECT_DIR "${PROJECT_DIR}"
 
 return 0

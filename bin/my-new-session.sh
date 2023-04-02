@@ -8,7 +8,8 @@ if [[ -z "${PROJECT_DIR}" ]]; then
     exit 1
 fi
 
-NEW_DIR=$(find "${PROJECT_DIR}" -maxdepth 3 -type d | fzf-tmux)
+# echo to split stringinto different arguments.
+NEW_DIR=$(find $(echo "${PROJECT_DIR}") -maxdepth 3 -type d | fzf-tmux)
 
 if [[ -z "${NEW_DIR}" ]]; then
     echo "Please select a dir" >&2
