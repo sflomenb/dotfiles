@@ -106,7 +106,7 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 capabilities = vim.tbl_extend("keep", capabilities or {}, lsp_status.capabilities)
 
-local servers_with_default_config = { "pyright", "eslint", "terraform_lsp" }
+local servers_with_default_config = { "pyright", "eslint", "terraform_lsp", "ansiblels" }
 
 local myopts = {
 	on_attach = on_attach,
@@ -408,7 +408,6 @@ function M.code_action_listener()
 		end)
 	)
 end
-
 
 _G.perform_code_action = function(type)
 	if not type or type == "" then
