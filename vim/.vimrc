@@ -235,7 +235,7 @@ elseif &loadplugins
     map <Leader>c <Plug>(miniyank-tochar)
     map <Leader>l <Plug>(miniyank-toline)
 
-    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankReg +' | endif
+    autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '+' | execute 'OSCYankRegister +' | endif
     let g:oscyank_term = 'default'
     let g:oscyank_silent = v:true
 
