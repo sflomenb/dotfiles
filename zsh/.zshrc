@@ -52,6 +52,7 @@ export EDITOR=/usr/local/bin/vim
 export VISUAL=/usr/local/bin/vim
 
 alias less='less -I'
+alias emacs='emacs -nw'
 alias magit='emacs -f magit-status -f delete-other-windows'
 
 if uname -a | grep -q Darwin; then
