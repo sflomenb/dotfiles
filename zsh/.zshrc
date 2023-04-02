@@ -117,5 +117,11 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export PROJECT_DIR="${HOME}/Desktop/Projects ${HOME}/projects"
 tmux setenv -g PROJECT_DIR "${PROJECT_DIR}"
 
+# xclip
+if [[ -x "$(command -v xclip)" ]]; then
+    alias setclip='xclip -selection c'
+    alias getclip='xclip -selection c -o'
+fi
+
 return 0
 
