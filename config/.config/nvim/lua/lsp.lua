@@ -343,6 +343,7 @@ nvim_lsp.lua_ls.setup({
 
 null_ls.setup({
 	on_attach = function(client, bufnr)
+		default_on_attach(client, bufnr)
 		if client.server_capabilities.documentFormattingProvider then
 			vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({bufnr=bufnr, async=false})")
 		end
