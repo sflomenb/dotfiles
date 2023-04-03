@@ -99,9 +99,13 @@
 (use-package gruvbox-theme)
 
 (use-package catppuccin-theme
+  :straight `(catppuccin-theme :type git
+			       :host github
+			       :repo "catppuccin/emacs"
+			       :branch "main")
   :config
   (setq catppuccin-height-title1 1.5)
-  (load-theme 'catppuccin-macchiato t))
+  (setq catppuccin-flavor 'macchiato))
 
 ;; auto switch theme by time of day
 ;; https://stackoverflow.com/questions/14760567/emacs-auto-load-color-theme-by-time
@@ -117,12 +121,12 @@
 				 (let ((result (shell-command-to-string (format "osascript %s" light-dark-script)))
 				       (case-fold-search t))
 				   (if (string-match-p "light" result)
-				       'catppuccin-latte 'catppuccin-macchiato))
+				       'latte 'macchiato))
 			       (if (member hour (number-sequence 6 19))
-				   'catppuccin-latte 'catppuccin-macchiato))))
+				   'latte 'macchiato))))
     (when (not (string= theme-to-change-to current-theme))
-      (setq current-theme theme-to-change-to)
-      (load-theme theme-to-change-to t))
+      (setq catppuccin-flavor theme-to-change-to)
+      (catppuccin-reload))
     ;; Change iTerm2 theme if on Mac
     (when is-darwin
       (let ((toggle-script-path "~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py"))
