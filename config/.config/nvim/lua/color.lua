@@ -43,6 +43,40 @@ local function set_color_via_macos_theme(callback)
 	}):start()
 end
 
+local function should_use_kitty()
+	local err, stat = a.uv.fs_stat("/usr/bin/kitty")
+	if err or not stat then
+		print("err: " .. (vim.inspect(err) or ""))
+		return false
+	end
+
+	return bit.band(stat.mode, tonumber("0100", 8))
+end
+
+local function set_kitty_theme(new_bg)
+	if not should_use_kitty() then
+		return
+	end
+
+	Job:new({
+		-- kitty +kitten themes --reload-in=all Catppuccin-Latte
+		command = "kitty",
+		args = {
+			"+kitten",
+			"themes",
+			"--reload-in=all",
+			[[Catppuccin-]] .. (new_bg == "light" and "Latte" or "Macchiato"),
+		},
+		on_exit = function(j, return_val)
+			if return_val ~= 0 then
+				print("on exit")
+				print(return_val)
+				print("j:result(): " .. (vim.inspect(j:result()) or ""))
+			end
+		end,
+	}):start()
+end
+
 vim.api.nvim_create_autocmd("OptionSet", {
 	pattern = "background",
 	callback = function()
@@ -122,6 +156,7 @@ local function set_background_mode(callback)
 		-- https://stackoverflow.com/a/68830379/5521899
 		local hour = tonumber(os.date("%H"))
 		new_bg = (hour > 6 and hour < 18) and "light" or "dark"
+		set_kitty_theme(new_bg)
 		callback(new_bg)
 	end
 end
