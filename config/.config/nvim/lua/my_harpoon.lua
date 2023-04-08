@@ -1,6 +1,7 @@
 local wk = require("which-key")
 
 wk.register({
+	name = "Harpoon",
 	a = {
 		function()
 			require("harpoon.mark").add_file()
@@ -19,7 +20,7 @@ wk.register({
 		end,
 		"Toggle quick menu",
 	},
-}, { prefix = "<C-h>" })
+}, { prefix = "<space>h" })
 
 wk.register({
 	["<C-h>"] = {
