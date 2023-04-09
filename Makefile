@@ -17,6 +17,7 @@ dotfiles:
 	stow -t $(HOME) --ignore='test.el' emacs
 	stow -t $(HOME) flake8
 	stow -t $(HOME) git
+	stow -t $(HOME) i3
 	stow -t $(HOME) kitty
 	stow -t $(HOME) nvim
 	stow -t $(HOME) psql
@@ -31,6 +32,7 @@ uninstall:
 	stow -t $(HOME) --ignore='test.el' -D emacs
 	stow -t $(HOME) -D flake8
 	stow -t $(HOME) -D git
+	stow -t $(HOME) -D i3
 	stow -t $(HOME) -D kitty
 	stow -t $(HOME) -D nvim
 	stow -t $(HOME) -D psql
