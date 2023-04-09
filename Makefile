@@ -14,10 +14,10 @@ bin:
 .PHONY: dotfiles
 dotfiles:
 	stow -t $(HOME) bash
-	stow -t $(HOME) config
 	stow -t $(HOME) --ignore='test.el' emacs
 	stow -t $(HOME) flake8
 	stow -t $(HOME) git
+	stow -t $(HOME) nvim
 	stow -t $(HOME) psql
 	stow -t $(HOME) tmux
 	stow -t $(HOME) vim
@@ -27,10 +27,10 @@ dotfiles:
 .PHONY: uninstall
 uninstall:
 	stow -t $(HOME) -D bash
-	stow -t $(HOME) -D config
 	stow -t $(HOME) --ignore='test.el' -D emacs
 	stow -t $(HOME) -D flake8
 	stow -t $(HOME) -D git
+	stow -t $(HOME) -D nvim
 	stow -t $(HOME) -D psql
 	stow -t $(HOME) -D tmux
 	stow -t $(HOME) -D vim
