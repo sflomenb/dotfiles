@@ -165,12 +165,17 @@ local function set_background_mode(callback)
 end
 
 a.run(function()
-	set_background_mode(function()
-		vim.schedule(function()
-			require("catppuccin").setup()
-			vim.cmd([[colorscheme catppuccin]])
-		end)
-	end)
+	set_background_mode(vim.schedule_wrap(function(new_bg)
+		local background_table = {
+			light = "latte",
+			dark = "macchiato",
+		}
+		require("catppuccin").setup({
+			flavour = background_table[new_bg],
+			background = background_table,
+		})
+		vim.cmd.colorscheme("catppuccin")
+	end))
 end)
 
 local timer = vim.loop.new_timer()
