@@ -148,10 +148,13 @@ local function set_background_mode(callback)
 		new_bg = vim_background_env == "light" and "light" or "dark"
 		callback(new_bg)
 	elseif should_use_macos_theme() then
-		set_color_via_macos_theme(callback)
-		a.run(function()
-			set_iterm_theme()
-		end)
+		local new_callback = function(bg)
+			a.run(function()
+				set_kitty_theme(bg)
+			end)
+			callback(bg)
+		end
+		set_color_via_macos_theme(new_callback)
 	else
 		-- https://stackoverflow.com/a/68830379/5521899
 		local hour = tonumber(os.date("%H"))
