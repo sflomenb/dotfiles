@@ -5,6 +5,8 @@ source ~/.vimrc
 " disable mouse
 set mouse=
 
+set ex
+
 augroup nvim_folding
     " fold settings by language
     autocmd FileType * setlocal foldmethod=expr|set foldexpr=nvim_treesitter#foldexpr()
