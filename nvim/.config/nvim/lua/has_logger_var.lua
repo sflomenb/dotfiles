@@ -13,7 +13,7 @@ function _G.has_python_logger_var()
 	local tsparser = treesitter.get_parser(0, lang)
 	local root = tsparser:parse()[1]:root()
 
-	local parsed_query = treesitter.parse_query(lang, query)
+	local parsed_query = treesitter.query.parse_query(lang, query)
 
 	local has_logger = false
 

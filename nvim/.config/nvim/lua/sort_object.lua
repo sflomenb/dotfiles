@@ -24,8 +24,8 @@ local function sort(current_node)
 	-- Insertion sort
 	for i = 1, child_count - 1 do
 		local key = current_node:named_child(i)
-		local key_name = vim.treesitter.query.get_node_text(key:named_child(0), 0)
-		local key_text = vim.treesitter.query.get_node_text(key, 0)
+		local key_name = vim.treesitter.get_node_text(key:named_child(0), 0)
+		local key_text = vim.treesitter.get_node_text(key, 0)
 		if not key_name then
 			error("unable to find pair key for node")
 		end
@@ -34,11 +34,8 @@ local function sort(current_node)
 		end
 		local j = i - 1
 
-		while j >= 0 and vim.treesitter.query.get_node_text(current_node:named_child(j):named_child(0), 0) > key_name do
-			replace_node(
-				current_node:named_child(j + 1),
-				vim.treesitter.query.get_node_text(current_node:named_child(j), 0)
-			)
+		while j >= 0 and vim.treesitter.get_node_text(current_node:named_child(j):named_child(0), 0) > key_name do
+			replace_node(current_node:named_child(j + 1), vim.treesitter.get_node_text(current_node:named_child(j), 0))
 			treesitter.get_parser(0, "typescript"):parse()
 			current_node = ts_utils.get_node_at_cursor()
 			j = j - 1

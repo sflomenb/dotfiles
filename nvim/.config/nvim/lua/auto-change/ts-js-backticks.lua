@@ -24,7 +24,7 @@ function M.tsJsBackticks()
 				current_node = current_node:parent()
 			end
 
-			local node_text = vim.treesitter.query.get_node_text(current_node, bufnr)
+			local node_text = vim.treesitter.get_node_text(current_node, bufnr)
 
 			if not node_text then
 				return

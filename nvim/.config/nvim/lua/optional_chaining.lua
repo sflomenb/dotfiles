@@ -34,9 +34,8 @@ local function add_optional_chaining_to_node(node)
 			ts_utils.goto_node(node, false, true)
 			local end_row, end_col = unpack(vim.api.nvim_win_get_cursor(0))
 
-			local text_before = table.concat(
-				vim.api.nvim_buf_get_text(0, end_row - 1, end_col - 2, end_row - 1, end_col, {})
-			)
+			local text_before =
+				table.concat(vim.api.nvim_buf_get_text(0, end_row - 1, end_col - 2, end_row - 1, end_col, {}))
 
 			-- Perform command to add optional chaining if we don't have it in
 			-- front of this node
@@ -72,7 +71,7 @@ function M.add_optional_chaining()
 		local tree = ts_utils.get_node_at_cursor()
 
 		for _, query in ipairs(queries) do
-			local parsed_query = treesitter.parse_query(lang, query)
+			local parsed_query = treesitter.query.parse_query(lang, query)
 
 			-- Lines are 0-indexed.
 			for _, node, _ in parsed_query:iter_captures(tree, 0, i - 1, -1) do
