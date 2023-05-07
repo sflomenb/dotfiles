@@ -877,12 +877,6 @@ if !has('nvim')
     let &t_EI = "\e[2 q"
 endif
 
-augroup FastEscape
-    autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=1000
-augroup END
-
 " Show trailing whitespace and spaces before a tab
 augroup whitespace
     autocmd!
