@@ -1427,6 +1427,7 @@ skip-log-word - whether or not to not log the word at all (because the logger
 (advice-add 'evil-find-file-at-point-with-line :around #'my/with-projectile-root)
 (advice-add 'compile                           :around #'my/with-projectile-root)
 
+(defvar flyspell-prog-text-faces nil)
 (use-package tree-sitter-langs)
 (use-package tree-sitter
   ;; :init
