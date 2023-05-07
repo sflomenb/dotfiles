@@ -367,6 +367,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.terraform_fmt,
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.jq,
+		null_ls.builtins.formatting.isort,
 
 		null_ls.builtins.diagnostics.golangci_lint,
 		null_ls.builtins.diagnostics.shellcheck,
