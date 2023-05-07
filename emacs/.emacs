@@ -1338,6 +1338,10 @@ skip-log-word - whether or not to not log the word at all (because the logger
 (advice-add 'async-shell-command :around #'my/fix-insert)
 (advice-add 'dap-debug           :around #'my/fix-insert)
 
+(global-set-key (kbd "<f5>") 'profiler-start)
+(global-set-key (kbd "<f6>") 'profiler-stop)
+(global-set-key (kbd "<f7>") 'profiler-report)
+
 ;; https://www.reddit.com/r/emacs/comments/dfxe1u/codefolding_based_off_indent_level/f370ish/?utm_source=reddit&utm_medium=web2x&context=3
 (defun my/toggle-indentation-fold ()
   "Toggle code folding according to indentation of current line."
