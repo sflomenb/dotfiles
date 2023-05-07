@@ -595,7 +595,13 @@ endfunction
 
 command! StopSession :call StopSession()
 
-command! SS :setlocal spell! spelllang=en_us
+function! SetSpell()
+    setlocal spell! spelllang=en_us
+    setlocal spelloptions=camel
+    setlocal spelloptions+=noplainbuffer
+endfunction
+
+command! SS :call SetSpell()
 
 noremap <leader>* *<C-O>:%s///gn<CR>|norm! ``
 
