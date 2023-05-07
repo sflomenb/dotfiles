@@ -44,13 +44,7 @@ local function set_color_via_macos_theme(callback)
 end
 
 local function should_use_kitty()
-	local err, stat = a.uv.fs_stat("/usr/bin/kitty")
-	if err or not stat then
-		print("err: " .. (vim.inspect(err) or ""))
-		return false
-	end
-
-	return bit.band(stat.mode, tonumber("0100", 8))
+	return vim.fn.executable("blahblah") == 1
 end
 
 local function set_kitty_theme(new_bg)
