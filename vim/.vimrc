@@ -953,7 +953,6 @@ endfunction
 
 command! CamelCaseToSnakeCase call ReplaceAllCamelCaseToSnakeCase()
 
-set breakindent
 set hidden
 
 " add matching brace characters
