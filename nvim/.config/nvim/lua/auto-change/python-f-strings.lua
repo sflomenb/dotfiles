@@ -26,7 +26,7 @@ local function get_node_and_text(bufnr)
 end
 
 function M.pythonFString()
-	vim.schedule_wrap(function()
+	vim.schedule(function()
 		local lang = vim.bo.ft
 		if lang ~= "python" then
 			return
@@ -64,7 +64,7 @@ function M.pythonFString()
 			utils.remove_character_at_pos(srow, scol)
 			vim.cmd([[normal h]])
 		end
-	end)()
+	end)
 end
 
 return M

@@ -3,7 +3,7 @@ local utils = require("auto-change.utils")
 local M = {}
 
 function M.tsJsBackticks()
-	vim.schedule_wrap(function()
+	vim.schedule(function()
 		local lang = vim.bo.ft
 		if lang == "javascript" or lang == "typescript" then
 			local bufnr = vim.fn.bufnr("%")
@@ -40,7 +40,7 @@ function M.tsJsBackticks()
 				utils.change_character_at_pos(eRow, eCol - 1, "`")
 			end
 		end
-	end)()
+	end)
 end
 
 return M
