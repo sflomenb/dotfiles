@@ -323,21 +323,21 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (use-package counsel
   :bind (("C-c ;" . #'counsel-M-x)
-         ("C-c U" . #'counsel-unicode-char)
-         ("C-c i" . #'counsel-imenu)
-         ("C-x b" . #'counsel-ibuffer)
+	 ("C-c U" . #'counsel-unicode-char)
+	 ("C-c i" . #'counsel-imenu)
+	 ("C-x b" . #'counsel-ibuffer)
 	 ("C-c k" . #'counsel-projectile-ag)
-         ("C-x f" . #'counsel-find-file)
-         ("C-c y" . #'counsel-yank-pop)
-         ("C-c r" . #'counsel-recentf)
-         ("C-c v" . #'counsel-switch-buffer-other-window)
-         ("C-h h" . #'counsel-command-history)
+	 ("C-x f" . #'counsel-find-file)
+	 ("C-c y" . #'counsel-yank-pop)
+	 ("C-c r" . #'counsel-recentf)
+	 ("C-c v" . #'counsel-switch-buffer-other-window)
+	 ("C-h h" . #'counsel-command-history)
 	 ("C-c f" . #'counsel-fzf)
-         ("C-x C-f" . #'counsel-find-file)
+	 ("C-x C-f" . #'counsel-find-file)
 	 ("C-x d" . #'counsel-dired)
 	 ("C-c d" . #'counsel-dired-jump)
-         :map ivy-minibuffer-map
-         ("C-r" . counsel-minibuffer-history))
+	 :map ivy-minibuffer-map
+	 ("C-r" . counsel-minibuffer-history))
   :init
   (counsel-mode 1)
 
@@ -354,7 +354,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (setq ido-everywhere t)
 (setq next-line-add-newlines t)
 
-; paren mode
+					; paren mode
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 ;; auto insert closing bracket
@@ -412,10 +412,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
     (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
     )
   (setq flycheck-pycheckers-checkers
-    '(
-      mypy3
-      )
-    )
+	'(
+	  mypy3
+	  )
+	)
   )
 
 (use-package which-key
@@ -521,8 +521,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 
 (use-package lsp-pyright
   :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp-deferred))))
+			 (require 'lsp-pyright)
+			 (lsp-deferred))))
 
 (use-package lsp-docker)
 (use-package lsp-focus)
@@ -617,8 +617,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	  (and (boundp 'hs-minor-mode) hs-minor-mode)
 	  (and (boundp 'origami-mode) origami-mode))
 	 'visual)
-        ((derived-mode-p 'text-mode) 'visual)
-        ((derived-mode-p 'prog-mode) 'relative)))
+	((derived-mode-p 'text-mode) 'visual)
+	((derived-mode-p 'prog-mode) 'relative)))
 
 (add-hook 'prog-mode-hook (lambda () (setq display-line-numbers 'relative)))
 (add-hook 'text-mode-hook (lambda ()
@@ -1242,13 +1242,13 @@ skip-log-word - whether or not to not log the word at all (because the logger
 ;; https://emacs.stackexchange.com/a/45829
 (setq desktop-restore-forces-onscreen nil)
 (add-hook 'desktop-after-read-hook
- (lambda ()
-   (frameset-restore
-    desktop-saved-frameset
-    :reuse-frames (eq desktop-restore-reuses-frames t)
-    :cleanup-frames (not (eq desktop-restore-reuses-frames 'keep))
-    :force-display desktop-restore-in-current-display
-    :force-onscreen desktop-restore-forces-onscreen)))
+	  (lambda ()
+	    (frameset-restore
+	     desktop-saved-frameset
+	     :reuse-frames (eq desktop-restore-reuses-frames t)
+	     :cleanup-frames (not (eq desktop-restore-reuses-frames 'keep))
+	     :force-display desktop-restore-in-current-display
+	     :force-onscreen desktop-restore-forces-onscreen)))
 
 (defun my/update-session-mode-line ()
   "Update session-mode-line-string."
@@ -1276,7 +1276,7 @@ skip-log-word - whether or not to not log the word at all (because the logger
 ;; https://www.reddit.com/r/emacs/comments/8xobt3/tip_in_modeline_show_buffer_file_path_relative_to
 (with-eval-after-load 'subr-x
   (setq-default mode-line-buffer-identification
-                '(:eval (format-mode-line (propertized-buffer-identification (or (when-let*
+		'(:eval (format-mode-line (propertized-buffer-identification (or (when-let*
 										     ((buffer-file-truename buffer-file-truename)
 										      (prj (cdr-safe (project-current)))
 										      (prj-parent (file-name-directory (directory-file-name (expand-file-name prj))))
@@ -1413,8 +1413,8 @@ skip-log-word - whether or not to not log the word at all (because the logger
   (require 'tree-sitter-langs)
   ;; fix flyspell-prog-mode
   (dolist (face '(tree-sitter-hl-face:comment
-                  tree-sitter-hl-face:string
-                  tree-sitter-hl-face:string.special))
+		  tree-sitter-hl-face:string
+		  tree-sitter-hl-face:string.special))
     (add-to-list 'flyspell-prog-text-faces face))
 
   (global-tree-sitter-mode)
@@ -1431,26 +1431,29 @@ skip-log-word - whether or not to not log the word at all (because the logger
 (defun my/python-f-string-ify (&rest _)
   ;; Does nothing if major-mode is not python or point is not on a string.
   (when-let* ((python-mode-p (eq major-mode 'python-mode))
-              (str (tree-sitter-node-at-point 'string))
-              (text (ts-node-text str)))
+	      (str (tree-sitter-node-at-point 'string))
+	      (text (ts-node-text str)))
     (let ((is-f-string (string-match-p "^[bru]*f+[bru]*\\(\"\\|'\\)" text))
-          (should-f-string (and (s-contains-p "{" text)
-                                (s-contains-p "}" text))))
+	  (should-f-string (and (s-contains-p "{" text)
+				(s-contains-p "}" text))))
       (if should-f-string
-          (unless is-f-string
-            (save-excursion
-              (goto-char (ts-node-start-position str))
-              (insert "f")))
-        (when is-f-string
-          (save-excursion
-            (goto-char (ts-node-start-position str))
-            (when (char-equal (char-after) ?f)
-              (delete-char 1))))))))
+	  (unless is-f-string
+	    (save-excursion
+	      (goto-char (ts-node-start-position str))
+	      (insert "f")))
+	(when is-f-string
+	  (save-excursion
+	    (goto-char (ts-node-start-position str))
+	    (when (char-equal (char-after) ?f)
+	      (delete-char 1))))))))
 
-(define-key python-mode-map (kbd "{") (lambda ()
-                                        (interactive)
-                                        (call-interactively 'self-insert-command)
-                                        (my/python-f-string-ify)))
+(use-package python-mode
+  :mode "\\.py\\'"
+  :config
+  (define-key python-mode-map (kbd "{") (lambda ()
+					  (interactive)
+					  (call-interactively 'self-insert-command)
+					  (my/python-f-string-ify))))
 
 (advice-add 'wrap-region-trigger  :after #'my/python-f-string-ify)
 (advice-add 'delete-char          :after #'my/python-f-string-ify)
