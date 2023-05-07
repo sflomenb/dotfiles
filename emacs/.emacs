@@ -448,16 +448,17 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 (go-mode . lsp-deferred)
 	 (rustic-mode . lsp-deferred)
 	 ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp lsp-deferred
+	 (lsp-mode . lsp-enable-which-key-integration))
+  :commands (lsp lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-snippet t)
-  (setq read-process-output-max (* 1024 1024))
   (setq lsp-rust-analyzer-server-display-inlay-hints t
 	lsp-rust-analyzer-display-chaining-hints t
-	lsp-rust-analyzer-display-parameter-hints t))
+	lsp-rust-analyzer-display-parameter-hints t
+	lsp-rust-analyzer-display-lifetime-elision-hints-enable t
+	lsp-typescript-server-display-inlay-hints t))
 
 (with-eval-after-load 'lsp-mode
   ;; :global/:workspace/:file
