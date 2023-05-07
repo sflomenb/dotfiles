@@ -14,11 +14,4 @@ end
 
 vim.api.nvim_exec([[command! PrevIndentLevel :lua require('prev_indent_level').prev_indent_level()]], false)
 
-vim.api.nvim_set_keymap(
-	"n",
-	"<Leader>u",
-	"<cmd>lua require('prev_indent_level').prev_indent_level()<cr>",
-	{ noremap = true, silent = true }
-)
-
 return M
