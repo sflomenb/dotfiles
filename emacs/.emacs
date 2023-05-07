@@ -525,10 +525,6 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 			 (require 'lsp-pyright)
 			 (lsp-deferred))))
 
-(use-package lsp-docker)
-(use-package lsp-focus)
-(add-hook 'focus-mode-hook #'lsp-focus-mode)
-
 ;; to enable the lenses
 (add-hook 'lsp-mode-hook #'lsp-lens-mode)
 
