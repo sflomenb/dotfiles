@@ -239,6 +239,9 @@ elseif &loadplugins
     let g:oscyank_term = 'default'
     let g:oscyank_silent = v:true
 
+    " remove fugitive buffers
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+
     let g:go_gopls_enabled=0
 
     let g:rainbow_active = 1
