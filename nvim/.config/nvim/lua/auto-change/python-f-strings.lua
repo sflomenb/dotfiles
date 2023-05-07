@@ -42,8 +42,9 @@ function M.pythonFString()
 
 		local has_open_curly_brace = string.find(node_text, "{")
 		local is_f_string = string.find(node_text, "^f")
+		local is_r_string = string.find(node_text, "^r")
 
-		if has_open_curly_brace and not is_f_string then
+		if has_open_curly_brace and not is_f_string and not is_r_string then
 			current_node, node_text = unpack(get_node_and_text(bufnr))
 
 			if not current_node or not node_text then
