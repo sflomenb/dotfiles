@@ -707,8 +707,24 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   "Call `comment-indent-new-line' if inside comment, otherwise `newline' with R."
   (interactive)
   (if (nth 4 (syntax-ppss))
-      (comment-indent-new-line)
+      ;; (let (comment-auto-fill-only-comments)
+      ;; 	  (default-indent-new-line))
+      (default-indent-new-line)
     (if (called-interactively-p 'any) (call-interactively 'newline) (newline r))))
+
+(defun my/new-comment-line-open-below (&rest r)
+  "Call `comment-indent-new-line' if inside comment, otherwise `newline' with R."
+  (interactive)
+  (let ((in-comment (nth 4 (syntax-ppss))))
+    (if (called-interactively-p 'any) (call-interactively 'evil-open-below) (evil-open-below r))
+    (when in-comment (comment-dwim nil))))
+
+(defun my/new-comment-line-open-above (&rest r)
+  "Call `comment-indent-new-line' if inside comment, otherwise `newline' with R."
+  (interactive)
+  (let ((in-comment (nth 4 (syntax-ppss))))
+    (if (called-interactively-p 'any) (call-interactively 'evil-open-above) (evil-open-above r))
+    (when in-comment (comment-dwim nil))))
 
 (use-package evil
   :after evil-leader
@@ -721,7 +737,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   (add-to-list 'evil-buffer-regexps '("\\*org-goto\\*"))
   (add-hook 'evil-insert-state-entry-hook #'set-cursor-bar)
   (add-hook 'evil-insert-state-exit-hook #'restore-cursor)
-  (define-key evil-insert-state-map (kbd "RET") #'my/new-comment-line-newline))
+  (define-key evil-insert-state-map (kbd "RET") #'my/new-comment-line-newline)
+  (define-key evil-normal-state-map (kbd "o") #'my/new-comment-line-open-below)
+  (define-key evil-normal-state-map (kbd "O") #'my/new-comment-line-open-above))
 
 (defun my/evil-insert-mode (&rest _)
   "Used in advice for switching to insert mode."
