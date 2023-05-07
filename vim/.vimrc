@@ -1188,7 +1188,6 @@ endfunction
 
 function! ActiveStatus()
     let statusline="\ "
-    let statusline.="%#WildMenu#"
     let statusline.="%{toupper(get(g:currentmode, mode(), 'UNKNOWN '))}"
     let statusline.="%*"
     let statusline.="%{StatusFilename()}"
@@ -1214,7 +1213,7 @@ function! ActiveStatus()
     let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
     let statusline.="\ [%{&fileformat}\]"
     let statusline.="\ %p%%"
-    let statusline.="\ %l:%c"
+    let statusline.="\ %l:%v"
     let statusline.="\ #%{winnr()}"
     let statusline.="\ "
     return statusline
