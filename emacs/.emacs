@@ -825,6 +825,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (dolist (map (list evil-normal-state-map evil-motion-state-map))
   (define-key map (kbd "] g") 'my/next-error)
   (define-key map (kbd "[ g") 'my/prev-error))
+(define-key evil-normal-state-map (kbd "] f") 'flymake-goto-next-error)
+(define-key evil-normal-state-map (kbd "[ f") 'flymake-goto-prev-error)
 (define-key evil-normal-state-map (kbd "] h") 'diff-hl-next-hunk)
 (define-key evil-normal-state-map (kbd "[ h") 'diff-hl-previous-hunk)
 (evil-define-minor-mode-key 'normal 'winner-mode-map (kbd "] u") 'winner-redo)
