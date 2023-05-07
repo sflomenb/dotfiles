@@ -15,7 +15,6 @@ set ignorecase
 filetype indent plugin on
 
 set hls
-execute "set <M-h>=˙"
 nnoremap <M-h> :noh<CR>
 
 " <F1>9 = <C-;>
@@ -542,7 +541,6 @@ command! DO :windo diffoff
 let g:colorizer_syntax = 1
 let g:colorizer_skip_comments = 1
 
-execute "set <M-d>=∂"
 noremap <M-d> "_d
 
 ":normal <CR>
@@ -680,8 +678,7 @@ cnoremap <Leader>l =line('.')<CR>
 
 set encoding=utf-8
 scriptencoding utf-8
-execute 'set <M-l>=¬'
-nnoremap <M-l><M-l> :set list!<CR>
+nnoremap <M-l> :set list!<CR>
 try
     set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:_,nbsp:·
 catch /E474/
@@ -778,8 +775,6 @@ function! ToggleNumber()
     endif
 endfunc
 
-"execute 'set <M-n>=˜'
-nnoremap <Leader>n :call ToggleNumber()<CR>
 
 augroup numbertoggle
   autocmd!
