@@ -775,11 +775,10 @@ function! ToggleNumber()
     endif
 endfunc
 
-
 augroup numbertoggle
   autocmd!
-  autocmd WinEnter,BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd WinLeave,BufLeave,FocusLost,InsertEnter   * set norelativenumber
+  autocmd WinEnter,BufEnter,FocusGained * set relativenumber number
+  autocmd WinLeave,BufLeave,FocusLost   * set norelativenumber number
 augroup END
 
 " strips trailing whitespace at the end of files. this
