@@ -560,7 +560,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :diminish
   :bind (:map yas-minor-mode-map
 	      ("TAB" . nil)
-	      ("<tab>" . nil)))
+	      ("<tab>" . nil))
+  :bind* (:map yas-minor-mode-map
+	       ("C-." . yas-expand)))
 
 (use-package yasnippet-snippets
   :after (yasnippet))
@@ -1334,7 +1336,7 @@ skip-log-word - whether or not to not log the word at all (because the logger
        (save-excursion
 	 (back-to-indentation)
 	 (1+ (current-column)))))))
-(global-set-key (kbd "C-c C-f") #'my/toggle-indentation-fold)
+(bind-key* "C-c C-f" #'my/toggle-indentation-fold)
 
 ;; https://karthinks.com/software/batteries-included-with-emacs/
 (defun pulse-line (&rest _)
