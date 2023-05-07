@@ -307,11 +307,9 @@ This is used because `ibuffer' is called during counsel-ibuffer."
      ("O" find-file-other-window "open in a new tab")))
 
   :bind (("C-c K" . #'my/counsel-ag)
-	 ("C-c C-o" . #'ivy-occur))
-	 ;; ("C-c C-r" . #'ivy-resume)
-         ;; ("C-s"     . #'swiper)
-         ;; ("C-c s"   . #'swiper-thing-at-point))
-  )
+	 ("C-c C-o" . #'ivy-occur)
+	 :map ivy-occur-mode-map
+	 ("RET" . ivy-occur-press-and-switch)))
 
 (use-package ivy-rich
   :custom
