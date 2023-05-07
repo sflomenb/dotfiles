@@ -751,9 +751,9 @@ augroup configgroup
     autocmd FileType go nnoremap <buffer> <M-l> yiwofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
     autocmd FileType go vnoremap <buffer> <M-l> yofmt.Println()<Esc>F(a"<Esc>pa: ", <Esc>p
     " rust logging
-    autocmd FileType rust inoremap <buffer> <M-l> println!();<Esc>F(a
-    autocmd FileType rust nnoremap <buffer> <M-l> yiwoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
-    autocmd FileType rust vnoremap <buffer> <M-l> yoprintln!()<Esc>F(a"<Esc>pa: {:?}", <Esc>pA;<Esc>
+    autocmd FileType rust inoremap <buffer> <M-l> dbg!(&);<Esc>F&a
+    autocmd FileType rust nnoremap <buffer> <M-l> yiwodbg!(&)<Esc>F&pA;<Esc>
+    autocmd FileType rust vnoremap <buffer> <M-l> yodbg!(&)<Esc>F&pA;<Esc>
     " lua logging
     autocmd FileType lua inoremap <buffer> <M-l> print()<Esc>F(a
     autocmd FileType lua nnoremap <buffer> <M-l> yiwoprint()<Esc>F(a"<Esc>pa: " .. ( or "")<Esc>F(p<Esc>
