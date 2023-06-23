@@ -44,7 +44,7 @@ local function set_color_via_macos_theme(callback)
 end
 
 local function should_use_kitty()
-	return vim.fn.executable("blahblah") == 1
+	return vim.fn.executable("kitty") == 1
 end
 
 local function set_kitty_theme(new_bg)
