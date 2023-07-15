@@ -55,7 +55,7 @@ set_keymap(
 set_keymap(
 	"n",
 	"<Leader>E",
-	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end }, cwd = vim.fn.expand('%:h') })<cr>",
+	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end, cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
 set_keymap(
