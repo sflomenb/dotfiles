@@ -194,7 +194,7 @@ elseif &loadplugins
 
         Plug 'kg8m/vim-simple-align'
         Plug 'APZelos/blamer.nvim'
-        Plug 'p00f/nvim-ts-rainbow'
+        Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
         Plug 'folke/todo-comments.nvim'
         Plug 'folke/trouble.nvim'
         Plug 'nvim-treesitter/playground'
@@ -242,8 +242,6 @@ elseif &loadplugins
     autocmd BufReadPost fugitive://* set bufhidden=delete
 
     let g:go_gopls_enabled=0
-
-    let g:rainbow_active = 1
 
     if executable('ag')
         let g:ackprg = 'ag --vimgrep --hidden --ignore .git'
