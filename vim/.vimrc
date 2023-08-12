@@ -208,6 +208,7 @@ elseif &loadplugins
         Plug 'antoinemadec/FixCursorHold.nvim'
         Plug 'nvim-lua/lsp-status.nvim'
         Plug 'lvimuser/lsp-inlayhints.nvim'
+        Plug 'mbbill/undotree'
         Plug 'ThePrimeagen/harpoon'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}

@@ -26,6 +26,8 @@ augroup AutoChange
     autocmd FileType javascript,typescript autocmd TextChanged,TextChangedI <buffer=abuf> :lua require('auto-change.ts-js-backticks').tsJsBackticks()
 augroup END
 
+nnoremap <leader>u :UndotreeToggle<CR>
+
 lua << EOF
 -- color has to be first for some reason
 require('color')
