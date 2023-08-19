@@ -53,19 +53,31 @@ local function set_kitty_theme(new_bg)
 	end
 
 	Job:new({
-		-- kitty +kitten themes --reload-in=all Catppuccin-Latte
-		command = "kitty",
+		command = "pgrep",
 		args = {
-			"+kitten",
-			"themes",
-			"--reload-in=all",
-			[[Catppuccin-]] .. (new_bg == "light" and "Latte" or "Macchiato"),
+			"kitty",
 		},
 		on_exit = function(j, return_val)
 			if return_val ~= 0 then
-				print("on exit")
-				print(return_val)
-				print("j:result(): " .. (vim.inspect(j:result()) or ""))
+				return
+			else
+				Job:new({
+					-- kitty +kitten themes --reload-in=all Catppuccin-Latte
+					command = "kitty",
+					args = {
+						"+kitten",
+						"themes",
+						"--reload-in=all",
+						[[Catppuccin-]] .. (new_bg == "light" and "Latte" or "Macchiato"),
+					},
+					on_exit = function(j, return_val)
+						if return_val ~= 0 then
+							print("on exit")
+							print(return_val)
+							print("j:result(): " .. (vim.inspect(j:result()) or ""))
+						end
+					end,
+				}):start()
 			end
 		end,
 	}):start()
