@@ -85,9 +85,12 @@ endfunction
 
 nnoremap <C-\> :exec 'vertical resize '. string(&columns * 0.25)<CR>
 
-set nopaste
-nnoremap <C-p> :set invpaste paste?<CR>
-set pastetoggle=<C-p>
+if !has('nvim')
+    set nopaste
+    nnoremap <C-p> :set invpaste paste?<CR>
+    set pastetoggle=<C-p>
+endif
+
 set showmode
 
 " Maintain history between sessions
