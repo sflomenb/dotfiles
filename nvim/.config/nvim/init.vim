@@ -28,6 +28,11 @@ augroup END
 
 nnoremap <leader>u :UndotreeToggle<CR>
 
+" Inspired from ThePrimeagen:
+" https://youtu.be/w7i4amO_zaE?si=GSzGNDlpol9pLaLi&t=1534
+vnoremap <C-j> :<C-u>keepjumps '<,'>m '>+1<CR>gv=gv
+vnoremap <C-k> :<C-u>keepjumps '<,'>m '<-2<CR>gv=gv
+
 lua << EOF
 -- color has to be first for some reason
 require('color')
