@@ -25,7 +25,7 @@ fi
 
 # Create magit window if it doesn't exist.
 if ! tmux list-windows -t "${SESSION_NAME}" -F '#{window_name}' | grep -q magit; then
-    tmux new-window -ad -n magit -t "${SESSION_NAME}:0" -c "${NEW_DIR}" "$(which zsh) -ic 'emacs -f magit-status -f delete-other-windows'"
+    tmux new-window -ad -n magit -t "${SESSION_NAME}:1" -c "${NEW_DIR}" "$(which zsh) -ic 'emacs -f magit-status -f delete-other-windows'"
 fi
 
 if [[ -n "${TMUX}" ]]; then
