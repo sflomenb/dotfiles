@@ -23,9 +23,11 @@ if ! tmux list-sessions -F '#{session_name}' | grep -q "${SESSION_NAME}"; then
     tmux new-session -d -s "${SESSION_NAME}" -c "${NEW_DIR}"
 fi
 
-# Create magit window if it doesn't exist.
-if ! tmux list-windows -t "${SESSION_NAME}" -F '#{window_name}' | grep -q magit; then
-    tmux new-window -ad -n magit -t "${SESSION_NAME}:1" -c "${NEW_DIR}" "$(which zsh) -ic 'emacs -f magit-status -f delete-other-windows'"
+# Create magit window if it doesn't exist if directory using git.
+if [[ -d "${NEW_DIR}/.git" ]]; then
+    if ! tmux list-windows -t "${SESSION_NAME}" -F '#{window_name}' | grep -q magit; then
+        tmux new-window -ad -n magit -t "${SESSION_NAME}:1" -c "${NEW_DIR}" "$(which zsh) -ic 'emacs -f magit-status -f delete-other-windows'"
+    fi
 fi
 
 if [[ -n "${TMUX}" ]]; then
