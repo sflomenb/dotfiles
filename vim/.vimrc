@@ -1120,7 +1120,7 @@ function! StatusFilename()
         let l:pre = l:name[:stridx(l:name, l:pat) + len(l:pat) - 1] . '...'
         let l:name = l:name[stridx(l:name, l:pat) + len(l:pat):]
     elseif empty(l:name) && &filetype ==# 'netrw'
-        let l:name = fnamemodify(b:netrw_curdir, ':~:. . '...'')
+        let l:name = b:netrw_curdir
     endif
     let l:name = simplify(l:name)
     let l:ratio = winwidth(0) / len(l:name)
