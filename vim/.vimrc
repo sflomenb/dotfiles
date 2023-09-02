@@ -834,8 +834,6 @@ fu! VisualSearch()
         let l:a_save = @a
         silent! normal gv"ay
         let l:search_val = @a
-        "echom l:search_val
-        "let l:search_val = substitute(l:search_val, '\(/\|\.\|\[\|\]\)', '\\\0', 'g')
         let l:search_val = escape(l:search_val, '/\.*$[]')
         let @/ = l:search_val
         norm! zzzv
