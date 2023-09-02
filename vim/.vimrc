@@ -1349,6 +1349,11 @@ endfu
 command! FoldBlockComments :call FoldBlockComments()
 command! FoldGoErrs :call FoldGoErrs()
 
+" https://www.reddit.com/r/neovim/comments/1290zpu/comment/jenbq9e/?utm_source=share&utm_medium=web2x&context=3
+augroup tsc_comp
+    autocmd FileType typescript,typescriptreact compiler tsc | setlocal makeprg=npx\ tsc\ --noEmit\ --pretty\ false
+augroup END
+
 if !has('nvim')
     function! SetBackgroundMode(...)
         let l:new_bg = "light"
