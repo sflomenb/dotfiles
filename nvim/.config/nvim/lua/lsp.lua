@@ -79,7 +79,10 @@ local default_on_attach = function(client, bufnr)
 		)
 	end
 
-	if client.server_capabilities.codeActionProvider then
+	if
+		client.server_capabilities.codeActionProvider
+		and client.server_capabilities.codeActionProvider.resolveProvider ~= false
+	then
 		vim.cmd([[ autocmd CursorHold,CursorHoldI <buffer> lua require('lsp').code_action_listener() ]])
 	end
 
