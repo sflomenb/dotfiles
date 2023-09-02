@@ -530,7 +530,7 @@ catch /E185/
 endtry
 
 fu! CommentWord(str)
-    exe ':%s/\(\s\(2,}\)\(' . a:str . '\)/1\#/2/gc'
+    exe ':%s/\(\s\{2,\}\)\(' . a:str . '\)/\1\#\2/gc'
 endfu
 
 noremap <space>w :call CommentWord("<c-r>=expand("<cword>")<cr>")<CR>
