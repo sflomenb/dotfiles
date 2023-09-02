@@ -450,7 +450,7 @@ elseif &loadplugins
     nmap <silent> t<C-l> :TestLast<CR>
     nmap <silent> t<C-g> :TestVisit<CR>
     let test#java#maventest#options = '-DtrimStackTrace=false'
-    if FileMatchesRegex('package.json', '^\s*"\zstest:unit\ze')
+    if FileMatchesRegex('package.json', '^\s*"\zstest:unit\ze') && filereadable('yarn.lock')
         let test#javascript#jest#executable = 'yarn test:unit'
     endif
     if FileMatchesRegex('package.json', '^\s*"\zsvue-jest\ze')
