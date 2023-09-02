@@ -986,9 +986,8 @@ if exists("loaded_matchit")
 endif
 
 augroup column
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | highlight ColorColumn ctermbg=magenta guibg=magenta | endif
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%81v', 100) | endif
-    autocmd WinEnter,BufEnter,InsertChange,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%101v', 100) | endif
+    autocmd VimEnter,WinEnter,BufEnter,BufReadPost,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%81v', 100) | endif
+    autocmd VimEnter,WinEnter,BufEnter,BufReadPost,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%101v', 100) | endif
     autocmd WinLeave * call clearmatches()
 augroup END
 
