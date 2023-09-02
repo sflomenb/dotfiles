@@ -71,7 +71,7 @@ set_keymap(
 	"<cmd>lua require('telescope').extensions['todo-comments']['todo']({ cwd = vim.fn.expand('%:h') })<cr>",
 	opts
 )
-vim.api.nvim_set_keymap("n", "<space>fb", ":Telescope file_browser<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>w", ":Telescope file_browser<CR>", { noremap = true })
 
 function _G.select_session(opts)
 	opts = opts or {}

@@ -533,7 +533,7 @@ fu! CommentWord(str)
     exe ':%s/\(\s\(2,}\)\(' . a:str . '\)/1\#/2/gc'
 endfu
 
-noremap <Leader>w :call CommentWord("<c-r>=expand("<cword>")<cr>")<CR>
+noremap <space>w :call CommentWord("<c-r>=expand("<cword>")<cr>")<CR>
 
 command! FindMergeMarkers /\v(\<{3,}|\={3,}|\>{3,})
 command! SCB :windo set scb!
