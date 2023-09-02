@@ -1596,3 +1596,9 @@ nnoremap <C-w>m :call ShrinkSplit()<CR>
 " https://stackoverflow.com/a/4468491/5521899
 command! -bang Bd :bp | bd<bang> #
 
+" Keycodes and mapping timeout
+" * time out on mapping after 2 seconds
+" * time out on key codes after 1/10 second
+set timeout
+set timeoutlen=2000
+set ttimeoutlen=100
