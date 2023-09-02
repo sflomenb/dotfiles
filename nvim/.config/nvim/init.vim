@@ -52,6 +52,7 @@ require('change_case')
 require('prev_indent_level')
 require('snip')
 require('optional_chaining')
+require('netrw')
 require('has_logger_var')
 require('my_harpoon')
 EOF

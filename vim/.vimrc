@@ -605,11 +605,6 @@ command! SS :call SetSpell()
 
 noremap <leader>* *<C-O>:%s///gn<CR>|norm! ``
 
-let g:netrw_liststyle=3
-let g:netrw_banner=0
-let g:netrw_altv=1
-let g:newtr_winsize=25
-
 fu! Vres(num)
     exec 'vertical resize ' . string(&columns * a:num/100.0)
 endfu
