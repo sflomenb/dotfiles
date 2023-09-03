@@ -201,7 +201,6 @@ elseif &loadplugins
         Plug 'folke/todo-comments.nvim'
         Plug 'folke/trouble.nvim'
         Plug 'nvim-treesitter/playground'
-        Plug 'jose-elias-alvarez/null-ls.nvim'
         Plug 'nvim-telescope/telescope-ui-select.nvim'
         if executable("cargo")
             Plug 'Saecki/crates.nvim'
@@ -213,6 +212,7 @@ elseif &loadplugins
         Plug 'lvimuser/lsp-inlayhints.nvim'
         Plug 'mbbill/undotree'
         Plug 'ThePrimeagen/harpoon'
+        Plug 'creativenull/efmls-configs-nvim', { 'tag': 'v1.*' } " tag is optional, but recommended
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'

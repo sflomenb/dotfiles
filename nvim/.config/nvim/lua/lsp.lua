@@ -1,8 +1,6 @@
 -- To debug, uncomment the below line:
 -- vim.lsp.set_log_level('debug')
 local nvim_lsp = require("lspconfig")
-local null_ls = require("null-ls")
-local command_resolver = require("null-ls.helpers.command_resolver")
 local luasnip = require("luasnip")
 local lsp_util = vim.lsp.util
 local lsp_status = require("lsp-status")
@@ -88,8 +86,8 @@ local default_on_attach = function(client, bufnr)
 
 	-- https://github.com/jose-elias-alvarez/null-ls.nvim/issues/436#issuecomment-993855498
 	local name = client.name
-	local is_null = name == "null-ls"
-	if not is_null then
+	local is_efm = name == "efm"
+	if not is_efm then
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
 	end
@@ -344,38 +342,54 @@ nvim_lsp.lua_ls.setup({
 	},
 })
 
-null_ls.setup({
+-- Register linters and formatters per language
+local eslint = require('efmls-configs.linters.eslint')
+local prettier = require('efmls-configs.formatters.prettier')
+
+local stylua = require('efmls-configs.formatters.stylua')
+
+local black = require('efmls-configs.formatters.black')
+local isort = require('efmls-configs.formatters.isort')
+local mypy = require('efmls-configs.linters.mypy')
+
+local gofmt = require('efmls-configs.formatters.gofmt')
+local goimports = require('efmls-configs.formatters.goimports')
+local golangci_lint = require('efmls-configs.linters.golangci_lint')
+
+local rustfmt = require('efmls-configs.formatters.rustfmt')
+
+local terraform_fmt = require('efmls-configs.formatters.terraform_fmt')
+
+local shellcheck = require('efmls-configs.linters.shellcheck')
+
+local languages = {
+  javascript = { eslint, prettier },
+  typescript = { eslint, prettier },
+  lua = { stylua },
+  python = { black, isort, mypy },
+  go = { gofmt, goimports, golangci_lint },
+  rust = { rustfmt },
+  terraform = { terraform_fmt },
+  bash = { shellcheck },
+}
+
+local efmls_config = {
+  filetypes = vim.tbl_keys(languages),
+  settings = {
+    rootMarkers = { '.git/' },
+    languages = languages,
+  },
+  init_options = {
+    documentFormatting = true,
+    documentRangeFormatting = true,
+  },
+}
+
+require('lspconfig').efm.setup(vim.tbl_extend('force', efmls_config, {
 	on_attach = function(client, bufnr)
 		default_on_attach(client, bufnr)
 	end,
-	sources = {
-		null_ls.builtins.formatting.prettier.with({
-			dynamic_command = command_resolver.from_yarn_pnp(),
-			conditions = function(utils)
-				return utils.root_has_file({ ".pnp.cjs" })
-			end,
-		}),
-		null_ls.builtins.formatting.prettier.with({
-			conditions = function(utils)
-				return not utils.root_has_file({ ".pnp.cjs" })
-			end,
-		}),
-		null_ls.builtins.formatting.black,
-		null_ls.builtins.formatting.gofmt,
-		null_ls.builtins.formatting.goimports,
-		null_ls.builtins.formatting.rustfmt,
-		null_ls.builtins.formatting.terraform_fmt,
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.jq,
-		null_ls.builtins.formatting.isort,
-
-		null_ls.builtins.diagnostics.golangci_lint,
-		null_ls.builtins.diagnostics.shellcheck,
-		null_ls.builtins.diagnostics.mypy,
-
-		null_ls.builtins.code_actions.shellcheck,
-	},
-})
+}))
 
 local M = {}
 
