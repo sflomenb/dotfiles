@@ -1335,6 +1335,8 @@ endfu
 command! FoldBlockComments :call FoldBlockComments()
 command! FoldGoErrs :call FoldGoErrs()
 
+nnoremap <space>m :make<CR>
+
 " https://www.reddit.com/r/neovim/comments/1290zpu/comment/jenbq9e/?utm_source=share&utm_medium=web2x&context=3
 augroup tsc_comp
     autocmd FileType typescript,typescriptreact compiler tsc | setlocal makeprg=npx\ tsc\ --noEmit\ --pretty\ false
