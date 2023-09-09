@@ -1779,6 +1779,7 @@ skip-log-word - whether or not to not log the word at all (because the logger
   :bind (("C-c h a" . 'harpoon-add-file)
 	 ("C-c h s" . 'harpoon-toggle-quick-menu)
 	 ("C-c h c" . 'harpoon-clear)
+	 ("C-c h d" . 'harpoon-delete-item)
 	 ("C-c h h" . 'harpoon-go-to-1)
 	 ("C-c h j" . 'harpoon-go-to-2)
 	 ("C-c h k" . 'harpoon-go-to-3)
