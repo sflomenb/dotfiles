@@ -790,7 +790,7 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 (evil-global-set-key 'visual (kbd "*") 'my/visual-star-search-forward)
 (evil-global-set-key 'visual (kbd "#") 'my/visual-star-search-backward)
 
-(evil-global-set-key 'normal (kbd "C-c h") 'evil-ex-nohighlight)
+(evil-global-set-key 'normal (kbd "M-h") 'evil-ex-nohighlight)
 
 (defun my/evil-search-all-windows (func &rest r)
   "Show highlighting in all visible windows, calling search function FUNC with args R."
@@ -1774,6 +1774,15 @@ skip-log-word - whether or not to not log the word at all (because the logger
 (advice-add 'align-regexp :around #'my/prompt-indent-tabs)
 
 (global-so-long-mode)
+
+(use-package harpoon
+  :bind (("C-c h a" . 'harpoon-add-file)
+	 ("C-c h s" . 'harpoon-toggle-quick-menu)
+	 ("C-c h c" . 'harpoon-clear)
+	 ("C-c h h" . 'harpoon-go-to-1)
+	 ("C-c h j" . 'harpoon-go-to-2)
+	 ("C-c h k" . 'harpoon-go-to-3)
+	 ("C-c h l" . 'harpoon-go-to-4)))
 
 (provide '.emacs)
 
