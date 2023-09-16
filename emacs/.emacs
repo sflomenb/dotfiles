@@ -1776,6 +1776,8 @@ skip-log-word - whether or not to not log the word at all (because the logger
 (global-so-long-mode)
 
 (use-package harpoon
+  :config
+  (setq harpoon-separate-by-branch nil)
   :bind (("C-c h a" . 'harpoon-add-file)
 	 ("C-c h s" . 'harpoon-toggle-quick-menu)
 	 ("C-c h f" . 'harpoon-toggle-file)
