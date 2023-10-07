@@ -5,6 +5,8 @@ source ~/.vimrc
 " disable mouse
 set mouse=
 
+set guicursor=
+
 set ex
 
 augroup nvim_folding
