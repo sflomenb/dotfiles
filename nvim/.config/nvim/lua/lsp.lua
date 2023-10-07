@@ -231,6 +231,10 @@ nvim_lsp.tsserver.setup({
 	},
 })
 
+nvim_lsp.java_language_server.setup(vim.tbl_extend("force", myopts, {
+	cmd = { "" }
+}))
+
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
 
