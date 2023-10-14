@@ -115,24 +115,11 @@
   "Set theme based on time of day."
   (interactive)
   (let* ((hour (string-to-number (substring (current-time-string) 11 13)))
-	 (is-darwin (string= system-type "darwin"))
-	 (light-dark-script "~/light-dark.scpt")
-	 (theme-to-change-to (if (and is-darwin (file-exists-p light-dark-script))
-				 (let ((result (shell-command-to-string (format "osascript %s" light-dark-script)))
-				       (case-fold-search t))
-				   (if (string-match-p "light" result)
-				       'latte 'macchiato))
-			       (if (member hour (number-sequence 6 19))
-				   'latte 'macchiato))))
+	 (theme-to-change-to (if (member hour (number-sequence 6 18))
+				 'latte 'macchiato)))
     (when (not (string= theme-to-change-to current-theme))
       (setq catppuccin-flavor theme-to-change-to)
-      (catppuccin-reload))
-    ;; Change iTerm2 theme if on Mac
-    (when is-darwin
-      (let ((toggle-script-path "~/Library/ApplicationSupport/iTerm2/Scripts/iterm2-light-dark-toggle.py"))
-	(when (file-exists-p toggle-script-path)
-	  (shell-command "osascript -e 'tell application \"iTerm\" \nlaunch API script named \"iterm2-light-dark-toggle\" \nend tell"))))
-    ))
+      (catppuccin-reload))))
 
 (when (= (display-color-cells) 16777216)
   (progn
