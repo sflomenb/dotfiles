@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Label</key>
+		<string>change-color</string>
+		<key>ProgramArguments</key>
+		<array>
+			<string>/Users/FIXME/.bin/change-color.sh</string>
+		</array>
+		<key>RunAtLoad</key>
+		<true/>
+		<key>StartInterval</key>
+		<integer>900</integer>
+		<key>StartCalendarInterval</key>
+		<array>
+			<dict>
+				<key>Hour</key>
+				<integer>6</integer>
+				<key>Minute</key>
+				<integer>0</integer>
+			</dict>
+			<dict>
+				<key>Hour</key>
+				<integer>18</integer>
+				<key>Minute</key>
+				<integer>0</integer>
+			</dict>
+		</array>
+		<key>StandardErrorPath</key>
+		<string>/tmp/changecolor.err</string>
+		<key>StandardOutPath</key>
+		<string>/tmp/changecolor.out</string>
+		<key>EnvironmentVariables</key>
+		<dict>
+			<key>PATH</key>
+			<string>/Users/FIXME/.asdf/shims:/Users/FIXME/.asdf/bin:/bin:/usr/bin:/usr/local/bin</string>
+		</dict>
+	</dict>
+</plist>
