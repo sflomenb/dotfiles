@@ -10,6 +10,12 @@ bin:
 		f=$$(basename $$file); \
 		ln -sfn $$file $(HOME)/.bin/$$f; \
 	done;
+	if uname -a | grep -iq 'darwin'; then \
+		for file in $(shell find $(CURDIR)/launchagents -type f); do \
+			f=$$(basename $$file); \
+			ln -sfn $$file $(HOME)/Library/LaunchAgents/$$f; \
+		done; \
+	fi;
 
 .PHONY: dotfiles
 dotfiles:
