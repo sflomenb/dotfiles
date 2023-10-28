@@ -347,49 +347,49 @@ nvim_lsp.lua_ls.setup({
 })
 
 -- Register linters and formatters per language
-local eslint = require('efmls-configs.linters.eslint')
-local prettier = require('efmls-configs.formatters.prettier')
+local eslint = require("efmls-configs.linters.eslint")
+local prettier = require("efmls-configs.formatters.prettier")
 
-local stylua = require('efmls-configs.formatters.stylua')
+local stylua = require("efmls-configs.formatters.stylua")
 
-local black = require('efmls-configs.formatters.black')
-local isort = require('efmls-configs.formatters.isort')
-local mypy = require('efmls-configs.linters.mypy')
+local black = require("efmls-configs.formatters.black")
+local isort = require("efmls-configs.formatters.isort")
+local mypy = require("efmls-configs.linters.mypy")
 
-local gofmt = require('efmls-configs.formatters.gofmt')
-local goimports = require('efmls-configs.formatters.goimports')
-local golangci_lint = require('efmls-configs.linters.golangci_lint')
+local gofmt = require("efmls-configs.formatters.gofmt")
+local goimports = require("efmls-configs.formatters.goimports")
+local golangci_lint = require("efmls-configs.linters.golangci_lint")
 
-local rustfmt = require('efmls-configs.formatters.rustfmt')
+local rustfmt = require("efmls-configs.formatters.rustfmt")
 
-local terraform_fmt = require('efmls-configs.formatters.terraform_fmt')
+local terraform_fmt = require("efmls-configs.formatters.terraform_fmt")
 
-local shellcheck = require('efmls-configs.linters.shellcheck')
+local shellcheck = require("efmls-configs.linters.shellcheck")
 
 local languages = {
-  javascript = { eslint, prettier },
-  typescript = { eslint, prettier },
-  lua = { stylua },
-  python = { black, isort, mypy },
-  go = { gofmt, goimports, golangci_lint },
-  rust = { rustfmt },
-  terraform = { terraform_fmt },
-  bash = { shellcheck },
+	javascript = { eslint, prettier },
+	typescript = { eslint, prettier },
+	lua = { stylua },
+	python = { black, isort, mypy },
+	go = { gofmt, goimports, golangci_lint },
+	rust = { rustfmt },
+	terraform = { terraform_fmt },
+	bash = { shellcheck },
 }
 
 local efmls_config = {
-  filetypes = vim.tbl_keys(languages),
-  settings = {
-    rootMarkers = { '.git/' },
-    languages = languages,
-  },
-  init_options = {
-    documentFormatting = true,
-    documentRangeFormatting = true,
-  },
+	filetypes = vim.tbl_keys(languages),
+	settings = {
+		rootMarkers = { ".git/" },
+		languages = languages,
+	},
+	init_options = {
+		documentFormatting = true,
+		documentRangeFormatting = true,
+	},
 }
 
-require('lspconfig').efm.setup(vim.tbl_extend('force', efmls_config, {
+require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {
 	on_attach = function(client, bufnr)
 		default_on_attach(client, bufnr)
 	end,
