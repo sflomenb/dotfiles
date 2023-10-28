@@ -58,7 +58,7 @@ alias magit='emacs -f magit-status -f delete-other-windows'
 if uname -a | grep -q Darwin; then
     alias copy_last_command='fc -ln -1 | tr -d '"'"'\n'"'"' | pbcopy'
     alias copy_git_branch='git rev-parse --abbrev-ref HEAD | awk '\''{$1=$1}1'\'' ORS='\''\'' | pbcopy'
-    export JAVA_HOME=$(/usr/libexec/java_home)
+    export JAVA_HOME=/usr/local/opt/openjdk
 elif [[ -e /etc/os-release ]] && grep -qi alpine /etc/os-release; then
     alias apkup='apk update && apk upgrade'
 else
