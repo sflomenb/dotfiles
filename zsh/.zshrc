@@ -48,8 +48,8 @@ function git_find_merge() {
     fi
 }
 
-export EDITOR=/usr/local/bin/vim
-export VISUAL=/usr/local/bin/vim
+export EDITOR=$(which nvim)
+export VISUAL=$(which nvim)
 
 alias less='less -I'
 alias emacs='COLORTERM=truecolor emacs -nw'
