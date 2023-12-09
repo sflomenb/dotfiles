@@ -18,7 +18,7 @@ function change_neovim_color {
 }
 
 function change_kitty_color {
-    local hour=$(date '+%H')
+    local hour=$(date '+%-H')
     if [[ "${hour}" -gt 6 && "${hour}" -lt 18 ]]; then
         local color='Latte'
     else
