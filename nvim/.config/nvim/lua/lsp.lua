@@ -107,7 +107,7 @@ end
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 capabilities = vim.tbl_extend("keep", capabilities or {}, lsp_status.capabilities)
 
-local servers_with_default_config = { "pyright", "eslint", "terraformls", "ansiblels" }
+local servers_with_default_config = { "pyright", "eslint", "terraformls", "ansiblels", "texlab" }
 
 local myopts = {
 	on_attach = on_attach,
