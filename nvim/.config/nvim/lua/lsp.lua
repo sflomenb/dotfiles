@@ -366,6 +366,8 @@ local terraform_fmt = require("efmls-configs.formatters.terraform_fmt")
 
 local shellcheck = require("efmls-configs.linters.shellcheck")
 
+local nixfmt = require("efmls-configs.formatters.nixfmt")
+
 local languages = {
 	javascript = { eslint, prettier },
 	typescript = { eslint, prettier },
@@ -375,6 +377,7 @@ local languages = {
 	rust = { rustfmt },
 	terraform = { terraform_fmt },
 	bash = { shellcheck },
+	nix = { nixfmt },
 }
 
 local efmls_config = {
