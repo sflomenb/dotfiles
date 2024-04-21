@@ -23,13 +23,6 @@ local function set_color()
 	end
 end
 
-vim.api.nvim_create_autocmd("OptionSet", {
-	pattern = "background",
-	callback = function()
-		vim.cmd("Catppuccin " .. (vim.v.option_new == "light" and "latte" or "macchiato"))
-	end,
-})
-
 require("catppuccin").setup({
 	flavour = background_table[set_color()],
 	background = background_table,
@@ -38,11 +31,12 @@ vim.cmd.colorscheme("catppuccin")
 
 local M = {}
 
-function M.update_color()
-	local bg = set_color()
+function M.update_color(override_bg)
+	local bg = override_bg or set_color()
 	if vim.opt.background:get() ~= bg then
 		vim.o.background = bg
 		vim.cmd([[colorscheme catppuccin]])
+		vim.cmd("Catppuccin " .. (bg == "light" and "latte" or "macchiato"))
 	end
 end
 
