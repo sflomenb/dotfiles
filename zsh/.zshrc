@@ -65,20 +65,24 @@ if uname -a | grep -q Darwin; then
     export JAVA_HOME=/usr/local/opt/openjdk
 elif [[ -e /etc/os-release ]] && grep -qi alpine /etc/os-release; then
     alias apkup='apk update && apk upgrade'
-else
+elif [[ -e /usr/lib/jvm/default-java ]]; then
     export JAVA_HOME=/usr/lib/jvm/default-java
+    export PATH="${JAVA_HOME}:$PATH"
 fi
-export PATH="${JAVA_HOME}:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/.bin"
-export PATH="/usr/local/sbin:$PATH"
+
+# Set up various programs if not on Nix.
+if ! [[ -x "$(command -v nix)" ]]; then
+    export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/.bin"
+    export PATH="/usr/local/sbin:$PATH"
+    export PATH="$HOME/.cargo/bin:$PATH"
+    [[ -d /usr/local/go/bin ]] && export "PATH=$PATH:/usr/local/go/bin"
+fi
 
 bindkey "^R" history-incremental-search-backward
 
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
-
-export PATH="$HOME/.cargo/bin:$PATH"
-[[ -d /usr/local/go/bin ]] && export "PATH=$PATH:/usr/local/go/bin"
 
 setopt COMPLETE_ALIASES
 setopt AUTO_CD
