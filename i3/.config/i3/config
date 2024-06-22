@@ -214,3 +214,5 @@ bindsym $mod+x exec --no-startup-id loginctl lock-session
 # Please remove the following exec line:
 #######################################################################
 #exec i3-config-wizard
+
+exec signal-desktop
