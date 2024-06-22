@@ -216,3 +216,4 @@ bindsym $mod+x exec --no-startup-id loginctl lock-session
 #exec i3-config-wizard
 
 exec signal-desktop
+assign [class="Signal"] $ws3
