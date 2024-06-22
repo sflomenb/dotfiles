@@ -1,4 +1,6 @@
-syntax on
+if !has('nvim')
+    syntax on
+endif
 set number
 set ruler
 set autoread
