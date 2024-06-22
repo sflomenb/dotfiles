@@ -11,7 +11,7 @@ set ex
 
 augroup nvim_folding
     " fold settings by language
-    autocmd FileType * setlocal foldmethod=expr|set foldexpr=nvim_treesitter#foldexpr()
+    autocmd FileType * setlocal foldmethod=expr|set foldexpr=nvim_treesitter#foldexpr()|set nofoldenable
     autocmd FileType text,man setlocal foldmethod=manual
 augroup END
 
