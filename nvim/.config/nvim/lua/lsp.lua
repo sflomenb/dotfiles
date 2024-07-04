@@ -97,6 +97,8 @@ local default_on_attach = function(client, bufnr)
 	lsp_inlay_hints.setup()
 
 	lsp_inlay_hints.on_attach(client, bufnr, false)
+
+	require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
 end
 
 local on_attach = function(client, bufnr)

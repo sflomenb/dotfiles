@@ -215,6 +215,7 @@ elseif &loadplugins
         Plug 'mbbill/undotree'
         Plug 'ThePrimeagen/harpoon'
         Plug 'creativenull/efmls-configs-nvim', { 'tag': 'v1.*' } " tag is optional, but recommended
+        Plug 'artemave/workspace-diagnostics.nvim'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
