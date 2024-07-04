@@ -4,7 +4,6 @@ local nvim_lsp = require("lspconfig")
 local luasnip = require("luasnip")
 local lsp_util = vim.lsp.util
 local lsp_status = require("lsp-status")
-local lsp_inlay_hints = require("lsp-inlayhints")
 
 lsp_status.register_progress()
 lsp_status.config({
@@ -94,10 +93,6 @@ local default_on_attach = function(client, bufnr)
 
 	lsp_status.on_attach(client)
 
-	lsp_inlay_hints.setup()
-
-	lsp_inlay_hints.on_attach(client, bufnr, false)
-
 	require("workspace-diagnostics").populate_workspace_diagnostics(client, bufnr)
 end
 
@@ -122,18 +117,7 @@ for _, lsp in ipairs(servers_with_default_config) do
 	nvim_lsp[lsp].setup(myopts)
 end
 
-nvim_lsp.gopls.setup(vim.tbl_extend("keep", {
-	init_options = {
-		hints = {
-			assignVariableTypes = true,
-			compositeLiteralFields = true,
-			constantValues = true,
-			functionTypeParameters = true,
-			parameterNames = true,
-			rangeVariableTypes = true,
-		},
-	},
-}, myopts))
+nvim_lsp.gopls.setup(myopts)
 
 local extension_path = vim.env.HOME .. "/Downloads/debug-extension-2/extension/"
 local rust_dap_config

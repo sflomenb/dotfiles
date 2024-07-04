@@ -211,7 +211,6 @@ elseif &loadplugins
         Plug 'nvim-telescope/telescope-file-browser.nvim'
         Plug 'antoinemadec/FixCursorHold.nvim'
         Plug 'nvim-lua/lsp-status.nvim'
-        Plug 'lvimuser/lsp-inlayhints.nvim'
         Plug 'mbbill/undotree'
         Plug 'ThePrimeagen/harpoon'
         Plug 'creativenull/efmls-configs-nvim', { 'tag': 'v1.*' } " tag is optional, but recommended
