@@ -48,7 +48,7 @@ require("todo-comments").setup({
 		NOTE = { alt = { "INFO", "ASSUMPTION", "NB" } },
 	},
 })
-require("trouble").setup {}
+require("my_trouble")
 require('sort_object')
 require('change_case')
 require('prev_indent_level')
