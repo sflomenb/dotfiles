@@ -23,11 +23,15 @@ local function set_color()
 	end
 end
 
-require("catppuccin").setup({
-	flavour = background_table[set_color()],
-	background = background_table,
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		require("catppuccin").setup({
+			flavour = background_table[set_color()],
+			background = background_table,
+		})
+		vim.cmd.colorscheme("catppuccin")
+	end,
 })
-vim.cmd.colorscheme("catppuccin")
 
 local M = {}
 

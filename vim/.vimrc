@@ -770,8 +770,8 @@ endfunc
 
 augroup numbertoggle
   autocmd!
-  autocmd WinEnter,BufEnter,FocusGained * set relativenumber number
-  autocmd WinLeave,BufLeave,FocusLost   * set norelativenumber number
+  autocmd WinEnter,BufEnter * set relativenumber number
+  autocmd WinLeave,BufLeave * set norelativenumber number
 augroup END
 
 " strips trailing whitespace at the end of files. this

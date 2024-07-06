@@ -43,10 +43,14 @@ require('lsp')
 require('my_dap')
 require('ts')
 require('my_telescope')
-require("todo-comments").setup({
-	keywords = {
-		NOTE = { alt = { "INFO", "ASSUMPTION", "NB" } },
-	},
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+    require("todo-comments").setup({
+    keywords = {
+        NOTE = { alt = { "INFO", "ASSUMPTION", "NB" } },
+    },
+    })
+	end,
 })
 require("my_trouble")
 require('sort_object')
