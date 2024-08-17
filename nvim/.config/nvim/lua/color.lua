@@ -28,6 +28,11 @@ vim.api.nvim_create_autocmd("VimEnter", {
 		require("catppuccin").setup({
 			flavour = background_table[set_color()],
 			background = background_table,
+			integrations = {
+				cmp = true,
+				gitgutter = true,
+				treesitter = true,
+			},
 		})
 		vim.cmd.colorscheme("catppuccin")
 	end,
