@@ -1,50 +1,58 @@
 local wk = require("which-key")
 
-wk.register({
-	name = "Harpoon",
-	a = {
+wk.add({
+	{ "<space>h", group = "Harpoon" },
+	{
+		"<space>ha",
 		function()
 			require("harpoon.mark").add_file()
 		end,
-		"Add file",
+		desc = "Add file",
 	},
-	c = {
+	{
+		"<space>hc",
 		function()
 			require("harpoon.mark").clear_all()
 		end,
-		"Clear all files",
+		desc = "Clear all files",
 	},
-	s = {
+	{
+		"<space>hs",
 		function()
 			require("harpoon.ui").toggle_quick_menu()
 		end,
-		"Toggle quick menu",
+		desc = "Toggle quick menu",
 	},
-}, { prefix = "<space>h" })
+})
 
-wk.register({
-	["<C-h>"] = {
+wk.add({
+	{
+		"<C-h>",
 		function()
 			require("harpoon.ui").nav_file(1)
 		end,
-		"Nav file 1",
+		desc = "Nav file 1",
 	},
-	["<C-j>"] = {
+	{
+		"<C-j>",
 		function()
 			require("harpoon.ui").nav_file(2)
 		end,
-		"Nav file 2",
+		desc = "Nav file 2",
 	},
-	["<C-k>"] = {
+	{
+		"<C-k>",
 		function()
 			require("harpoon.ui").nav_file(3)
 		end,
-		"Nav file 3",
+		desc = "Nav file 3",
 	},
-	["<C-l>"] = {
+	{
+		"<C-l>",
 		function()
 			require("harpoon.ui").nav_file(4)
 		end,
-		"Nav file 4",
+		desc = "Nav file 4",
 	},
 })
+
