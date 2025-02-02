@@ -61,4 +61,5 @@ require('optional_chaining')
 require('netrw')
 require('has_logger_var')
 require('my_harpoon')
+require('indent')
 EOF
