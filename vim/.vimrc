@@ -982,7 +982,7 @@ augroup END
 
 set autoread
 augroup file
-    autocmd CursorHold * if expand('%') !=# '[Command Line]' | checktime | endif
+    autocmd CursorHold * if getcmdwintype() == '' | checktime | endif
 augroup END
 
 fu! s:rename(new_name)
