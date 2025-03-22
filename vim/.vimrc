@@ -189,6 +189,7 @@ elseif &loadplugins
         Plug 'hrsh7th/cmp-buffer'
         Plug 'hrsh7th/cmp-path'
         Plug 'mfussenegger/nvim-dap'
+        Plug 'nvim-neotest/nvim-nio'
         Plug 'rcarriga/nvim-dap-ui'
         Plug 'HiPhish/debugpy.nvim'
 
