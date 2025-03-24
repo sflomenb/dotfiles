@@ -62,4 +62,5 @@ require('netrw')
 require('has_logger_var')
 require('my_harpoon')
 require('indent')
+require('git_url')
 EOF
