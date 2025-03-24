@@ -25,6 +25,16 @@ local function buf_set_option(...)
 	vim.api.nvim_buf_set_option(...)
 end
 
+local function exec_cmd(cmd)
+	vim.lsp.buf.code_action({
+		apply = true,
+		context = {
+			only = { cmd },
+			diagnostics = {},
+		},
+	})
+end
+
 local default_on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -160,61 +170,64 @@ require("rust-tools").setup({
 	dap = rust_dap_config,
 })
 
+-- https://github.com/neovim/neovim/issues/20784#issuecomment-1288085253
+local function rename_file(bufnr)
+	local source_file, target_file
+
+	vim.ui.input({
+		prompt = "Source : ",
+		completion = "file",
+		default = vim.api.nvim_buf_get_name(bufnr),
+	}, function(input)
+		source_file = input
+	end)
+	vim.ui.input({
+		prompt = "Target : ",
+		completion = "file",
+		default = source_file,
+	}, function(input)
+		target_file = input
+	end)
+
+	local params = {
+		command = "_typescript.applyRenameFile",
+		arguments = {
+			{
+				sourceUri = vim.uri_from_fname(source_file),
+				targetUri = vim.uri_from_fname(target_file),
+			},
+		},
+		title = "",
+	}
+
+	vim.lsp.util.rename(source_file, target_file)
+	vim.lsp.buf.execute_command(params)
+end
+
 nvim_lsp.ts_ls.setup({
-	-- Needed for inlayHints. Merge this table with your settings or copy
-	-- it from the source if you want to add your own init_options.
-	init_options = require("nvim-lsp-ts-utils").init_options,
-	--
 	on_attach = function(client, bufnr)
 		default_on_attach(client, bufnr)
-		local ts_utils = require("nvim-lsp-ts-utils")
-
-		-- defaults
-		ts_utils.setup({
-			debug = true,
-			disable_commands = false,
-			enable_import_on_completion = true,
-
-			-- import all
-			import_all_timeout = 5000, -- ms
-			-- lower numbers = higher priority
-			import_all_priorities = {
-				same_file = 1, -- add to existing import statement
-				local_files = 2, -- git files or files with relative path markers
-				buffer_content = 3, -- loaded buffer content
-				buffers = 4, -- loaded buffer names
-			},
-			import_all_scan_buffers = 100,
-			import_all_select_source = false,
-
-			-- filter diagnostics
-			filter_out_diagnostics_by_severity = {},
-			filter_out_diagnostics_by_code = {},
-
-			-- inlay hints
-			auto_inlay_hints = false,
-
-			-- update imports on file move
-			update_imports_on_move = false,
-			require_confirmation_on_move = false,
-			watch_dir = nil,
-		})
-
-		-- required to fix code action ranges and filter diagnostics
-		ts_utils.setup_client(client)
 
 		-- no default maps, so you may want to define some here
-		local opts = { noremap = true, silent = true }
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>o", ":TSLspOrganize<CR>", opts)
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>r", ":TSLspRenameFile<CR>", opts)
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>i", ":TSLspImportAll<CR>", opts)
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "<space>Ao", function()
+			exec_cmd("source.organizeImports")
+		end, opts)
+		vim.keymap.set("n", "<space>Ar", function()
+			exec_cmd("source.removeUnusedImports.ts")
+		end, opts)
+		vim.keymap.set("n", "<space>Ai", function()
+			exec_cmd("source.addMissingImports.ts")
+		end, opts)
 
-		client.server_capabilities.document_formatting = false
-		client.server_capabilities.document_range_formatting = false
+		vim.api.nvim_create_user_command("TsRenameFile", function(_)
+			rename_file(bufnr)
+		end, {})
 	end,
 	flags = {
 		debounce_text_changes = 150,
 	},
+	capabilities = capabilities,
 })
 
 nvim_lsp.java_language_server.setup(vim.tbl_extend("force", myopts, {
