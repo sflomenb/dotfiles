@@ -15,6 +15,7 @@ lsp_status.config({
 	kind_labels = {},
 	current_function = false,
 	indicator_separator = "|",
+	status_symbol = ''
 })
 
 local function buf_set_keymap(...)
