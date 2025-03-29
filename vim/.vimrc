@@ -1169,7 +1169,7 @@ function! SessionStatusline()
 endfunction
 
 function! LspStatus() abort
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
+  if luaeval('#vim.lsp.get_clients() > 0')
     return luaeval("require('lsp-status').status()")
   endif
 
