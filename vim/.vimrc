@@ -398,6 +398,7 @@ elseif &loadplugins
     nmap ]h <Plug>(GitGutterNextHunk)
     nmap [h <Plug>(GitGutterPrevHunk)
     let g:gitgutter_diff_args = '-b'
+    let g:gitgutter_sign_priority = 6
 
     function! NextHunkAllBuffers()
       let line = line('.')

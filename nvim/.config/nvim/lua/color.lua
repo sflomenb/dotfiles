@@ -41,6 +41,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			flavour = background_table[set_color()],
 			background = background_table,
 			integrations = {
+				native_lsp = {
+					enabled = true,
+				},
 				cmp = true,
 				gitgutter = true,
 				treesitter = true,

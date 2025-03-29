@@ -18,6 +18,25 @@ lsp_status.config({
 	status_symbol = ''
 })
 
+-- https://www.reddit.com/r/neovim/comments/1ikb7hm/comment/mblzw8n/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+-- Change color of line numbers based on diagnostic.
+vim.diagnostic.config({
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'ErrorMsg',
+      [vim.diagnostic.severity.WARN] = 'WarningMsg',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+    },
+  },
+})
+
 local function buf_set_keymap(...)
 	vim.api.nvim_buf_set_keymap(...)
 end
