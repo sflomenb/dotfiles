@@ -70,7 +70,7 @@ fu! TabInfo()
     set expandtab?
 endfu
 
-nnoremap <Leader>t :call TabInfo()<CR>
+nnoremap <Leader>T :call TabInfo()<CR>
 nnoremap <Leader><Leader>t :call SetTab()<CR>
 nnoremap <Leader><Leader><Leader>t :setlocal expandtab!<CR>
 
