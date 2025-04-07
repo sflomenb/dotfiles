@@ -54,6 +54,6 @@ vim.api.nvim_create_user_command("GitUrl", function(args)
 end, { range = true })
 
 vim.api.nvim_set_keymap("n", "<space>g", "<Cmd>GitUrl<cr>", { noremap = true })
-vim.api.nvim_set_keymap("v", "<space>g", "<Cmd>'<,'>GitUrl<cr>", { noremap = true })
+vim.api.nvim_set_keymap("v", "<space>g", ":GitUrl<cr>", { noremap = true })
 
 return M
