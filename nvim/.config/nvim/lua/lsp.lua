@@ -65,6 +65,7 @@ local default_on_attach = function(client, bufnr)
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	buf_set_keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<cr>", opts)
 	buf_set_keymap(bufnr, "n", "gD", "<cmd>lua require('lsp').my_goto_definition()<cr>", opts)
+	buf_set_keymap(bufnr, "n", "gy", "<cmd>lua require('telescope.builtin').lsp_type_definitions()<cr>", opts)
 	buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 	buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
 	buf_set_keymap(bufnr, "i", "<C-l>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
@@ -77,7 +78,6 @@ local default_on_attach = function(client, bufnr)
 		"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
 		opts
 	)
-	buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
 	buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 	buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	buf_set_keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<cr>", opts)
