@@ -851,8 +851,6 @@ fu! EscapeSearch()
     let @/ = l:search_val
 endfu
 
-nnoremap // :call EscapeSearch()<CR>
-
 nnoremap <Leader>vrc :tabe $MYVIMRC<CR>
 
 function! GetYamlIndent()
