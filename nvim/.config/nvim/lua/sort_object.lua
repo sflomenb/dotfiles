@@ -3,40 +3,28 @@ local treesitter = require("vim.treesitter")
 
 local M = {}
 
-local function replace_node(node, text)
-	if not node or not text then
-		error("cannot replace text")
-		return
-	end
-
-	if type(text) ~= "string" then
-		text = table.concat(text, "\n")
-	end
-
-	local sRow, sCol, eRow, eCol = node:range()
-
+local function replace_node(sRow, sCol, eRow, eCol, text)
 	local replaced_text = vim.fn.split(text, "\n")
 	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, replaced_text)
 end
 
 local function sort(current_node)
 	local function is_sorted(idx, key_name)
-		local j_child = current_node:named_child(idx)
-		if j_child == nil then
+		local child = current_node:named_child(idx)
+		if child == nil then
 			return false
 		end
-		local j_child_child = j_child:named_child(0)
-		if j_child_child == nil then
+		local child_child = child:named_child(0)
+		if child_child == nil then
 			return false
 		end
-		return vim.treesitter.get_node_text(j_child_child, 0) < key_name
+		return vim.treesitter.get_node_text(child_child, 0) < key_name
 	end
 
 	local child_count = current_node:named_child_count()
 
 	-- Insertion sort
 	for i = 1, child_count - 1 do
-		local num_non_swaps = 0
 		local key = current_node:named_child(i)
 		if key == nil then
 			goto continue
@@ -56,23 +44,91 @@ local function sort(current_node)
 		if not key_text then
 			error("unable to find pair text for node")
 		end
-		local j = i - 1
+
+		local keySRow, keySCol, keyERow, keyECol = key:range()
+
+		local skipped_count = 0
+		for x = i - 1, 0, -1 do
+			local prev_node = current_node:named_child(x)
+			local prev_node_type = prev_node:type()
+			if prev_node_type == "comment" then
+				-- extend range
+				local sRow, sCol, _, _ = prev_node:range()
+				keySRow = sRow
+				keySCol = sCol
+				skipped_count = skipped_count + 1
+			else
+				break
+			end
+		end
+		key_text = table.concat(vim.api.nvim_buf_get_text(0, keySRow, keySCol, keyERow, keyECol, {}), "\n")
+
+		local comments_seen = 0
+
+		local j = i - 1 - skipped_count
 
 		while j >= 0 and not is_sorted(j, key_name) do
+			local cur_skipped_count = 0
+			local j_child = current_node:named_child(j)
+			local j_child_plus_1 = current_node:named_child(j + 1 + skipped_count)
 			-- if not object, skip swap
-			if current_node:named_child(j):type() == "pair" and current_node:named_child(j + 1 + num_non_swaps):type() == "pair" then
+			if j_child:type() == "pair" and j_child_plus_1:type() == "pair" then
 				local text = vim.treesitter.get_node_text(current_node:named_child(j), 0)
-				replace_node(current_node:named_child(j + 1 + num_non_swaps), text)
+				local curSRow, curSCol, curERow, curECol = current_node:named_child(j):range()
+
+				-- expand j
+				for x = j - 1, 0, -1 do
+					local prev_node = current_node:named_child(x)
+					local prev_node_type = prev_node:type()
+					if prev_node_type == "comment" then
+						-- extend range
+						local sRow, sCol, _, _ = prev_node:range()
+						curSRow = sRow
+						curSCol = sCol
+						cur_skipped_count = cur_skipped_count + 1
+						comments_seen = comments_seen + 1
+					else
+						break
+					end
+				end
+				text = table.concat(vim.api.nvim_buf_get_text(0, curSRow, curSCol, curERow, curECol, {}), "\n")
+
+				local nextSRow, nextSCol, nextERow, nextECol = j_child_plus_1:range()
+				for x = j + 1 + skipped_count - 1, j - 1, -1 do
+					local prev_node = current_node:named_child(x)
+					local prev_node_type = prev_node:type()
+					if prev_node_type == "comment" then
+						-- extend range
+						local sRow, sCol, _, _ = prev_node:range()
+						nextSRow = sRow
+						nextSCol = sCol
+					else
+						break
+					end
+				end
+
+				replace_node(nextSRow, nextSCol, nextERow, nextECol, text)
 				treesitter.get_parser(0, "typescript"):parse()
 				current_node = ts_utils.get_node_at_cursor()
-				num_non_swaps = 0
-			else
-				num_non_swaps = num_non_swaps + 1
 			end
-			j = j - 1
+			j = j - 1 - cur_skipped_count
 		end
-		if current_node:named_child(j + 1 + num_non_swaps):type() == "pair" then
-			replace_node(current_node:named_child(j + 1 + num_non_swaps), key_text)
+		local last_idx = j + 1 + comments_seen
+		if current_node:named_child(last_idx):type() == "pair" then
+			local lastSRow, lastSCol, lastERow, lastECol = current_node:named_child(last_idx):range()
+			for x = last_idx - 1, 0, -1 do
+				local prev_node = current_node:named_child(x)
+				local prev_node_type = prev_node:type()
+				if prev_node_type == "comment" then
+					-- extend range
+					local sRow, sCol, _, _ = prev_node:range()
+					lastSRow = sRow
+					lastSCol = sCol
+				else
+					break
+				end
+			end
+			replace_node(lastSRow, lastSCol, lastERow, lastECol, key_text)
 			treesitter.get_parser(0, "typescript"):parse()
 			current_node = ts_utils.get_node_at_cursor()
 		end
