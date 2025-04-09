@@ -15,16 +15,40 @@ local function replace_node(node, text)
 
 	local sRow, sCol, eRow, eCol = node:range()
 
-	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, vim.fn.split(text, "\n"))
+	local replaced_text = vim.fn.split(text, "\n")
+	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, replaced_text)
 end
 
 local function sort(current_node)
+	local function is_sorted(idx, key_name)
+		local j_child = current_node:named_child(idx)
+		if j_child == nil then
+			return false
+		end
+		local j_child_child = j_child:named_child(0)
+		if j_child_child == nil then
+			return false
+		end
+		return vim.treesitter.get_node_text(j_child_child, 0) < key_name
+	end
+
 	local child_count = current_node:named_child_count()
 
 	-- Insertion sort
 	for i = 1, child_count - 1 do
+		local num_non_swaps = 0
 		local key = current_node:named_child(i)
-		local key_name = vim.treesitter.get_node_text(key:named_child(0), 0)
+		if key == nil then
+			goto continue
+		end
+		if key:type() ~= "pair" then
+			goto continue
+		end
+		local key_child = key:named_child(0)
+		if key_child == nil then
+			goto continue
+		end
+		local key_name = vim.treesitter.get_node_text(key_child, 0)
 		local key_text = vim.treesitter.get_node_text(key, 0)
 		if not key_name then
 			error("unable to find pair key for node")
@@ -34,15 +58,25 @@ local function sort(current_node)
 		end
 		local j = i - 1
 
-		while j >= 0 and vim.treesitter.get_node_text(current_node:named_child(j):named_child(0), 0) > key_name do
-			replace_node(current_node:named_child(j + 1), vim.treesitter.get_node_text(current_node:named_child(j), 0))
-			treesitter.get_parser(0, "typescript"):parse()
-			current_node = ts_utils.get_node_at_cursor()
+		while j >= 0 and not is_sorted(j, key_name) do
+			-- if not object, skip swap
+			if current_node:named_child(j):type() == "pair" and current_node:named_child(j + 1 + num_non_swaps):type() == "pair" then
+				local text = vim.treesitter.get_node_text(current_node:named_child(j), 0)
+				replace_node(current_node:named_child(j + 1 + num_non_swaps), text)
+				treesitter.get_parser(0, "typescript"):parse()
+				current_node = ts_utils.get_node_at_cursor()
+				num_non_swaps = 0
+			else
+				num_non_swaps = num_non_swaps + 1
+			end
 			j = j - 1
 		end
-		replace_node(current_node:named_child(j + 1), key_text)
-		treesitter.get_parser(0, "typescript"):parse()
-		current_node = ts_utils.get_node_at_cursor()
+		if current_node:named_child(j + 1 + num_non_swaps):type() == "pair" then
+			replace_node(current_node:named_child(j + 1 + num_non_swaps), key_text)
+			treesitter.get_parser(0, "typescript"):parse()
+			current_node = ts_utils.get_node_at_cursor()
+		end
+		::continue::
 	end
 
 	-- sort nested objects
