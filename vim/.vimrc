@@ -872,7 +872,7 @@ augroup whitespace
     autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
     autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * match ExtraWhitespace /\s\+$/
     autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-    autocmd BufWinLeave * call clearmatches()
+    autocmd BufLeave,WinLeave * call clearmatches()
 augroup END
 
 function! SubstituteKeepCase(input)
@@ -976,7 +976,7 @@ endif
 augroup column
     autocmd VimEnter,WinEnter,BufEnter,BufReadPost,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%81v', 100) | endif
     autocmd VimEnter,WinEnter,BufEnter,BufReadPost,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides() | call matchadd('ColorColumn', '\%101v', 100) | endif
-    autocmd WinLeave * call clearmatches()
+    autocmd BufLeave,WinLeave * call clearmatches()
 augroup END
 
 set autoread
