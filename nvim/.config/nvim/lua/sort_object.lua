@@ -8,20 +8,41 @@ local function replace_node(sRow, sCol, eRow, eCol, text)
 	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, replaced_text)
 end
 
+
 local function sort(current_node)
+	local child_count = current_node:named_child_count()
 	local function is_sorted(idx, key_name)
 		local child = current_node:named_child(idx)
 		if child == nil then
+			error("Child is nil, returning false")
 			return false
 		end
-		local child_child = child:named_child(0)
-		if child_child == nil then
-			return false
+		local text
+		if child:type() == "comment" then
+			-- expand down until we see something that is not a comment
+			for x = idx + 1, child_count - 1 do
+				local next_node = current_node:named_child(x)
+				local prev_node_type = next_node:type()
+				if prev_node_type ~= "comment" then
+					-- increment one more time since we are not seeing a comment
+					text = vim.treesitter.get_node_text(next_node, 0)
+					break
+				end
+			end
+		elseif child:type() == "shorthand_property_identifier" then
+			text = vim.treesitter.get_node_text(child, 0)
+		else
+			local child_child = child:named_child(0)
+			if child_child == nil then
+				return false
+			end
+			text = vim.treesitter.get_node_text(child_child, 0)
 		end
-		return vim.treesitter.get_node_text(child_child, 0) < key_name
+		if not text then
+			error("unable to find text")
+		end
+		return text < key_name
 	end
-
-	local child_count = current_node:named_child_count()
 
 	-- Insertion sort
 	for i = 1, child_count - 1 do
@@ -29,14 +50,20 @@ local function sort(current_node)
 		if key == nil then
 			goto continue
 		end
-		if key:type() ~= "pair" then
+		if key:type() == "comment" then
 			goto continue
 		end
 		local key_child = key:named_child(0)
+		local key_name
 		if key_child == nil then
-			goto continue
+			if key:type() == "shorthand_property_identifier" then
+				key_name = vim.treesitter.get_node_text(key, 0)
+			else
+				goto continue
+			end
+		else
+			key_name = vim.treesitter.get_node_text(key_child, 0)
 		end
-		local key_name = vim.treesitter.get_node_text(key_child, 0)
 		local key_text = vim.treesitter.get_node_text(key, 0)
 		if not key_name then
 			error("unable to find pair key for node")
@@ -68,13 +95,57 @@ local function sort(current_node)
 		local j = i - 1 - skipped_count
 
 		while j >= 0 and not is_sorted(j, key_name) do
-			local cur_skipped_count = 0
 			local j_child = current_node:named_child(j)
-			local j_child_plus_1 = current_node:named_child(j + 1 + skipped_count)
+			local j_child_plus_1 = current_node:named_child(j + 1)
+
+			-- text_to_replace is the text we want to swap, the rows and cols
+			-- are where it should go.
+			local text_to_replace, curSRow, curSCol, curERow, curECol, nextSRow, nextSCol, nextERow, nextECol
+
 			-- if not object, skip swap
-			if j_child:type() == "pair" and j_child_plus_1:type() == "pair" then
+			-- if j_child:type() ~= "comment" and j_child_plus_1:type() ~= "comment" then
+			if j_child:type() == "comment" then
 				local text = vim.treesitter.get_node_text(current_node:named_child(j), 0)
-				local curSRow, curSCol, curERow, curECol = current_node:named_child(j):range()
+				curSRow, curSCol, curERow, curECol = current_node:named_child(j):range()
+
+				-- expand up while we see comments
+				for x = j - 1, 0, -1 do
+					local prev_node = current_node:named_child(x)
+					local prev_node_type = prev_node:type()
+					if prev_node_type == "comment" then
+						-- extend range
+						local sRow, sCol, _, _ = prev_node:range()
+						curSRow = sRow
+						curSCol = sCol
+						comments_seen = comments_seen + 1
+					else
+						break
+					end
+				end
+
+				-- expand down until we see something that is not a comment
+				for x = j + 1, child_count - 1 do
+					local next_node = current_node:named_child(x)
+					local prev_node_type = next_node:type()
+					if prev_node_type == "comment" then
+						-- extend range
+						local _, _, eRow, eCol = next_node:range()
+						curERow = eRow
+						curECol = eCol
+					else
+						-- increment one more time since we are not seeing a comment
+						local _, _, eRow, eCol = next_node:range()
+						curERow = eRow
+						curECol = eCol
+						break
+					end
+				end
+
+				text = table.concat(vim.api.nvim_buf_get_text(0, curSRow, curSCol, curERow, curECol, {}), "\n")
+				text_to_replace = text
+			else
+				local text = vim.treesitter.get_node_text(current_node:named_child(j), 0)
+				curSRow, curSCol, curERow, curECol = current_node:named_child(j):range()
 
 				-- expand j
 				for x = j - 1, 0, -1 do
@@ -85,17 +156,57 @@ local function sort(current_node)
 						local sRow, sCol, _, _ = prev_node:range()
 						curSRow = sRow
 						curSCol = sCol
-						cur_skipped_count = cur_skipped_count + 1
-						comments_seen = comments_seen + 1
 					else
 						break
 					end
 				end
 				text = table.concat(vim.api.nvim_buf_get_text(0, curSRow, curSCol, curERow, curECol, {}), "\n")
+				text_to_replace = text
+			end
 
-				local nextSRow, nextSCol, nextERow, nextECol = j_child_plus_1:range()
-				for x = j + 1 + skipped_count - 1, j - 1, -1 do
+			if j_child_plus_1:type() == "comment" then
+				nextSRow, nextSCol, nextERow, nextECol = j_child_plus_1:range()
+
+				-- expand up while we see comments
+				for x = j, 0, -1 do
 					local prev_node = current_node:named_child(x)
+					local prev_node_type = prev_node:type()
+					if prev_node_type == "comment" then
+						-- extend range
+						local sRow, sCol, _, _ = prev_node:range()
+						nextSRow = sRow
+						nextSCol = sCol
+						comments_seen = comments_seen + 1
+					else
+						break
+					end
+				end
+
+				-- expand down until we see something that is not a comment
+				for x = j + 2, child_count - 1 do
+					local next_node = current_node:named_child(x)
+					local prev_node_type = next_node:type()
+					if prev_node_type == "comment" then
+						-- extend range
+						local _, _, eRow, eCol = next_node:range()
+						nextERow = eRow
+						nextECol = eCol
+					else
+						-- increment one more time since we are not seeing a comment
+						local _, _, eRow, eCol = next_node:range()
+						nextERow = eRow
+						nextECol = eCol
+						break
+					end
+				end
+			else
+				-- expand up while we see comments
+				nextSRow, nextSCol, nextERow, nextECol = j_child_plus_1:range()
+				for x = j, j - 1, -1 do
+					local prev_node = current_node:named_child(x)
+					if not prev_node then
+						break
+					end
 					local prev_node_type = prev_node:type()
 					if prev_node_type == "comment" then
 						-- extend range
@@ -106,16 +217,18 @@ local function sort(current_node)
 						break
 					end
 				end
-
-				replace_node(nextSRow, nextSCol, nextERow, nextECol, text)
-				treesitter.get_parser(0, "typescript"):parse()
-				current_node = ts_utils.get_node_at_cursor()
 			end
-			j = j - 1 - cur_skipped_count
+
+			replace_node(nextSRow, nextSCol, nextERow, nextECol, text_to_replace)
+			treesitter.get_parser(0, "typescript"):parse()
+			current_node = ts_utils.get_node_at_cursor()
+			j = j - 1
 		end
-		local last_idx = j + 1 + comments_seen
-		if current_node:named_child(last_idx):type() == "pair" then
-			local lastSRow, lastSCol, lastERow, lastECol = current_node:named_child(last_idx):range()
+		local last_idx = j + 1
+		local lastSRow, lastSCol, lastERow, lastECol = current_node:named_child(last_idx):range()
+
+		if current_node:named_child(last_idx):type() == "comment" then
+			-- expand up while we see comments
 			for x = last_idx - 1, 0, -1 do
 				local prev_node = current_node:named_child(x)
 				local prev_node_type = prev_node:type()
@@ -128,10 +241,41 @@ local function sort(current_node)
 					break
 				end
 			end
-			replace_node(lastSRow, lastSCol, lastERow, lastECol, key_text)
-			treesitter.get_parser(0, "typescript"):parse()
-			current_node = ts_utils.get_node_at_cursor()
+
+			-- expand down until we see something that is not a comment
+			for x = last_idx + 1, child_count - 1 do
+				local next_node = current_node:named_child(x)
+				local prev_node_type = next_node:type()
+				if prev_node_type == "comment" then
+					-- extend range
+					local _, _, eRow, eCol = next_node:range()
+					lastERow = eRow
+					lastECol = eCol
+				else
+					-- increment one more time since we are not seeing a comment
+					local _, _, eRow, eCol = next_node:range()
+					lastERow = eRow
+					lastECol = eCol
+					break
+				end
+			end
+		else
+			for x = last_idx - 1, 0, -1 do
+				local prev_node = current_node:named_child(x)
+				local prev_node_type = prev_node:type()
+				if prev_node_type == "comment" then
+					-- extend range
+					local sRow, sCol, _, _ = prev_node:range()
+					lastSRow = sRow
+					lastSCol = sCol
+				else
+					break
+				end
+			end
 		end
+		replace_node(lastSRow, lastSCol, lastERow, lastECol, key_text)
+		treesitter.get_parser(0, "typescript"):parse()
+		current_node = ts_utils.get_node_at_cursor()
 		::continue::
 	end
 
