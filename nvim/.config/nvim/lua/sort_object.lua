@@ -29,7 +29,7 @@ local function sort(current_node)
 					break
 				end
 			end
-		elseif child:type() == "shorthand_property_identifier" then
+		elseif child:type() ~= "pair" then
 			text = vim.treesitter.get_node_text(child, 0)
 		else
 			local child_child = child:named_child(0)
@@ -56,11 +56,7 @@ local function sort(current_node)
 		local key_child = key:named_child(0)
 		local key_name
 		if key_child == nil then
-			if key:type() == "shorthand_property_identifier" then
-				key_name = vim.treesitter.get_node_text(key, 0)
-			else
-				goto continue
-			end
+			key_name = vim.treesitter.get_node_text(key, 0)
 		else
 			key_name = vim.treesitter.get_node_text(key_child, 0)
 		end
@@ -103,7 +99,6 @@ local function sort(current_node)
 			local text_to_replace, curSRow, curSCol, curERow, curECol, nextSRow, nextSCol, nextERow, nextECol
 
 			-- if not object, skip swap
-			-- if j_child:type() ~= "comment" and j_child_plus_1:type() ~= "comment" then
 			if j_child:type() == "comment" then
 				local text = vim.treesitter.get_node_text(current_node:named_child(j), 0)
 				curSRow, curSCol, curERow, curECol = current_node:named_child(j):range()
@@ -202,7 +197,7 @@ local function sort(current_node)
 			else
 				-- expand up while we see comments
 				nextSRow, nextSCol, nextERow, nextECol = j_child_plus_1:range()
-				for x = j, j - 1, -1 do
+				for x = j, 0, -1 do
 					local prev_node = current_node:named_child(x)
 					if not prev_node then
 						break
