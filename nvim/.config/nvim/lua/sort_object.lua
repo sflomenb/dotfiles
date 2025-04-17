@@ -8,6 +8,22 @@ local function replace_node(sRow, sCol, eRow, eCol, text)
 	vim.api.nvim_buf_set_text(0, sRow, sCol, eRow, eCol, replaced_text)
 end
 
+local lang_to_ts = {
+	javascript = "javascript",
+	typescript = "typescript",
+	typescriptreact = "tsx",
+}
+
+local function is_supported()
+	local set = {}
+
+	for lang, _ in pairs(lang_to_ts) do
+		set[lang] = true
+	end
+
+	local lang = vim.bo.ft
+	return set[lang] ~= nil
+end
 
 local function sort(current_node)
 	local child_count = current_node:named_child_count()
@@ -215,7 +231,7 @@ local function sort(current_node)
 			end
 
 			replace_node(nextSRow, nextSCol, nextERow, nextECol, text_to_replace)
-			treesitter.get_parser(0, "typescript"):parse()
+			treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
 			current_node = ts_utils.get_node_at_cursor()
 			j = j - 1
 		end
@@ -269,7 +285,7 @@ local function sort(current_node)
 			end
 		end
 		replace_node(lastSRow, lastSCol, lastERow, lastECol, key_text)
-		treesitter.get_parser(0, "typescript"):parse()
+		treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
 		current_node = ts_utils.get_node_at_cursor()
 		::continue::
 	end
@@ -296,11 +312,12 @@ local function sort(current_node)
 end
 
 function M.sort_object()
-	local lang = vim.bo.ft
-	if lang ~= "javascript" and lang ~= "typescript" then
+	if not is_supported() then
+		print("not supported")
 		return
 	end
 
+	treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
 	local current_node = ts_utils.get_node_at_cursor()
 
 	if not current_node then
@@ -327,7 +344,7 @@ function M.sort_object()
 
 	vim.api.nvim_win_set_cursor(0, orig)
 
-	treesitter.get_parser(0, "typescript"):parse()
+	treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
 	current_node = ts_utils.get_node_at_cursor()
 
 	sort(current_node)
@@ -337,11 +354,13 @@ end
 
 function M.goto_top_object()
 	vim.cmd("normal $")
-	local lang = vim.bo.ft
-	if lang ~= "javascript" and lang ~= "typescript" then
+
+	if not is_supported() then
+		print("not supported")
 		return
 	end
 
+	treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
 	local current_node = ts_utils.get_node_at_cursor()
 
 	if not current_node then
@@ -349,7 +368,11 @@ function M.goto_top_object()
 		return
 	end
 
-	while current_node and (current_node:parent():type() == "object" or current_node:parent():type() == "pair") do
+	while current_node and (
+		current_node:parent():type() == "object"
+		or current_node:parent():type() == "pair"
+		or current_node:parent():type() == "array"
+	) do
 		current_node = current_node:parent()
 	end
 
