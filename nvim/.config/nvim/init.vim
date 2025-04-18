@@ -20,7 +20,7 @@ let g:blamer_date_format = '%m/%m/%y %H:%M'
 let g:blamer_relative_time = 1
 
 " Auto wrap comments
-set formatoptions+=jclroq
+set formatoptions+=jclroqn
 
 augroup AutoChange
     autocmd!
