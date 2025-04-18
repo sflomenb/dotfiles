@@ -36,6 +36,9 @@ vnoremap <C-j> :<C-u>keepjumps '<,'>m '>+1<CR>gv=gv
 vnoremap <C-k> :<C-u>keepjumps '<,'>m '<-2<CR>gv=gv
 
 lua << EOF
+-- Use numbered and dashed lists for list leaders.
+vim.o.formatlistpat = '^\\s*\\(\\d\\+[\\]:.)}\\t ]\\|-\\)\\s*'
+
 -- color has to be first for some reason
 require('color')
 require('crates').setup()
