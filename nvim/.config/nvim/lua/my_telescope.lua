@@ -144,13 +144,14 @@ local split = transform_mod({
 
 -- This is your opts table
 require("telescope").setup({
-	defaults = {
+	-- Use ivy as default for everything.
+	defaults = vim.tbl_extend("force", require("telescope.themes").get_ivy(), {
 		mappings = {
 			i = {
 				["<C-s>"] = split.split_in_direction,
 			},
 		},
-	},
+	}),
 	extensions = {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({
