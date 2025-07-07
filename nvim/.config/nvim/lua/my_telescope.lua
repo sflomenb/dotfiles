@@ -23,8 +23,20 @@ set_keymap(
 set_keymap(
 	"n",
 	"<Leader>F",
-	"<cmd>lua require('telescope.builtin').find_files({ hidden = true, cwd = vim.fn.expand('%:h'), find_command = { 'rg', '--files', '--glob', '!.git' } })<cr>",
-	opts
+	"",
+	vim.tbl_extend("force", opts, {
+		callback = function()
+			local search_dir
+			vim.ui.input({
+				prompt = "Dir : ",
+				completion = "file",
+				default = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"),
+			}, function(input)
+				search_dir = input
+			end)
+			require('telescope.builtin').find_files({ hidden = true, cwd = search_dir, find_command = { 'rg', '--files', '--glob', '!.git' }})
+		end,
+	})
 )
 set_keymap("n", "<Leader>g", "<cmd>lua require('telescope.builtin').git_files()<cr>", opts)
 set_keymap(
@@ -43,8 +55,20 @@ set_keymap(
 set_keymap(
 	"n",
 	"<Leader>K",
-	"<cmd>lua require('telescope.builtin').grep_string({ hidden = true, use_regex = true, cwd = vim.fn.expand('%:h'), additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end })<cr>",
-	opts
+	"",
+	vim.tbl_extend("force", opts, {
+		callback = function()
+			local search_dir
+			vim.ui.input({
+				prompt = "Dir : ",
+				completion = "file",
+				default = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"),
+			}, function(input)
+				search_dir = input
+			end)
+			require('telescope.builtin').grep_string({ hidden = true, use_regex = true, cwd = search_dir, additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end })
+		end,
+	})
 )
 set_keymap(
 	"n",
@@ -55,8 +79,20 @@ set_keymap(
 set_keymap(
 	"n",
 	"<Leader>E",
-	"<cmd>lua require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end, cwd = vim.fn.expand('%:h') })<cr>",
-	opts
+	"",
+	vim.tbl_extend("force", opts, {
+		callback = function()
+			local search_dir
+			vim.ui.input({
+				prompt = "Dir : ",
+				completion = "file",
+				default = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h"),
+			}, function(input)
+				search_dir = input
+			end)
+			require('telescope.builtin').live_grep({ additional_args = function(opts) return {'--hidden', '--glob', '!.git' } end, cwd = search_dir })
+		end,
+	})
 )
 set_keymap(
 	"n",
