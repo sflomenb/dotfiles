@@ -1061,49 +1061,101 @@ function! GetFromList(list, end)
     endif
 endfunction
 
+function! MakeUnique(file, other_files)
+    let l:file = a:file
+    let l:other_files = a:other_files
+
+    if empty(l:other_files)
+        return file
+    endif
+
+    let l:all_files = add(l:other_files, l:file)
+
+    let l:desired_length = len(l:all_files)
+
+    " List of dict, where each item is {orig, spit, transformed, depth}
+    " orig - the original string
+    " split - the string split by delimiter in reverse order
+    " transformed - the transformed string
+    " depth - the current depth
+
+    let l:items = map(l:all_files, {_, val -> {'orig':val, 'split':reverse(split(fnamemodify(val, ':h'), '/')), 'transformed': '', 'depth':-1} })
+
+    while len(uniq(sort(copy(map(deepcopy(l:items), {_, val -> val.transformed}))))) != l:desired_length
+        let l:i = 0
+        while l:i < len(l:items)
+            let l:indices = [l:i]
+            let l:j = min([l:i + 1, len(l:items)])
+            while l:j < len(l:items)
+                " Find indices of other files that are the same.
+                if l:items[l:j]['transformed'] == l:items[l:i]['transformed']
+                    let l:indices = add(l:indices, l:j)
+                endif
+                let l:j += 1
+            endwhile
+            " At this point, we have the indices of the other items that are
+            " the same. Try to make unique by adding 1 level.
+            if len(l:indices) > 1
+                " Increase depth of each item by 1
+                for l:idx in l:indices
+                    " If already at max depth, do nothing.
+                    if l:items[l:idx]['depth'] == len(l:items[l:idx]['split'])
+                        continue
+                    endif
+                    let l:items[l:idx]['depth'] += 1
+                    let l:items[l:idx]['transformed'] = join(reverse(l:items[l:idx]['split'][0:l:items[l:idx]['depth']]), '/')
+                endfor
+            endif
+            let l:i += 1
+        endwhile
+    endwhile
+
+    return map(l:items, { _, val -> val['transformed'] })
+endfunction
+
 function! GetUniqueDirPart(full, short)
-    let l:path_except_file = fnamemodify(a:full, ":h")
-    let l:dir = fnamemodify(a:full, ":h:t")
+    let l:full_path_and_file = fnamemodify(a:full, ":p")
+    let l:path_except_file = fnamemodify(a:full, ":p:h")
     let l:other_files = []
     " https://vi.stackexchange.com/a/30915
     " Find all visible buffers that have same filename but different paths
     " e.g. test/foo/same/test.txt | test/bar/same/test.txt
     for buf in getbufinfo({'buflisted':1})
-        if a:short == fnamemodify(buf.name, ":t") && a:full != fnamemodify(buf.name, ":.")
+        " If same basename and not same file.
+        if a:short == fnamemodify(buf.name, ":t") && l:full_path_and_file != fnamemodify(buf.name, ":p")
             let l:other_files = add(l:other_files, fnamemodify(buf.name, ":."))
         endif
     endfor
 
-    if len(l:other_files) == 0
+    " If there are no other files with the same basename, do nothing.
+    if empty(l:other_files)
         return ''
     endif
 
-    " Our current file was added to the end, we are going to eventually return
-    " it.
-    let l:all_files = add(l:other_files, a:full)
+    let l:res = MakeUnique(a:full, l:other_files)
 
-    " Split each on / and reverse
-    " test/foo/same/test.txt -> ["same", "foo", "test"]
-    let l:all_files = map(l:all_files, {_, val -> reverse(split(fnamemodify(v:val, ':h'), '/'))} )
-
-    let l:desired_length = len(l:all_files)
-    " Initially set to all "" so it is all the same
-    let l:transformed = repeat([""], len(l:all_files))
-    let my_count = 0
-
-    " Take count paths from each list, reverse, join them and stop when all are unique
-    " Example:
-    " test/foo/same/test.txt | test/bar/same/test.txt
-    " After first iteration, we have "same" for both, need to keep going
-    " After second iteration, we have "foo/same" and "bar/same", we are done.
-    " Once all files are unqiue, we are done.
-    " Our file was added at the end, so we return that.
-    while len(uniq(copy(l:transformed))) != l:desired_length
-        let l:transformed = map(copy(l:all_files), {_, val -> join(reverse(GetFromList(val, my_count)), '/') })
-        let my_count = my_count + 1
+    " Potentially strip common suffix.
+    let l:split = map(copy(l:res), {_, val -> split(val, '/')})
+    while v:true
+        let l:suffix = l:split[0][-1]
+        if empty(l:suffix)
+            break
+        endif
+        let l:every_common_suffix = v:true
+        for item in l:split
+            if item[-1] != l:suffix
+                let l:every_common_suffix = v:false
+                break
+            endif
+        endfor
+        if l:every_common_suffix
+            let l:split = map(copy(l:split), {_, val -> val[0:-2]})
+        else
+            break
+        endif
     endwhile
 
-    return l:transformed[-1]
+    return join(l:split[-1], '/')
 endfunction
 
 " Inspired by https://www.reddit.com/r/vim/comments/7a2apl/comment/dp77a0i/?utm_source=share&utm_medium=web2x&context=3
@@ -1120,7 +1172,12 @@ function! StatusFilename()
     let l:name = simplify(l:name)
     let l:ratio = winwidth(0) / len(l:name)
     if l:ratio <= 2 && l:ratio > 1
-        let l:name = pathshorten(l:name)
+        let l:unique_part = GetUniqueDirPart(l:name, fnamemodify(l:name, ':t'))
+        if empty(l:unique_part)
+            let l:name = pathshorten(l:name)
+        else
+            let l:name = pathshorten(l:name) . "<" . l:unique_part . ">"
+        endif
     elseif l:ratio <= 1
         let l:unique_part = GetUniqueDirPart(l:name, fnamemodify(l:name, ':t'))
         if empty(l:unique_part)
