@@ -1137,6 +1137,9 @@ function! GetUniqueDirPart(full, short)
     " Potentially strip common suffix.
     let l:split = map(copy(l:res), {_, val -> split(val, '/')})
     while v:true
+        if empty(l:split) || empty(l:split[0])
+            break
+        endif
         let l:suffix = l:split[0][-1]
         if empty(l:suffix)
             break
