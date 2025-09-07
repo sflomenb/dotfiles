@@ -1487,8 +1487,8 @@ command! -nargs=? Writing :call ToggleWriting(<f-args>)
 
 nnoremap ]q :cnext<CR>
 nnoremap [q :cprev<CR>
-nnoremap <C-n> :cnext<CR>
-nnoremap <C-p> :cprev<CR>
+nnoremap <C-n> :cnext<CR>zz
+nnoremap <C-p> :cprev<CR>zz
 
 let $PAGER=''
 
