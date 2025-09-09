@@ -1146,6 +1146,9 @@ function! GetUniqueDirPart(full, short)
         endif
         let l:every_common_suffix = v:true
         for item in l:split
+            if empty(item)
+                break
+            endif
             if item[-1] != l:suffix
                 let l:every_common_suffix = v:false
                 break
