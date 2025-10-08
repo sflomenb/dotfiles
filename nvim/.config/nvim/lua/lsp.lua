@@ -1,6 +1,5 @@
 -- To debug, uncomment the below line:
 -- vim.lsp.set_log_level('debug')
-local nvim_lsp = require("lspconfig")
 local luasnip = require("luasnip")
 local lsp_util = vim.lsp.util
 local lsp_status = require("lsp-status")
@@ -143,11 +142,14 @@ local myopts = {
 	},
 	capabilities = capabilities,
 }
+vim.lsp.config('*', myopts)
 for _, lsp in ipairs(servers_with_default_config) do
-	nvim_lsp[lsp].setup(myopts)
+	vim.lsp.config(lsp, myopts)
+	vim.lsp.enable(lsp)
 end
 
-nvim_lsp.gopls.setup(myopts)
+vim.lsp.config.gopls = myopts
+vim.lsp.enable("gopls")
 
 local extension_path = vim.env.HOME .. "/Downloads/debug-extension-2/extension/"
 local rust_dap_config
@@ -224,7 +226,7 @@ local function rename_file(bufnr)
 	vim.lsp.buf.execute_command(params)
 end
 
-nvim_lsp.ts_ls.setup({
+vim.lsp.config.ts_ls = {
 	on_attach = function(client, bufnr)
 		default_on_attach(client, bufnr)
 
@@ -248,11 +250,12 @@ nvim_lsp.ts_ls.setup({
 		debounce_text_changes = 150,
 	},
 	capabilities = capabilities,
-})
+}
+vim.lsp.enable('ts_ls')
 
-nvim_lsp.java_language_server.setup(vim.tbl_extend("force", myopts, {
+vim.lsp.config.java_language_server = vim.tbl_extend("force", myopts, {
 	cmd = { "" }
-}))
+})
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menuone,noselect"
@@ -319,7 +322,7 @@ cmp.setup({
 	},
 })
 
-nvim_lsp.lua_ls.setup({
+vim.lsp.config.lua_ls = {
 	on_attach = on_attach,
 	flags = {
 		debounce_text_changes = 150,
@@ -355,7 +358,8 @@ nvim_lsp.lua_ls.setup({
 			},
 		},
 	},
-})
+}
+vim.lsp.enable('lua_ls')
 
 -- Register linters and formatters per language
 local eslint = require("efmls-configs.linters.eslint")
@@ -403,11 +407,12 @@ local efmls_config = {
 	},
 }
 
-require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {
+vim.lsp.config.efm = vim.tbl_extend("force", efmls_config, {
 	on_attach = function(client, bufnr)
 		default_on_attach(client, bufnr)
 	end,
-}))
+})
+vim.lsp.enable('efm')
 
 local M = {}
 
