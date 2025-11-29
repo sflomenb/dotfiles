@@ -201,7 +201,6 @@ elseif &loadplugins
         Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
         Plug 'folke/todo-comments.nvim'
         Plug 'folke/trouble.nvim'
-        Plug 'nvim-treesitter/playground'
         Plug 'nvim-telescope/telescope-ui-select.nvim'
         if executable("cargo")
             Plug 'Saecki/crates.nvim'
