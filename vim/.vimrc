@@ -177,7 +177,6 @@ elseif &loadplugins
     if has('nvim')
         Plug 'lukas-reineke/indent-blankline.nvim'
         Plug 'neovim/nvim-lspconfig'
-        Plug 'simrat39/rust-tools.nvim'
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
         Plug 'nvim-treesitter/nvim-treesitter-context'
         Plug 'neovim/nvim-lspconfig' " Collection of configurations for built-in LSP client

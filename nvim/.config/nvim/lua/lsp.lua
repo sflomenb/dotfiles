@@ -151,47 +151,6 @@ end
 vim.lsp.config.gopls = myopts
 vim.lsp.enable("gopls")
 
-local extension_path = vim.env.HOME .. "/Downloads/debug-extension-2/extension/"
-local rust_dap_config
-
-if vim.fn.filereadable(extension_path) then
-	local codelldb_path = extension_path .. "adapter/codelldb"
-	local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
-
-	if vim.fn.filereadable(codelldb_path) and vim.fn.filereadable(liblldb_path) then
-		rust_dap_config = {
-			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-		}
-	else
-		rust_dap_config = {}
-	end
-end
-
-require("rust-tools").setup({
-	server = {
-		on_attach = function(client, bufnr)
-			default_on_attach(client, bufnr)
-
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
-		end,
-		flags = {
-			debounce_text_changes = 150,
-		},
-		capabilities = capabilities,
-	},
-	tools = {
-		runnables = {
-			use_telescope = true,
-		},
-		inlay_hints = {
-			-- disabled due to lsp-inlayhints
-			auto = false,
-		},
-	},
-	dap = rust_dap_config,
-})
-
 -- https://github.com/neovim/neovim/issues/20784#issuecomment-1288085253
 local function rename_file(bufnr)
 	local source_file, target_file
