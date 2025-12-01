@@ -151,6 +151,9 @@ end
 vim.lsp.config.gopls = myopts
 vim.lsp.enable("gopls")
 
+vim.lsp.config.rust_analyzer = myopts
+vim.lsp.enable("rust_analyzer")
+
 -- https://github.com/neovim/neovim/issues/20784#issuecomment-1288085253
 local function rename_file(bufnr)
 	local source_file, target_file
