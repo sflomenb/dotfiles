@@ -39,6 +39,17 @@ lua << EOF
 -- Use numbered and dashed lists for list leaders.
 vim.o.formatlistpat = '^\\s*\\(\\d\\+[\\]:.)}\\t ]\\|-\\)\\s*'
 
+-- Toggle between dashes in middle of text as well.
+vim.api.nvim_create_user_command("ToggleListPatDashes", function(_)
+    local default_formatlistpat = '^\\s*\\(\\d\\+[\\]:.)}\\t ]\\|-\\)\\s*'
+    local formatlistpat_with_dashes_in_middle = '\\(^\\s*\\(\\d\\+[\\]:.)}\\t ]\\|-\\)\\|-\\)\\s*'
+    if vim.o.formatlistpat ==  default_formatlistpat then
+        vim.o.formatlistpat = formatlistpat_with_dashes_in_middle
+    else
+        vim.o.formatlistpat = default_formatlistpat
+    end
+end, {})
+
 -- color has to be first for some reason
 require('color')
 require('crates').setup()
