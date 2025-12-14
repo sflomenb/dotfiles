@@ -28,6 +28,14 @@ local function get_url_info(url)
 	return base_url, repo_name
 end
 
+local function remove_common_prefix(s1, s2)
+	local i = 1
+	while s1:sub(i, i) == s2:sub(i, i) and i <= #s1 and i <= #s2 do
+		i = i + 1
+	end
+	return s1:sub(i), s2:sub(i)
+end
+
 function M.git_url(line1, line2)
 	local url = get_url()
 	local base_url, repo_name = get_url_info(url)
@@ -37,6 +45,23 @@ function M.git_url(line1, line2)
 	local commit_sha = exec("git log -1 --pretty=%H " .. git_main_output)
 
 	local file_name = vim.fn.expand("%:~:.")
+
+	local repo_root_dir = exec("git rev-parse --show-toplevel")
+
+	local cwd = vim.fn.getcwd(0)
+
+	-- If we are in a subdirectory, get the rest of the path from the repo root.
+	if repo_root_dir ~= cwd and cwd:sub(1, #repo_root_dir) == repo_root_dir then
+		local full_file_path = vim.fn.expand("%:p")
+
+		local _, file_relative_to_root = remove_common_prefix(repo_root_dir, full_file_path)
+
+		if file_relative_to_root and file_relative_to_root:sub(1, 1) == '/' then
+			file_relative_to_root = file_relative_to_root:sub(2)
+		end
+
+		file_name = file_relative_to_root
+	end
 
 	local res = string.format("https://%s/%s/blob/%s/%s", base_url, repo_name, commit_sha, file_name)
 
