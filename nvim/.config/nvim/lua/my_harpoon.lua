@@ -25,34 +25,18 @@ wk.add({
 	},
 })
 
-wk.add({
-	{
-		"<C-h>",
+local map = {}
+for i=1,10 do
+	-- Use mod so 0 is 10.
+	local mod = i % 10
+	table.insert(map, {
+		"<M-" .. mod .. ">",
 		function()
-			require("harpoon.ui").nav_file(1)
+			require("harpoon.ui").nav_file(i)
 		end,
-		desc = "Nav file 1",
-	},
-	{
-		"<C-j>",
-		function()
-			require("harpoon.ui").nav_file(2)
-		end,
-		desc = "Nav file 2",
-	},
-	{
-		"<C-k>",
-		function()
-			require("harpoon.ui").nav_file(3)
-		end,
-		desc = "Nav file 3",
-	},
-	{
-		"<C-l>",
-		function()
-			require("harpoon.ui").nav_file(4)
-		end,
-		desc = "Nav file 4",
-	},
-})
+		desc = "Nav file " .. i .. "",
+	})
+end
+
+wk.add(map)
 
