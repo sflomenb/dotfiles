@@ -1,34 +1,28 @@
-require("nvim-treesitter.configs").setup({
-	ensure_installed = { "rust", "typescript", "tsx", "go", "javascript", "python", "lua", "query", "sql", "java" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-	sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-	auto_install = false,
-	ignore_install = {},
-	modules = {},
-	highlight = {
-		enable = true, -- false will disable the whole extension
-		disable = function(lang, buf)
-			local max_filesize = 100 * 1024
-			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-			if ok and stats and stats.size > max_filesize then
-				return true
-			end
-		end,
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
-	rainbow = {
-		enable = true,
-		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-		max_file_lines = nil, -- Do not enable for files with more than n lines, int
-	},
-	query_linter = {
-		enable = true,
-		use_virtual_text = true,
-		lint_events = { "BufWrite", "CursorHold" },
-	},
+local langs = { "rust", "typescript", "tsx", "go", "javascript", "python", "lua", "query", "sql", "java" }
+if not vim.fn.executable('nix') then
+	require'nvim-treesitter'.install(langs)
+end
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = langs,
+  callback = function()
+	  local max_filesize = 100 * 1024
+	  local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(0))
+	  if ok and stats and stats.size > max_filesize then
+		  vim.treesitter.start()
+	  end
+  end,
 })
 
 require("treesitter-context").setup()
+
+local M = {}
+
+--- Sets the current position to the start of the node.
+--- @param node TSNode
+function M.goto_node(node)
+    local r, c = node:start()
+    vim.api.nvim_win_set_cursor(0, {r+1, c})
+end
+
+return M

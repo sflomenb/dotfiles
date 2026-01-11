@@ -1,5 +1,4 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
-local treesitter = require("vim.treesitter")
+local ts = require("ts")
 
 local M = {}
 
@@ -31,7 +30,7 @@ local type_replacement = {
 local function add_optional_chaining_to_node(node)
 	for type, cmd in pairs(type_replacement) do
 		if node:type() == type then
-			ts_utils.goto_node(node, false, true)
+			ts.goto_node(node)
 			local end_row, end_col = unpack(vim.api.nvim_win_get_cursor(0))
 
 			local text_before =
@@ -67,11 +66,18 @@ function M.add_optional_chaining()
 	local _, vis_end_row, vis_end_col, _ = unpack(vim.fn.getcharpos("'>"))
 
 	for i = vis_start_row, vis_end_row do
-		vim.api.nvim_win_set_cursor(0, { i, 0 })
-		local tree = ts_utils.get_node_at_cursor()
 
 		for _, query in ipairs(queries) do
-			local parsed_query = treesitter.query.parse_query(lang, query)
+			::capture::
+			vim.api.nvim_win_set_cursor(0, { i, 0 })
+			vim.treesitter.get_parser():parse()
+			local tree = vim.treesitter.get_node()
+
+			if not tree then
+				return
+			end
+
+			local parsed_query = vim.treesitter.query.parse(lang, query)
 
 			-- Lines are 0-indexed.
 			for _, node, _ in parsed_query:iter_captures(tree, 0, i - 1, -1) do
@@ -79,6 +85,12 @@ function M.add_optional_chaining()
 					local change_amount = add_optional_chaining_to_node(node)
 					if i == vis_start_row then
 						vis_end_col = vis_end_col + change_amount
+					end
+
+					-- The line has been modified, need to parse it and start
+					-- again.
+					if change_amount > 0 then
+						goto capture
 					end
 				end
 			end

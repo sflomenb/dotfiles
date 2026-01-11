@@ -24,7 +24,7 @@ describe("determine_indent", function()
 	it("ignores comments without treesitter", function()
 		vim.api.nvim_buf_set_lines(0, 0, -1, false, { "import foo from bar;", "/**", " * Some comment.", " */", "    console.log('foo');" })
 		vim.api.nvim_set_option_value("filetype", "javascript", {buf = 0})
-		vim.cmd([[TSBufDisable highlight]])
+		vim.cmd([[lua vim.treesitter.stop()]])
 		vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
 		local actual = determine_indent.determine_indent()

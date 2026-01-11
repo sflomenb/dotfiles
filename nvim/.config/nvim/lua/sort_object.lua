@@ -1,4 +1,4 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
+local ts = require('ts')
 local treesitter = require("vim.treesitter")
 
 local M = {}
@@ -232,7 +232,7 @@ local function sort(current_node)
 
 			replace_node(nextSRow, nextSCol, nextERow, nextECol, text_to_replace)
 			treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
-			current_node = ts_utils.get_node_at_cursor()
+			current_node = vim.treesitter.get_node()
 			j = j - 1
 		end
 		local last_idx = j + 1
@@ -286,12 +286,12 @@ local function sort(current_node)
 		end
 		replace_node(lastSRow, lastSCol, lastERow, lastECol, key_text)
 		treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
-		current_node = ts_utils.get_node_at_cursor()
+		current_node = vim.treesitter.get_node()
 		::continue::
 	end
 
 	-- sort nested objects
-	current_node = ts_utils.get_node_at_cursor()
+	current_node = vim.treesitter.get_node()
 	local orig = vim.api.nvim_win_get_cursor(0)
 	for i = 0, child_count - 1 do
 		local new_node = current_node:named_child(i)
@@ -299,11 +299,11 @@ local function sort(current_node)
 			if new_node:named_child_count() > 1 then
 				if new_node:named_child_count() >= 2 and new_node:named_child(1):type() == "object" then
 					local child_object = new_node:named_child(1)
-					ts_utils.goto_node(child_object, false, true)
+					ts.goto_node(child_object)
 					sort(child_object)
 					vim.api.nvim_win_set_cursor(0, orig)
 					treesitter.get_parser(0, "typescript"):parse()
-					current_node = ts_utils.get_node_at_cursor()
+					current_node = vim.treesitter.get_node()
 				end
 			end
 		end
@@ -318,7 +318,7 @@ function M.sort_object()
 	end
 
 	treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
-	local current_node = ts_utils.get_node_at_cursor()
+	local current_node = vim.treesitter.get_node()
 
 	if not current_node then
 		print("Unable to get current node")
@@ -335,7 +335,7 @@ function M.sort_object()
 
 	if isPair then
 		while not isObject do
-			current_node = ts_utils.get_node_at_cursor()
+			current_node = vim.treesitter.get_node()
 			isObject = current_type == "object"
 		end
 	end
@@ -345,7 +345,7 @@ function M.sort_object()
 	vim.api.nvim_win_set_cursor(0, orig)
 
 	treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
-	current_node = ts_utils.get_node_at_cursor()
+	current_node = vim.treesitter.get_node()
 
 	sort(current_node)
 
@@ -361,18 +361,21 @@ function M.goto_top_object()
 	end
 
 	treesitter.get_parser(0, lang_to_ts[vim.bo.ft]):parse()
-	local current_node = ts_utils.get_node_at_cursor()
+	local current_node = vim.treesitter.get_node()
 
 	if not current_node then
 		print("Unable to get current node")
 		return
 	end
 
-	while current_node and (
-		current_node:parent():type() == "object"
-		or current_node:parent():type() == "pair"
-		or current_node:parent():type() == "array"
-	) do
+	while
+		current_node
+		and (
+			current_node:parent():type() == "object"
+			or current_node:parent():type() == "pair"
+			or current_node:parent():type() == "array"
+		)
+	do
 		current_node = current_node:parent()
 	end
 
