@@ -1,4 +1,3 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
 local M = {}
 
 function M.inside_class()
@@ -7,14 +6,14 @@ function M.inside_class()
 		return
 	end
 
-	local current_node = ts_utils.get_node_at_cursor()
+	local current_node = vim.treesitter.get_node()
 
 	if not current_node then
 		return false
 	end
 
 	if current_node:has_error() then
-		current_node = ts_utils.get_previous_node(current_node, true, true)
+		current_node = current_node:parent()
 	end
 
 	if not current_node then

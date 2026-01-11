@@ -1,4 +1,3 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
 local utils = require("auto-change.utils")
 local M = {}
 
@@ -7,7 +6,7 @@ function M.tsJsBackticks()
 		local lang = vim.bo.ft
 		if lang == "javascript" or lang == "typescript" then
 			local bufnr = vim.fn.bufnr("%")
-			local current_node = ts_utils.get_node_at_cursor()
+			local current_node = vim.treesitter.get_node()
 			if not current_node then
 				print("Unable to get current node")
 				return
