@@ -244,6 +244,8 @@ elseif &loadplugins
 
     " remove fugitive buffers
     autocmd BufReadPost fugitive://* set bufhidden=delete
+    nnoremap <space>gbb :Git blame<CR>
+    nnoremap <space>gbw :Git blame -wMC<CR>
 
     let g:go_gopls_enabled=0
 
