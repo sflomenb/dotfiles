@@ -50,6 +50,8 @@ vim.api.nvim_create_user_command("ToggleListPatDashes", function(_)
     end
 end, {})
 
+packadd cfilter
+
 -- color has to be first for some reason
 require('color')
 require('crates').setup()
