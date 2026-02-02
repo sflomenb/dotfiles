@@ -35,6 +35,8 @@ nnoremap <leader>u :UndotreeToggle<CR>
 vnoremap <C-j> :<C-u>keepjumps '<,'>m '>+1<CR>gv=gv
 vnoremap <C-k> :<C-u>keepjumps '<,'>m '<-2<CR>gv=gv
 
+packadd cfilter
+
 lua << EOF
 -- Use numbered and dashed lists for list leaders.
 vim.o.formatlistpat = '^\\s*\\(\\d\\+[\\]:.)}\\t ]\\|-\\)\\s*'
@@ -49,8 +51,6 @@ vim.api.nvim_create_user_command("ToggleListPatDashes", function(_)
         vim.o.formatlistpat = default_formatlistpat
     end
 end, {})
-
-packadd cfilter
 
 -- color has to be first for some reason
 require('color')
