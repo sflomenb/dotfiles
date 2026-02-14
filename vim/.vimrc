@@ -213,6 +213,7 @@ elseif &loadplugins
         Plug 'ThePrimeagen/harpoon'
         Plug 'creativenull/efmls-configs-nvim', { 'tag': 'v1.*' } " tag is optional, but recommended
         Plug 'artemave/workspace-diagnostics.nvim'
+        Plug 'NeogitOrg/neogit'
     else
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'dense-analysis/ale'
