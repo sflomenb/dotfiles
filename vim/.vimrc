@@ -124,7 +124,7 @@ endfunction
 function! ShouldShowIndentGuides()
     if empty(&ft)
         return 0
-    elseif &ft =~? 'man\|text'
+    elseif &ft =~? 'man\|text\|unix'
         return 0
     endif
 
@@ -870,9 +870,9 @@ endif
 " Show trailing whitespace and spaces before a tab
 augroup whitespace
     autocmd!
-    autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
-    autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * match ExtraWhitespace /\s\+$/
-    autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+    autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides()  | highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen | endif
+    autocmd BufWinEnter,InsertLeave,ColorScheme,ColorSchemePre * if ShouldShowIndentGuides()  | match ExtraWhitespace /\s\+$/ | endif
+    autocmd InsertEnter * if ShouldShowIndentGuides() | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
     autocmd BufLeave,WinLeave * call clearmatches()
 augroup END
 
