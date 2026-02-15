@@ -30,8 +30,6 @@ augroup END
 
 nnoremap <leader>u :UndotreeToggle<CR>
 
-nnoremap <space>gg <cmd>Neogit<cr>
-
 " Inspired from ThePrimeagen:
 " https://youtu.be/w7i4amO_zaE?si=GSzGNDlpol9pLaLi&t=1534
 vnoremap <C-j> :<C-u>keepjumps '<,'>m '>+1<CR>gv=gv
@@ -82,4 +80,5 @@ require('my_harpoon')
 require('indent')
 require('git_url')
 require('determine_indent')
+require('my_neogit')
 EOF
