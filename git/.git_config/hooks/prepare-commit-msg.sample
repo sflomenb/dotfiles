@@ -2,7 +2,7 @@
 
 BRANCH=$(git branch | grep '*' | sed 's/* //')
 if [ "$BRANCH" != "master" ]; then
-    BRANCH=${BRANCH##*/}
+    BRANCH="$(echo ${BRANCH} | cut -d/ -f 2)"
     FILE=$(cat "$1")
     if [[ -n "${BRANCH}" ]]; then
         if [[ $(echo "${FILE}" | wc -l | awk '{print $1}') -eq 1 ]]; then
