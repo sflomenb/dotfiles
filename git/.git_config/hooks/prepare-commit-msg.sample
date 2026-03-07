@@ -1,7 +1,31 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+unset GIT_LITERAL_PATHSPECS
+
+git_file_path() {
+    local FILE_PATH="$1"
+    [[ -z "$FILE_PATH" ]] && echo 'No path provided' >&2 && exit 1
+    git rev-parse --git-path "$FILE_PATH"
+}
+
+is_rebase() {
+    [[ -d "$(git_file_path 'rebase-merge')" || -d "$(git_file_path 'rebase-apply')" ]]
+}
+
+is_merge() {
+    [[ -f "$(git_file_path 'MERGE_HEAD')" ]]
+}
+
+is_amend() {
+    [[ -n "$(ps -ocommand= -p "${PPID}" | grep -- '--amend')" ]]
+}
+
+is_rebase && echo 'Is rebase, exiting' >&2 && exit 0
+is_merge && echo 'Is merge, exiting' >&2 && exit 0
+is_amend && echo 'Is amend, exiting' >&2 && exit 0
 
 BRANCH=$(git branch | grep '*' | sed 's/* //')
-if [ "$BRANCH" != "master" ]; then
+if [ "$BRANCH" != "master" ] && $(echo "$BRANCH" | grep -q '/'); then
     BRANCH="$(echo ${BRANCH} | cut -d/ -f 2)"
     FILE=$(cat "$1")
     if [[ -n "${BRANCH}" ]]; then

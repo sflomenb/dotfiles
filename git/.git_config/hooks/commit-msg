@@ -2,12 +2,18 @@
 
 unset GIT_LITERAL_PATHSPECS
 
+git_file_path() {
+    local FILE_PATH="$1"
+    [[ -z "$FILE_PATH" ]] && echo 'No path provided' >&2 && exit 1
+    git rev-parse --git-path "$FILE_PATH"
+}
+
 is_rebase() {
-    [[ -d ".git/rebase-merge" || -d ".git/rebase-apply" ]]
+    [[ -d "$(git_file_path 'rebase-merge')" || -d "$(git_file_path 'rebase-apply')" ]]
 }
 
 is_merge() {
-    [[ -f ".git/MERGE_HEAD" ]]
+    [[ -f "$(git_file_path 'MERGE_HEAD')" ]]
 }
 
 is_fixup() {
