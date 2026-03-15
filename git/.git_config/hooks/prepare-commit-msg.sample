@@ -8,12 +8,22 @@ git_file_path() {
     git rev-parse --git-path "$FILE_PATH"
 }
 
+git_file_exists() {
+    local FILE_PATH="$1"
+    [[ -z "$FILE_PATH" ]] && echo 'No path provided' >&2 && exit 1
+    git rev-parse --verify "$FILE_PATH"
+}
+
 is_rebase() {
-    [[ -d "$(git_file_path 'rebase-merge')" || -d "$(git_file_path 'rebase-apply')" ]]
+    git_file_exists 'REBASE_HEAD' || [[ -d "$(git_file_path 'rebase-merge')" || -d "$(git_file_path 'rebase-apply')" ]]
 }
 
 is_merge() {
-    [[ -f "$(git_file_path 'MERGE_HEAD')" ]]
+    git_file_exists 'MERGE_HEAD' || [[ -f "$(git_file_path 'MERGE_HEAD')" ]]
+}
+
+is_cherry_pick() {
+    git_file_exists 'CHERRY_PICK_HEAD'
 }
 
 is_amend() {
@@ -22,6 +32,7 @@ is_amend() {
 
 is_rebase && echo 'Is rebase, exiting' >&2 && exit 0
 is_merge && echo 'Is merge, exiting' >&2 && exit 0
+is_cherry_pick && echo 'Is cherry pick, exiting' >&2 && exit 0
 is_amend && echo 'Is amend, exiting' >&2 && exit 0
 
 BRANCH=$(git branch | grep '*' | sed 's/* //')

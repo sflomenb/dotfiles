@@ -8,19 +8,29 @@ git_file_path() {
     git rev-parse --git-path "$FILE_PATH"
 }
 
+git_file_exists() {
+    local FILE_PATH="$1"
+    [[ -z "$FILE_PATH" ]] && echo 'No path provided' >&2 && exit 1
+    git rev-parse --verify "$FILE_PATH"
+}
+
 is_rebase() {
-    [[ -d "$(git_file_path 'rebase-merge')" || -d "$(git_file_path 'rebase-apply')" ]]
+    git_file_exists 'REBASE_HEAD' || [[ -d "$(git_file_path 'rebase-merge')" || -d "$(git_file_path 'rebase-apply')" ]]
 }
 
 is_merge() {
-    [[ -f "$(git_file_path 'MERGE_HEAD')" ]]
+    git_file_exists 'MERGE_HEAD' || [[ -f "$(git_file_path 'MERGE_HEAD')" ]]
+}
+
+is_cherry_pick() {
+    git_file_exists 'CHERRY_PICK_HEAD'
 }
 
 is_fixup() {
     ps -ocommand= -p "${PPID}" | grep -- '--fixup'
 }
 
-if ! is_rebase && ! is_merge && ! is_fixup; then
+if ! is_rebase && ! is_merge && ! is_fixup && ! is_cherry_pick; then
     FILE="${1}"
     REGEX='^(revert: )?(feat|fix|docs|style|refactor|perf|test|chore|build|ci)(\(.+\))?: .{1,50}'
     MSG='Please adhere to the conventional commits guidelines\nCommit must start with (feat|fix|docs|style|refactor|perf|test|chore|build|ci)'
