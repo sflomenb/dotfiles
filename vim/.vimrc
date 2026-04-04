@@ -1293,9 +1293,20 @@ endfunction
 
 set statusline=%!InactiveStatus()
 
+function! SetStatus()
+    " HACK: After upgrading to 0.12, the statusline is showing up in the
+    " telescope buffer. Try to detect if telescope. If telescope, do not show
+    " the status.
+    let l:is_telescope = &buftype == 'nofile'
+    if (l:is_telescope)
+        return
+    endif
+    setlocal statusline=%!ActiveStatus()
+endfunction
+
 augroup statusline
     autocmd!
-    autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveStatus()
+    autocmd WinEnter,BufEnter * :call SetStatus()
     autocmd WinLeave * setlocal statusline=%!InactiveStatus()
 augroup END
 
