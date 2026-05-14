@@ -19,7 +19,7 @@ fi
 SESSION_NAME=$(basename "${NEW_DIR}")
 
 # Create session if it doesn't exist.
-if ! tmux list-sessions -F '#{session_name}' | grep -q "${SESSION_NAME}"; then
+if ! tmux list-sessions -F '#{session_name}' | grep -q '^'"${SESSION_NAME}"'$'; then
     tmux new-session -d -s "${SESSION_NAME}" -c "${NEW_DIR}"
 fi
 
