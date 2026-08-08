@@ -22,7 +22,7 @@
 	sw = switch
 	non-fixup = "!f() { local COMMIT_PATTERN=${1:?Please enter a pattern}; git log --pretty='%H' -P --grep '(?!fixup)^.*'${COMMIT_PATTERN}''; }; f"
 [core]
-	editor = vim
+	editor = nvim
 	pager = diff-highlight | less -XF
 	hooksPath = ~/.git_config/hooks/
 	whitespace = -blank-at-eof
