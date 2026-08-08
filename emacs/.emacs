@@ -87,6 +87,7 @@
 
 (use-package diff-hl
   :straight (:host github :repo "dgutov/diff-hl")
+  :commands (diff-hl-margin-mode diff-hl-next-hunk diff-hl-previous-hunk diff-hl-magit-pre-refresh diff-hl-magit-post-refresh)
   :config
   (global-diff-hl-mode)
   (diff-hl-margin-mode))
@@ -864,10 +865,10 @@ This is used because `ibuffer' is called during counsel-ibuffer."
   :config
   (setq magit-keep-region-overlay t)
   (setq magit-diff-refine-hunk 'all)
-  (setq magit-list-refs-sortby '("-authordate" "-committerdate")))
+  (setq magit-list-refs-sortby '("-authordate" "-committerdate"))
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
-(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 (dolist (m (list magit-status-mode-map magit-diff-mode-map))
   (define-key m (kbd "C-c j") 'magit-diff-visit-worktree-file-other-window))
