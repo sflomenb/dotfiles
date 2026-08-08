@@ -35,15 +35,18 @@ is_merge && echo 'Is merge, exiting' >&2 && exit 0
 is_cherry_pick && echo 'Is cherry pick, exiting' >&2 && exit 0
 is_amend && echo 'Is amend, exiting' >&2 && exit 0
 
+HELP_MSG_STRING='Please enter the commit message for your changes'
 BRANCH=$(git branch | grep '*' | sed 's/* //')
 if [ "$BRANCH" != "master" ] && $(echo "$BRANCH" | grep -q '/'); then
     BRANCH="$(echo ${BRANCH} | cut -d/ -f 2)"
     FILE=$(cat "$1")
-    if [[ -n "${BRANCH}" ]]; then
-        if [[ $(echo "${FILE}" | wc -l | awk '{print $1}') -eq 1 ]]; then
-            echo -e "${FILE}\n\n${BRANCH}\n" > "$1"
-        else
+    # Exclude the contents of the help message and diff from the check.
+    if [[ -n "${BRANCH}" ]] && ! grep "${BRANCH}" <<< $(sed '/'"${HELP_MSG_STRING}"'/q' "${1}"); then
+        # If contains help message, goes on top, else on bottom.
+        if grep -q "${HELP_MSG_STRING}" "${1}"; then
             echo -e "\n\n${BRANCH}\n${FILE}" > "$1"
+        else
+            echo -e "${FILE}\n\n${BRANCH}\n" > "$1"
         fi
     fi
 fi
