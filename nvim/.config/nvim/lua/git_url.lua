@@ -63,7 +63,20 @@ function M.git_url(line1, line2)
 		file_name = file_relative_to_root
 	end
 
-	local res = string.format("https://%s/%s/blob/%s/%s", base_url, repo_name, commit_sha, file_name)
+	local res
+	-- Handle if viewing vim-fugitive buffer.
+	-- If contains 'fugitive://'
+	if string.find(file_name, "fugitive://") then
+		-- Then split on '.git', remove the 2 slashes, and use this as the
+		-- remaining part of the url.
+		local idx = string.find(file_name,  "%.git//")
+		local rest = string.sub(file_name, idx + 5)
+
+		res = string.format("https://%s/%s/blob%s", base_url, repo_name, rest)
+	else
+		res = string.format("https://%s/%s/blob/%s/%s", base_url, repo_name, commit_sha, file_name)
+	end
+
 
 	if line1 ~= line2 then
 		res = string.format("%s#L%s-L%s", res, line1, line2)
