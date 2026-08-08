@@ -863,7 +863,8 @@ This is used because `ibuffer' is called during counsel-ibuffer."
 	 ("C-c G" . 'magit-dispatch))
   :config
   (setq magit-keep-region-overlay t)
-  (setq magit-diff-refine-hunk 'all))
+  (setq magit-diff-refine-hunk 'all)
+  (setq magit-list-refs-sortby '("-authordate" "-committerdate")))
 
 (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
