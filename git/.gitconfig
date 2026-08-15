@@ -51,7 +51,12 @@
 	prune = true
 [pull]
 	rebase = false
+[diff]
+	tool = nvimdiff
 [merge]
 	conflictStyle = diff3
+	tool = nvimdiff
+[mergetool "nvimdiff"]
+	layout = "LOCAL,BASE,REMOTE / MERGED + BASE,LOCAL + BASE,REMOTE + (LOCAL/BASE/REMOTE),MERGED"
 [push]
 	useForceIfIncludes = true
