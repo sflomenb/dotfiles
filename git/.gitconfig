@@ -54,7 +54,7 @@
 [diff]
 	tool = nvimdiff
 [merge]
-	conflictStyle = diff3
+	conflictStyle = zdiff3
 	tool = nvimdiff
 [mergetool "nvimdiff"]
 	layout = "LOCAL,BASE,REMOTE / MERGED + BASE,LOCAL + BASE,REMOTE + (LOCAL/BASE/REMOTE),MERGED"
