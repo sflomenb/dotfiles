@@ -48,6 +48,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 				gitgutter = true,
 				treesitter = true,
 			},
+			no_italic = true,
 		})
 		vim.cmd.colorscheme("catppuccin")
 	end,
