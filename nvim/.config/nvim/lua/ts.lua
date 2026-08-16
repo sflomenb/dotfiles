@@ -1,3 +1,7 @@
+function _G.treesitter_enabled()
+	return vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()] ~= nil
+end
+
 local langs = { "rust", "typescript", "tsx", "go", "javascript", "python", "lua", "query", "sql", "java" }
 if not vim.fn.executable('nix') then
 	require'nvim-treesitter'.install(langs)

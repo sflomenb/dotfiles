@@ -596,7 +596,9 @@ command! StopSession :call StopSession()
 function! SetSpell()
     setlocal spell! spelllang=en_us
     setlocal spelloptions=camel
-    setlocal spelloptions+=noplainbuffer
+    if v:lua.treesitter_enabled()
+        setlocal spelloptions+=noplainbuffer
+    endif
 endfunction
 
 command! SS :call SetSpell()

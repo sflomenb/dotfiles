@@ -1,9 +1,5 @@
 local M = {}
 
-local function treesitter_enabled()
-	return vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()]
-end
-
 function M.determine_indent()
 	local res = vim.api.nvim_buf_get_lines(0, 0, 100, false)
 
