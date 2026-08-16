@@ -60,3 +60,5 @@
 	layout = "LOCAL,BASE,REMOTE / MERGED + BASE,LOCAL + BASE,REMOTE + (LOCAL/BASE/REMOTE),MERGED"
 [push]
 	useForceIfIncludes = true
+[rerere]
+	enabled = true
