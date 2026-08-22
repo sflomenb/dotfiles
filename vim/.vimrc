@@ -1348,12 +1348,9 @@ endfu
 command! FoldBlockComments :call FoldBlockComments()
 
 fu! CommentFolds()
+    let l:comment_strs = map(split(&comments, ","), {_, val -> split(val,':')[-1]})
     let l:thisline  = getline(v:lnum)
-    if match(l:thisline, '\/\/') >= 0
-        return "1"
-    else
-        return "0"
-    endif
+    return v:lua.require'comments'.fold_comments(l:thisline, l:comment_strs)
 endfu
 
 fu! FoldComments()
