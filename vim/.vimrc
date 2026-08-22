@@ -1326,15 +1326,19 @@ fu! BlockCommentFolds()
 endfu
 
 let b:last_fold_method = ''
+let b:last_fold_expr = ''
 fu! FoldBlockComments()
-    if &foldmethod != 'expr'
+    if empty(b:last_fold_method) || empty(b:last_fold_expr) || &foldmethod != 'expr'
         let b:last_fold_method = &foldmethod
+        let b:last_fold_expr = &foldexpr
         setl foldmethod=expr
         setl foldexpr=BlockCommentFolds()
         norm zM
     else
-        let &l:foldmethod = b:last_fold_method
-        set foldexpr<
+        exec 'setl foldmethod=' . b:last_fold_method
+        exec 'setl foldexpr=' . b:last_fold_expr
+        let b:last_fold_method = ''
+        let b:last_fold_expr = ''
         norm zR
     endif
     set foldmethod?
@@ -1347,22 +1351,23 @@ fu! CommentFolds()
     let l:thisline  = getline(v:lnum)
     if match(l:thisline, '\/\/') >= 0
         return "1"
-    " if empty(l:thisline) && foldlevel(v:lnum-1) == "1"
-    "     return "1"
     else
         return "0"
     endif
 endfu
 
 fu! FoldComments()
-    if &foldmethod != 'expr'
+    if empty(b:last_fold_method) || empty(b:last_fold_expr) || &foldmethod != 'expr'
         let b:last_fold_method = &foldmethod
+        let b:last_fold_expr = &foldexpr
         setl foldmethod=expr
         setl foldexpr=CommentFolds()
         norm zM
     else
-        let &l:foldmethod = b:last_fold_method
-        setl foldexpr<
+        exec 'setl foldmethod=' . b:last_fold_method
+        exec 'setl foldexpr=' . b:last_fold_expr
+        let b:last_fold_method = ''
+        let b:last_fold_expr = ''
         norm zR
     endif
 endfu
@@ -1370,13 +1375,12 @@ endfu
 command! FoldComments :call FoldComments()
 
 fu! FoldToIndentation()
-    if &foldmethod != 'indent'
+    if empty(b:last_fold_method) || &foldmethod != 'indent'
         let b:last_fold_method = &foldmethod
         setl foldmethod=indent
         let &l:foldlevel = indent(".") / &shiftwidth
     else
-        let &l:foldmethod = b:last_fold_method
-        setl foldexpr<
+        exec 'setl foldmethod=' . b:last_fold_method
         norm zR
     endif
 endfu
