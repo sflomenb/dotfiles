@@ -1354,6 +1354,12 @@ fu! CommentFolds()
 endfu
 
 fu! FoldComments()
+    if !exists("b:last_fold_method")
+        let b:last_fold_method = ''
+    endif
+    if !exists("b:last_fold_expr")
+        let b:last_fold_expr = ''
+    endif
     if empty(b:last_fold_method) || empty(b:last_fold_expr) || &foldmethod != 'expr'
         let b:last_fold_method = &foldmethod
         let b:last_fold_expr = &foldexpr
