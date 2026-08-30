@@ -721,9 +721,6 @@ augroup configgroup
         \ indentexpr=GetYamlIndent()
         \ indentkeys-=0#
         \ indentkeys-=<:>
-    autocmd FileType python nnoremap <buffer> <Leader>m :exec '!python' shellescape(@%, 1)<CR>
-    autocmd FileType cpp nnoremap <buffer> <Leader>m :exec '!make'<CR>
-    autocmd FileType python nnoremap <buffer> <Leader><Leader>m :exec '!python3' shellescape(@%, 1)<CR>
 
     " python logging
     autocmd FileType python inoremap <buffer> <expr> <M-l> PythonLogging('', '<Esc>F(a')
@@ -1376,6 +1373,8 @@ fu! FoldComments()
 endfu
 
 command! FoldComments :call FoldComments()
+
+nnoremap <leader>m :call FoldComments()<CR>
 
 fu! FoldToIndentation()
     if empty(b:last_fold_method) || &foldmethod != 'indent'
