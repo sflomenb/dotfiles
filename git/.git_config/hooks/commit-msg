@@ -11,7 +11,7 @@ git_file_path() {
 git_file_exists() {
     local FILE_PATH="$1"
     [[ -z "$FILE_PATH" ]] && echo 'No path provided' >&2 && exit 1
-    git rev-parse --verify "$FILE_PATH"
+    git rev-parse --quiet --verify "$FILE_PATH"
 }
 
 is_rebase() {
